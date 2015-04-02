@@ -1,28 +1,43 @@
 var app = angular.module('StarterApp', ['ngMaterial']);
 
-app.config(['$mdThemingProvider', 
-	function($mdThemingProvider) {
+app.config(['$mdThemingProvider', '$mdIconProvider',
+	function($mdThemingProvider,$mdIconProvider) {
 		$mdThemingProvider.theme('default')
 			.primaryPalette('teal')
 			.accentPalette('blue')
+
+        $mdIconProvider
+            .icon('facebook', 'images/svg/facebook.svg', 24)
+            .icon('twitter', 'images/svg/twitter.svg', 24)
+            .icon('about', 'images/svg/about.svg', 24)
 	}
 ])
 
 app.controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log) {
-  $scope.close = function() {
-    $mdSidenav('left').close()
-                      .then(function(){
-                        $log.debug("close LEFT is done");
-                      });
-  };
+    $scope.close = function() {
+        $mdSidenav('left').close()
+            .then(function(){
+                $log.debug("close LEFT is done");
+            });
+    };
 })
 
-app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
-  $scope.toggleSidenav = function(menuId) {
-    $mdSidenav(menuId).toggle();
-  };
- 
-}]);
+app.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet){
+    $scope.toggleSidenav = function(menuId) {
+        $mdSidenav(menuId).toggle();
+    };
+    $scope.alert = '';
+    $scope.showGridBottomSheet = function($event) {
+        $scope.alert = '';
+        $mdBottomSheet.show({
+            templateUrl: 'templates/bottom/bottom-sheet-grid-template.html',
+            controller: 'GridBottomSheetCtrl',
+            targetEvent: $event
+        }).then(function(clickedItem) {
+            $scope.alert = clickedItem.name + ' cliqueado!';
+            });
+    };
+});
 
 
 (function () {
@@ -88,3 +103,15 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
     }
   }
 })();
+
+app.controller('GridBottomSheetCtrl', function($scope, $mdBottomSheet) {
+    $scope.items = [        
+        { name: 'Twitter', icon: 'twitter' },      
+        { name: 'Facebook', icon: 'facebook' },
+        { name: 'Acerca', icon: 'about' },
+    ];
+    $scope.listItemClick = function($index) {
+        var clickedItem = $scope.items[$index];
+        $mdBottomSheet.hide(clickedItem);
+    };
+})
