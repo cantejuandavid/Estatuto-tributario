@@ -7,6 +7,5 @@ exports.auth = function(req, res, next) {
 }
 
 exports.index = function(req, res) {
-	res.render('index')
-	console.log('ENTRATES A ' + req.path)
+	res.render('index')	
 }
