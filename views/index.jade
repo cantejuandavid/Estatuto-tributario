@@ -10,16 +10,11 @@ block content
 					div Estatuto Tributario
 		md-content(role="navigation").md-default-theme
 			ul.docs-menu
-				li.parent-list-item
-					menu-link(seciton="section").ng-isolate-scope
-						a(tabindex="0").md-button.md-default-theme
-							span GETTING STARTED								
-							div.md-ripple-container
-				li.parent-list-item
-					menu-link(seciton="section").ng-isolate-scope
-						a(tabindex="0").md-button.md-default-theme
-							span GETTING OUT								
-							div.md-ripple-container
+				li(ng-repeat="menu in menus").parent-list-item
+					menu-link(section="section").ng-isolate-scope
+						a(tabindex="0",ng-href="{{menu.url}}").md-button.md-default-theme
+							span {{menu.name}}	
+							div.md-ripple-container		
 	div(layout="column", tabindex="-1", role="main", flex)
 		md-toolbar.md-default-theme
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
@@ -30,32 +25,13 @@ block content
 					a(hide-sm,href="#")
 						md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
 						span busqueda
-				md-button
-					a(ng-click="showGridBottomSheet($event)",hide-sm,href="#")
+				md-button(ng-click="showGridBottomSheet($event)",hide-sm)
+					a(href="#")
 						span Ayuda	
 				md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
 					md-icon(md-svg-icon="images/svg/search.svg")													
 				md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
 					md-icon(md-svg-icon="images/svg/more.svg")		
-		md-content(ng-view,md-scroll-y="",flex="").md-padding.ng-scope.md-default-theme
+		md-content(md-scroll-y="",flex="").md-padding.ng-scope.md-default-theme
 			div(layout="column").doc-content
-				md-content.extraPad
-					p
-						em Nuevo en esta aplicación? Antes de que la uses, debería leer la 
-						a(href="#",target="_blank",title="Link opens in a new window") Ayuda
-					b(layout="row",layout-align="center center",layout-margin)  {{alert}}
-					h2(layout="row",layout-align="center center") TITULO PRELIMINAR.
-					h3(layout="row",layout-align="center center") OBLIGACIÓN TRIBUTARIA.
-					h4 Art. 1. Origen de la obligación sustancial.
-					p.
-						La obligación tributaria sustancial se origina al realizarse el presupuesto o los presupuestos previstos en la ley como generadores del impuesto y ella tiene por objeto el pago del tributo.
-					h3(layout="row",layout-align="center center") SUJETOS PASIVOS
-					h4 Art. 2. Contribuyentes.
-					p.
-						Son  contribuyentes o responsables directos del pago del tributo los sujetos respecto de quienes se realiza el hecho generador de la obligación sustancial.
-					h4 Art. 3. Responsables.
-					p.
-						Son responsables para efectos del impuesto de timbre, las personas que, sin tener el carácter de contribuyentes, deben cumplir obligaciones de éstos por disposición expresa de la ley.
-					h4 Art. 4. Sinonimos.
-					p.
-						Para fines del impuesto sobre las ventas se consideran sinónimos los términos contribuyente y responsable.
+				md-content(ng-view).extraPad					

@@ -5,18 +5,17 @@
     <div class="dialog-content">
     
       <div style="padding:24px" layout="column" layout-align="center center">
-        <div>Buscar por: </div>
-        <md-select placeholder="Seleccione" ng-model="someVal">
-          <md-option value="1">Arículo</md-option>
-          <md-option value="2">Titulo</md-option>        
-          <md-option value="3">Libro</md-option>   
-        </md-select>
+        <div>Buscar por: </div>            
+          <md-select placeholder="Seleccione" ng-model="m" required>
+            <md-option value="1">Arículo</md-option>
+            <md-option value="2">Titulo</md-option>        
+            <md-option value="3">Libro</md-option>   
+          </md-select>      
+        <md-input-container md-no-float>
+          <input type="text" placeholder="Introduce aqui el termino a buscar">
+        </md-input-container>     
 
-      </div>
-      
-      <p>
-        The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting tmost cultivated fruits in the tropics.
-      </p>      
+      </div>    
     </div>
   </md-content>
 
