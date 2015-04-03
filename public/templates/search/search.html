@@ -1,0 +1,35 @@
+
+<md-dialog aria-label="Mango (Fruit)">
+  <md-content>    
+    <h2 class="md-toolbar-tools">Busqueda Rápida en el ET </h2>      
+    <div class="dialog-content">
+    
+      <div style="padding:24px" layout="column" layout-align="center center">
+        <div>Buscar por: </div>
+        <md-select placeholder="Seleccione" ng-model="someVal">
+          <md-option value="1">Arículo</md-option>
+          <md-option value="2">Titulo</md-option>        
+          <md-option value="3">Libro</md-option>   
+        </md-select>
+
+      </div>
+      
+      <p>
+        The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting tmost cultivated fruits in the tropics.
+      </p>      
+    </div>
+  </md-content>
+
+  <div class="md-actions" layout="row">
+    <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
+      More on Wikipedia
+    </md-button>
+    <span flex></span>
+    <md-button ng-click="answer('not useful')">
+     CANCELAR
+    </md-button>
+    <md-button ng-click="answer('useful')" class="md-primary">
+      BUSCAR
+    </md-button>
+  </div>
+</md-dialog>

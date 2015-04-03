@@ -1,9 +1,12 @@
-<md-bottom-sheet class="md-grid">
+
+
+<md-bottom-sheet class="md-list md-has-header">
+  <md-subheader>Comment Actions</md-subheader>
   <md-list>
     <md-item ng-repeat="item in items">
-      <md-button class="md-grid-item-content" ng-click="listItemClick($index)">
+      <md-button ng-click="listItemClick($index)">
         <md-icon md-svg-src="{{item.icon}}"></md-icon>
-        <div class="md-grid-text"> {{ item.name }} </div>
+        <span class="md-inline-list-icon-label">{{ item.name }}</span>
       </md-button>
     </md-item>
   </md-list>
