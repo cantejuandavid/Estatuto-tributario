@@ -1,0 +1,7 @@
+md-bottom-sheet.md-list.md-has-header
+	md-subheader Comment Actions
+	md-list
+		md-item(ng-repeat="item in items")
+			md-button(ng-click="listItemClick($index)")
+				md-icon(md-svg-src="{{item.icon}}")
+				span.md-inline-list-icon-label {{ item.name }}

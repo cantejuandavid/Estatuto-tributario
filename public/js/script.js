@@ -16,9 +16,13 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 
     $routeProvider
       .when('/', {
-        templateUrl: 'templates/index/index.html',
+        templateUrl: 'templates/index/index.jade',
         controller: 'indexController'
       }).
+      when('/buscar/:type/:number', {
+        templateUrl: 'templates/index/result.jade',
+        controller: 'urlTypeController'
+      }).      
       otherwise({
         redirectTo: '/'
       });
@@ -40,8 +44,8 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     $scope.showGridBottomSheet = function($event) {
         $scope.alert = '';
         $mdBottomSheet.show({
-            templateUrl: 'templates/bottom/bottom-sheet-grid-template.html',
-            controller: 'GridBottomSheetCtrl',
+            templateUrl: 'templates/bottom/bottomSheetList.jade',
+            controller: 'ListBottomSheetCtrl',
             targetEvent: $event
         }).then(function(clickedItem) {
                 if(clickedItem.url)
@@ -56,7 +60,7 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     $scope.showAdvanced = function(ev) {
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: 'templates/search/search.html',
+            templateUrl: 'templates/search/search.jade',
             targetEvent: ev,
             })
             .then(function(answer) {
@@ -70,13 +74,11 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
       {name: 'inicio', url:'index'},
       {name: 'Explorador del estatuto', url:'explorador-del-estatuto'},
       {name: 'Reformas tributarias', url:'reformas-tributarias'},
-      {name: 'Vencimientos', url:'vencimientos-impuestos'},
+      {name: 'Vencimientos', url:'./#/buscar/articulo/222'},
     ]
-    
 });
 
-
-estatutoApp.controller('GridBottomSheetCtrl', function($scope, $mdBottomSheet) {
+estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     $scope.items = [     
         { name: 'Ayuda', icon: 'help' },        
         { name: 'Twitter', icon: 'twitter', url: 'https://www.google.com' },      
@@ -87,6 +89,25 @@ estatutoApp.controller('GridBottomSheetCtrl', function($scope, $mdBottomSheet) {
         var clickedItem = $scope.items[$index];
         $mdBottomSheet.hide(clickedItem);
     };
+})
+
+estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,$sce) {
+
+  var type = $routeParams.type
+  var number = $routeParams.number == 'todos'? 'todos':$routeParams.number;
+
+  $http.
+    get('/search/'+type+'/'+number).
+    success(function(r){
+      $scope.res = r
+      //parseando html
+      for(var i in $scope.res) {
+        $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
+      }
+    }).
+    error(function() {      
+      $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
+    })
 })
 
 function DialogController($scope, $mdDialog) {

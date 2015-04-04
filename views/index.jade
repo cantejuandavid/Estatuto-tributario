@@ -13,25 +13,25 @@ block content
 				li(ng-repeat="menu in menus").parent-list-item
 					menu-link(section="section").ng-isolate-scope
 						a(tabindex="0",ng-href="{{menu.url}}").md-button.md-default-theme
-							span {{menu.name}}	
-							div.md-ripple-container		
+							span {{menu.name}}
+							div.md-ripple-container
 	div(layout="column", tabindex="-1", role="main", flex)
 		md-toolbar.md-default-theme
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
 				button(ng-click="toggleSidenav('left')",hide-gt-sm).menuBtn
 				h2 Inicio				
-				span(flex)				
+				span(flex)
 				md-button(ng-click="showAdvanced($event)")
-					a(hide-sm,href="#")
+					a(hide-sm)
 						md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
 						span busqueda
 				md-button(ng-click="showGridBottomSheet($event)",hide-sm)
-					a(href="#")
+					a
 						span Ayuda	
 				md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
-					md-icon(md-svg-icon="images/svg/search.svg")													
+					md-icon(md-svg-icon="images/svg/search.svg")
 				md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
-					md-icon(md-svg-icon="images/svg/more.svg")		
+					md-icon(md-svg-icon="images/svg/more.svg")
 		md-content(md-scroll-y="",flex="").md-padding.ng-scope.md-default-theme
 			div(layout="column").doc-content
-				md-content(ng-view).extraPad					
+				md-content(ng-view).extraPad.md-padding
