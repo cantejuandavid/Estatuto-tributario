@@ -1,10 +1,10 @@
 var db 		= require('../routes/mongoose')
 
 var t 	= {
-	art : 	db.model('art', require('./artModel')),
-	book: 	db.model('book', require('./bookModel')),
-	cap: 	db.model('cap', require('./capModel')),
-	title: 	db.model('title', require('./titleModel'))
+	articulo : 	db.model('art', require('./artModel')),
+	libro	: 	db.model('book', require('./bookModel')),
+	capitulo: 	db.model('cap', require('./capModel')),
+	titulo	: 	db.model('title', require('./titleModel'))
 }
 
 var t = module.exports = t

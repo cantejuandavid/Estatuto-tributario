@@ -32,12 +32,13 @@ estatutoApp.controller('indexController', function(){
 
 })
 
-estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog){
+estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log){
     //toggleSidenav
     $scope.toggleSidenav = function(menuId) {
 
         $mdSidenav(menuId).toggle();
     };
+
 
     //showAyuda
     $scope.alert = '';
@@ -71,11 +72,15 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     };
 
     $scope.menus = [
-      {name: 'inicio', url:'index'},
+      {name: 'inicio', url:'./#/'},
       {name: 'Explorador del estatuto', url:'explorador-del-estatuto'},
       {name: 'Reformas tributarias', url:'reformas-tributarias'},
-      {name: 'Vencimientos', url:'./#/buscar/articulo/222'},
+      {name: 'Vencimientos', url:'./#/buscar/articulo/todos'},
     ]
+
+    $scope.$on("$routeChangeSuccess", function($currentRoute, $previousRoute) {
+      $mdSidenav('left').close()
+    });
 });
 
 estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -99,7 +104,11 @@ estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,
   $http.
     get('/search/'+type+'/'+number).
     success(function(r){
+
       $scope.res = r
+      if(r.length == undefined){
+        $scope.res = [r]
+      }
       //parseando html
       for(var i in $scope.res) {
         $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
