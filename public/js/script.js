@@ -5,7 +5,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 
 		$mdThemingProvider.
       theme('default')
-    		.primaryPalette('red')
+    		.primaryPalette('blue')
     		.accentPalette('blue')
 
     $mdIconProvider
@@ -32,7 +32,7 @@ estatutoApp.controller('indexController', function(){
 
 })
 
-estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log){
+estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
     //toggleSidenav
     $scope.toggleSidenav = function(menuId) {
 
@@ -81,6 +81,16 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     $scope.$on("$routeChangeSuccess", function($currentRoute, $previousRoute) {
       $mdSidenav('left').close()
     });
+
+    $scope.openHistory = {
+      val : false,
+      label: 'ocultar'
+    }
+    $scope.toggleopenHistory = function() {
+      console.log('toggle history')
+      $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
+      $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
+    };
 });
 
 estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -109,6 +119,7 @@ estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,
       if(r.length == undefined){
         $scope.res = [r]
       }
+      console.log($scope.res)
       //parseando html
       for(var i in $scope.res) {
         $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
