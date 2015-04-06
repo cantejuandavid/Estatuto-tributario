@@ -21,7 +21,16 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       }).
       when('/buscar/:type/:number', {
         templateUrl: 'templates/index/result.jade',
-        controller: 'urlTypeController'
+        controller: 'urlTypeController',
+        // resolve: {
+        //     app: function($q, $timeout) {
+        //         var defer = $q.defer();
+        //         $timeout(function() {
+        //             defer.resolve();
+        //         }, 2000);
+        //         return defer.promise;
+        //     }
+        // }
       }).      
       otherwise({
         redirectTo: '/'
@@ -29,9 +38,10 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
     }
 ])
 
-estatutoApp.run( function($rootScope, $location) {
+estatutoApp.run( function($rootScope, $location, $mdSidenav) {
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {   
     console.log('hizo click')    
+    $mdSidenav('left').close()
   });
 })
 estatutoApp.controller('indexController', function(){
@@ -82,10 +92,6 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
       {name: 'Reformas tributarias', url:'reformas-tributarias'},
       {name: 'Vencimientos', url:'./#/buscar/articulo/todos'},
     ]
-
-    $scope.$on("$routeChangeSuccess", function($currentRoute, $previousRoute) {
-      $mdSidenav('left').close()
-    });
 
     $scope.openHistory = {
       val : false,
