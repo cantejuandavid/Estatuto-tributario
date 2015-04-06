@@ -6,7 +6,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 		$mdThemingProvider.
       theme('default')
     		.primaryPalette('blue')
-    		.accentPalette('blue')
+    		.accentPalette('indigo')
 
     $mdIconProvider
       .icon('facebook', 'images/svg/facebook.svg', 24)
@@ -28,6 +28,12 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       });
     }
 ])
+
+estatutoApp.run( function($rootScope, $location) {
+  $rootScope.$on( "$routeChangeStart", function(event, next, current) {   
+    console.log('hizo click')    
+  });
+})
 estatutoApp.controller('indexController', function(){
 
 })
@@ -38,7 +44,6 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
 
         $mdSidenav(menuId).toggle();
     };
-
 
     //showAyuda
     $scope.alert = '';
@@ -91,6 +96,7 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
       $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
       $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
     };
+
 });
 
 estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -106,7 +112,7 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     };
 })
 
-estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,$sce) {
+estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,$sce,$mdSidenav) {
 
   var type = $routeParams.type
   var number = $routeParams.number == 'todos'? 'todos':$routeParams.number;
@@ -118,8 +124,7 @@ estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,
       $scope.res = r
       if(r.length == undefined){
         $scope.res = [r]
-      }
-      console.log($scope.res)
+      }      
       //parseando html
       for(var i in $scope.res) {
         $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
@@ -127,7 +132,7 @@ estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,
     }).
     error(function() {      
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
-    })
+    })  
 })
 
 function DialogController($scope, $mdDialog) {
