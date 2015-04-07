@@ -19,7 +19,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
         templateUrl: 'templates/index/index.jade',
         controller: 'indexController'
       }).
-      when('/buscar/:type/:number', {
+      when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/result.jade',
         controller: 'urlTypeController',
         // resolve: {
@@ -54,6 +54,8 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
 
         $mdSidenav(menuId).toggle();
     };
+
+    $scope.barTop = 'Inicio'
 
     //showAyuda
     $scope.alert = '';
@@ -121,20 +123,33 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
 estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,$sce,$mdSidenav) {
 
   var type = $routeParams.type
-  var number = $routeParams.number == 'todos'? 'todos':$routeParams.number;
+  var number = $routeParams.number == 'todos'? 'todos':$routeParams.number;  
+  var url = $routeParams.todos ? '/search/'+type+'/'+number+'/todos' : '/search/'+type+'/'+number
 
   $http.
-    get('/search/'+type+'/'+number).
-    success(function(r){
+    get(url).
+    success(function(data){
+      $scope.res = [data]
+      
+      if(data.type){
+        $scope.$parent.barTop = data.type.name
+      }
+        
+      
+      if(data.arts){
+        $scope.res = data.arts
+      }
 
-      $scope.res = r
-      if(r.length == undefined){
-        $scope.res = [r]
-      }      
+      if(data.arts.length == undefined){
+        $scope.res = [data.arts]
+      }
+        
+
       //parseando html
       for(var i in $scope.res) {
         $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
       }
+
     }).
     error(function() {      
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')

@@ -1,10 +1,10 @@
 div(ng-repeat='i in res')
 	div(ng-if='i.error == true')
 		h2 {{i.message}}
-		p Por favor dirijase a la página principal
+		p Por favor dirijase a la página principal		
 	div(ng-if='i.error != true')
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center') {{i.title}}
-		h3 Art {{i.number}}. {{i.name}}
+		h3 {{i.number}}. {{i.name}}
 		div(ng-bind-html='i.description')
 		md-content(ng-if="i.history")
 			h2.md-toolbar-tools 

@@ -5,9 +5,9 @@ block content
 		md-toolbar(layout="row").md-theme-indigo
 			h1.md-toolbar-tools
 				a(layout="row",flex="", href="#").docs-logo
-					div(style="width:30px")
-						i.fa.fa-book
-					div Estatuto Tributario
+					div(style="width:30px").content_logo
+						img(src="icon-estatuto-tributario_2.png", style="width: 25px")
+					div.nameApp Estatuto Tributario
 		md-content(role="navigation").md-default-theme
 			ul.docs-menu
 				li(ng-repeat="menu in menus").parent-list-item
@@ -19,7 +19,7 @@ block content
 		md-toolbar.md-default-theme
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
 				button(ng-click="toggleSidenav('left')",hide-gt-sm).menuBtn
-				h2 Inicio				
+				h2 {{ barTop }}				
 				span(flex)
 				md-button(ng-click="showAdvanced($event)")
 					a(hide-sm)
