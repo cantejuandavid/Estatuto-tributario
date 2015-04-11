@@ -1,0 +1,24 @@
+div(ng-if='res.error == true')
+	h2 {{res.message}}
+	p Por favor dirijase a la página principal		
+div(ng-if='res.error != true')
+	div(ng-repeat='i in res')
+		h1(ng-if='i.centerTitle', layout='row', layout-align='center center').centerTitle {{i.title}}
+		h3(layout="column",layout-sm="column",layout-align="center center")
+			a(ng-href="#/buscar/articulo/{{i.number}}") 
+				span ARTÍCULO {{i.number}}
+		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
+		div(ng-bind-html="i.description")
+		md-content(ng-if="i.history")
+			h2.md-toolbar-tools 
+				span {{ 'historia' | uppercase}}
+				span(flex)
+				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
+			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
+				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
+					div.cir
+						h4 {{h.year}}
+					div.md-item-text
+						h3 {{h.type | uppercase}}
+						p {{h. content}}
+						h4 {{h.year}}

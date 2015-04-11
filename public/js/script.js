@@ -19,19 +19,14 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
         templateUrl: 'templates/index/index.jade',
         controller: 'indexController'
       }).
+      when('/buscar/:type/:number/', {
+        templateUrl: 'templates/index/searchParticular.jade',
+        controller: 'searchParticular',
+      }).  
       when('/buscar/:type/:number/:todos?', {
-        templateUrl: 'templates/index/result.jade',
-        controller: 'urlTypeController',
-        // resolve: {
-        //     app: function($q, $timeout) {
-        //         var defer = $q.defer();
-        //         $timeout(function() {
-        //             defer.resolve();
-        //         }, 2000);
-        //         return defer.promise;
-        //     }
-        // }
-      }).      
+        templateUrl: 'templates/index/searchTypeArts.jade',
+        controller: 'searchTypeArts',
+      }).       
       otherwise({
         redirectTo: '/'
       });
@@ -39,72 +34,85 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 ])
 
 estatutoApp.run( function($rootScope, $location, $mdSidenav) {
-  $rootScope.$on( "$routeChangeStart", function(event, next, current) {   
-    console.log('hizo click')    
+  $rootScope.$on( "$routeChangeStart", function(event, next, current) {     
     $mdSidenav('left').close()
   });
 })
-estatutoApp.controller('indexController', function(){
 
+estatutoApp.controller('indexController', function(){
 })
 
 estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
-    //toggleSidenav
-    $scope.toggleSidenav = function(menuId) {
+  //toggleSidenav
+  $scope.toggleSidenav = function(menuId) {
 
-        $mdSidenav(menuId).toggle();
-    };
+      $mdSidenav(menuId).toggle();
+  };
 
-    $scope.barTop = 'Inicio'
+  $scope.barTop = 'Inicio'
 
-    //showAyuda
-    $scope.alert = '';
-    $scope.showGridBottomSheet = function($event) {
-        $scope.alert = '';
-        $mdBottomSheet.show({
-            templateUrl: 'templates/bottom/bottomSheetList.jade',
-            controller: 'ListBottomSheetCtrl',
-            targetEvent: $event
-        }).then(function(clickedItem) {
-                if(clickedItem.url)
-                    window.open(clickedItem.url, '_blank');
-                else
-                    $scope.alert = clickedItem.name + ' cliqueado!';
-            });
-    };
+  //showAyuda
+  $scope.alert = '';
+  $scope.showGridBottomSheet = function($event) {
+      $scope.alert = '';
+      $mdBottomSheet.show({
+          templateUrl: 'templates/bottom/bottomSheetList.jade',
+          controller: 'ListBottomSheetCtrl',
+          targetEvent: $event
+      }).then(function(clickedItem) {
+              if(clickedItem.url)
+                  window.open(clickedItem.url, '_blank');
+              else
+                  $scope.alert = clickedItem.name + ' cliqueado!';
+          });
+  };
 
-    //alert dialog large
-    $scope.alert = '';  
-    $scope.showAdvanced = function(ev) {
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'templates/search/search.jade',
-            targetEvent: ev,
-            })
-            .then(function(answer) {
-            $scope.alert = 'You said the information was "' + answer + '".';
-            }, function() {
-            $scope.alert = 'You cancelled the dialog.';
-        });
-    };
+  //alert dialog large
+  $scope.alert = '';  
 
-    $scope.menus = [
-      {name: 'inicio', url:'./#/'},
-      {name: 'Explorador del estatuto', url:'explorador-del-estatuto'},
-      {name: 'Reformas tributarias', url:'reformas-tributarias'},
-      {name: 'Vencimientos', url:'./#/buscar/articulo/todos'},
-    ]
+  $scope.romanize = function(num) {
+    if (!+num)
+      return false;
+    var digits = String(+num).split(""),
+      key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+             "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+             "","I","II","III","IV","V","VI","VII","VIII","IX"],
+      roman = "",
+      i = 3;
+    while (i--)
+      roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+    return Array(+digits.join("") + 1).join("M") + roman;
+  }
 
-    $scope.openHistory = {
-      val : false,
-      label: 'ocultar'
-    }
-    $scope.toggleopenHistory = function() {
-      console.log('toggle history')
-      $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
-      $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
-    };
+  $scope.showAdvanced = function(ev) {
+      $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'templates/search/search.jade',
+          targetEvent: ev,
+          })
+          .then(function(answer) {
+          $scope.alert = 'You said the information was "' + answer + '".';
+          }, function() {
+          $scope.alert = 'You cancelled the dialog.';
+      });
+  };
 
+  $scope.menus = [
+    {name: 'inicio', url:'./#/'},
+    {name: 'Explorador del estatuto', url:'explorador-del-estatuto'},
+    {name: 'Reformas tributarias', url:'reformas-tributarias'},
+    {name: 'Vencimientos', url:'./#/buscar/articulo/todos'},
+  ]
+
+  $scope.openHistory = {
+    val : false,
+    label: 'ocultar'
+  }
+  $scope.toggleopenHistory = function() {
+    console.log('toggle history')
+    $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
+    $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
+  };
 });
 
 estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -120,36 +128,49 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     };
 })
 
-estatutoApp.controller('urlTypeController', function($scope, $routeParams,$http,$sce,$mdSidenav) {
+estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$sce) {
 
-  var type = $routeParams.type
-  var number = $routeParams.number == 'todos'? 'todos':$routeParams.number;  
-  var url = $routeParams.todos ? '/search/'+type+'/'+number+'/todos' : '/search/'+type+'/'+number
+  var type  = $routeParams.type  
+  var number = $routeParams.number
+  var url   = '/search/'+type+'/'+number
 
   $http.
     get(url).
-    success(function(data){
-      $scope.res = [data]
-      
-      if(data.type){
-        $scope.$parent.barTop = data.type.name
-      }
+    success(function(data){    
+      $scope.res = data           
+      if(!data.error) {
         
-      
-      if(data.arts){
+        //parseando html
+        for(var i in $scope.res.data) {          
+          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
+        }                 
+      }
+    }).
+    error(function() {      
+      $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
+    })  
+})
+
+estatutoApp.controller('searchTypeArts', function($scope, $routeParams,$http,$sce) {
+  var type  = $routeParams.type  
+  var number = $routeParams.number
+  var url   = '/search/'+type+'/'+number+'/todos'
+
+  $http.
+    get(url).
+    success(function(data){   
+      console.log(data)     
+      $scope.res = data
+
+      if(!data.error) {
         $scope.res = data.arts
+        //parseando html
+        console.log($scope.res)
+        for(var i in $scope.res) {
+          $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
+        } 
       }
-
-      if(data.arts.length == undefined){
-        $scope.res = [data.arts]
-      }
-        
-
-      //parseando html
-      for(var i in $scope.res) {
-        $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
-      }
-
+      
     }).
     error(function() {      
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
@@ -167,3 +188,4 @@ function DialogController($scope, $mdDialog) {
     $mdDialog.hide(answer);
   };
 }
+

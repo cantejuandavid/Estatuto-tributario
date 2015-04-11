@@ -4,6 +4,8 @@ var book_schema = new Schema({
 	name 				: String,
 	description 		: String,		
 	number				: String,
+	firstArt			: String,
+	lastArt				: String,
 	created 			:{type: Date, default: Date.now},
 	lastUpdated			:{type: Date, default: Date.now}
 })

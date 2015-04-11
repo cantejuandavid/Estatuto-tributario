@@ -16,7 +16,7 @@ block content
 							span {{menu.name}}
 							div.md-ripple-container
 	div(layout="column", tabindex="-1", role="main", flex)
-		md-toolbar.md-default-theme
+		md-toolbar(id="barraTop").md-default-theme.barraTop.nav-down
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
 				button(ng-click="toggleSidenav('left')",hide-gt-sm).menuBtn
 				h2 {{ barTop }}				
@@ -32,6 +32,6 @@ block content
 					md-icon(md-svg-icon="images/svg/search.svg")
 				md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
 					md-icon(md-svg-icon="images/svg/more.svg")
-		md-content(flex="").md-padding.ng-scope.md-default-theme.vista
+		md-content(flex).md-padding.ng-scope.md-default-theme.vista
 			div(layout="column").doc-content
 				md-content(ng-view).extraPad.md-padding

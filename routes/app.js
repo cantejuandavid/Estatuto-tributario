@@ -40,61 +40,72 @@ exports.searchAll = function(req, res) {
 		handleErrors(res)
 	
 }
-exports.searchNumber = function(req, res) {	
+exports.searchParticular = function(req, res) {	
 
 	var type = req.params.type
 	var number = req.params.number
-	var todos = req.params.todos		
-	var typeTodos = todos ? true : false;	
 	var v = validType(type)	
-
+	
 	if(v){
-		if(typeTodos) {
-						
-			var queryID = tipo[type].where({number:number})
-			queryID.findOne(function(err, d) {
-				if(d) {										
-					var r = 'id_' + type
-					tipo.articulo.find().where(r).equals(d.id).exec(function(err, data) {
-						if(err) console.log(err);						
-						if(data!= null && data.length !== 0)
-							res.json({
-								type: {
-									id: d.id,
-									name: d.name,
-									number: d.number
-								},
-								arts: data
-							})
-						else	
-							handleErrors(res)						
-					})			
-				}					
-			})			
-		}
-		else
-		{
-			tipo[type].findOne({number:number}, function(err, data) {
-				if(err) console.log(err);
-				if(data!= null && data.length !== 0)
-					res.json({
-						arts: data
-					})
-				else
-					handleErrors(res)
-			})
-		}
+		tipo[type].findOne({number:number}, function(err, data) {
+			if(err) console.log(err);
+			if(data!= null && data.length !== 0)
+				res.json({
+					type: type,
+					data: [data]
+				})
+			else
+				handleErrors(res)
+		})
 	}		
 	else
 		handleErrors(res)
 }
 
+exports.searchTypeArts = function(req, res) {
+	var type = req.params.type
+	var number = req.params.number
+	var v = validType(type)	
+
+	if(v){
+		var queryID = tipo[type].where({number:number})
+		queryID.findOne(function(err, d) {
+			if(d) {										
+				var r = 'id_' + type
+				tipo.articulo.find().where(r).equals(d.id).exec(function(err, data) {
+					if(err) console.log(err);		
+					console.log(data)				
+					if(data!= null && data.length !== 0)
+						res.json({
+							type: {
+								id: d.id,
+								name: d.name,
+								number: d.number
+							},
+							arts: data
+						})
+					else	
+						handleErrors(res)						
+				})			
+			}					
+		})
+	}	
+	else
+		handleErrors(res)					
+}
+
 exports.addart = function(req, res) {	
-	tipo.articulo.create({
-		number		: '193',
-		name 		: 'Concepto de valor patrimonial neto.',
-		description : '<p>El valor patrimonial neto de los bienes que se excluyen de la base de cálculo de la renta presuntiva, es el que se obtenga de multiplicar el valor patrimonial del bien por el porcentaje que resulte de dividir el patrimonio líquido por el patrimonio bruto, del año gravable base para el cálculo de la presunción.</p>',
+	tipo.titulo.create({
+		name		: "GRAVAMEN A LOS MOVIMIENTOS FINANCIEROS",		
+	    id_book		: "5523f5ebe887da200e55313f",
+	    firstArt	: "870",
+	    lastArt		: "933",
 	})
+
+
+
+	
+
 	res.send('done!')
 }
 
