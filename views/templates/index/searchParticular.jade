@@ -1,3 +1,5 @@
+div(id="cargando",ng-if="cargando", layout="column",layout-sm="column",layout-align="center center", style="padding: 60px")
+	img(src="images/loader.gif",width="30")
 div(ng-if='res.error == true')
 	h2 {{res.message}}
 	p Por favor dirijase a la página principal		

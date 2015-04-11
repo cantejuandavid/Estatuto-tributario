@@ -5,7 +5,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 
 		$mdThemingProvider.
       theme('default')
-    		.primaryPalette('blue')
+    		.primaryPalette('red')
     		.accentPalette('indigo')
 
     $mdIconProvider
@@ -21,7 +21,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       }).
       when('/buscar/:type/:number/', {
         templateUrl: 'templates/index/searchParticular.jade',
-        controller: 'searchParticular',
+        controller: 'searchParticular'      
       }).  
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
@@ -34,8 +34,9 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 ])
 
 estatutoApp.run( function($rootScope, $location, $mdSidenav) {
+
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {     
-    $mdSidenav('left').close()
+    $mdSidenav('left').close()    
   });
 })
 
@@ -44,13 +45,16 @@ estatutoApp.controller('indexController', function(){
 
 estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   //toggleSidenav
+  $scope.cargando = true;
+
+
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle();
   };
-
+  
   $scope.barTop = 'Inicio'
-
+  
   //showAyuda
   $scope.alert = '';
   $scope.showGridBottomSheet = function($event) {
@@ -113,6 +117,11 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
     $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
   };
+
+  $scope.hideCargando = function() {
+    var c = document.getElementById('cargando')
+    c.style.display = 'none'
+  }
 });
 
 estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -136,7 +145,8 @@ estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$
 
   $http.
     get(url).
-    success(function(data){    
+    success(function(data){   
+      $scope.hideCargando()
       $scope.res = data           
       if(!data.error) {
         
@@ -159,7 +169,7 @@ estatutoApp.controller('searchTypeArts', function($scope, $routeParams,$http,$sc
   $http.
     get(url).
     success(function(data){   
-      console.log(data)     
+      $scope.hideCargando()        
       $scope.res = data
 
       if(!data.error) {
