@@ -22,7 +22,15 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       when('/buscar/:type/:number/', {
         templateUrl: 'templates/index/searchParticular.jade',
         controller: 'searchParticular'      
-      }).  
+      }). 
+      when('/buscar/:type/:number/:type2/todos', {
+        templateUrl: 'templates/index/searchTypes.jade',
+        controller: 'searchParticular'      
+      }).   
+      when('/buscar/:type/:number/:type2/:number2', {
+        templateUrl: 'templates/index/searchTypeArts.jade',
+        controller: 'searchParticular'      
+      }).   
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'searchTypeArts',
@@ -74,9 +82,9 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
   //alert dialog large
   $scope.alert = '';  
 
-  $scope.romanize = function(num) {
+  $scope.romanize = function(num) {    
     if (!+num)
-      return false;
+      return;
     var digits = String(+num).split(""),
       key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
              "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
@@ -88,6 +96,10 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     return Array(+digits.join("") + 1).join("M") + roman;
   }
 
+  $scope.numberEstatuto = function(num) {
+    var n = num.toString()
+    return n.replace('.','-')
+  }
   $scope.showAdvanced = function(ev) {
       $mdDialog.show({
           controller: DialogController,
@@ -112,15 +124,14 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
     val : false,
     label: 'ocultar'
   }
-  $scope.toggleopenHistory = function() {
-    console.log('toggle history')
+  $scope.toggleopenHistory = function() {    
     $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
     $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
   };
 
   $scope.hideCargando = function() {
     var c = document.getElementById('cargando')
-    c.style.display = 'none'
+    c.style.display = 'none'    
   }
 });
 
@@ -137,17 +148,21 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     };
 })
 
-estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$sce) {
+estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$sce,$location) {
 
-  var type  = $routeParams.type  
-  var number = $routeParams.number
-  var url   = '/search/'+type+'/'+number
-
+  var type  = $routeParams.type || 'titulo'
+  var number = $routeParams.number || 'todos'
+  var url   = $location.url()
   $http.
     get(url).
-    success(function(data){   
+    success(function(data){  
+      console.log(data)      
       $scope.hideCargando()
-      $scope.res = data           
+      $scope.res = data  
+
+      if($scope.res.type)   
+        // $scope.$parent.barTop = $scope.res.type +' ' + $scope.res.type.number
+
       if(!data.error) {
         
         //parseando html
@@ -158,26 +173,27 @@ estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$
     }).
     error(function() {      
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
-    })  
+    })    
 })
 
-estatutoApp.controller('searchTypeArts', function($scope, $routeParams,$http,$sce) {
+estatutoApp.controller('searchTypeArts', function($scope, $routeParams,$http,$sce, $location) {
   var type  = $routeParams.type  
   var number = $routeParams.number
-  var url   = '/search/'+type+'/'+number+'/todos'
-
+  var url   = $location.url()
+  console.log(url)
   $http.
     get(url).
     success(function(data){   
+      console.log(data)
       $scope.hideCargando()        
       $scope.res = data
+      if($scope.res.type)   
+        // $scope.$parent.barTop = $scope.res.type +' ' + $scope.res.type.number
 
-      if(!data.error) {
-        $scope.res = data.arts
-        //parseando html
-        console.log($scope.res)
-        for(var i in $scope.res) {
-          $scope.res[i].description = $sce.trustAsHtml($scope.res[i].description)
+      if(!data.error) {        
+        //parseando html        
+        for(var i in $scope.res.data) {
+          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
         } 
       }
       

@@ -10,6 +10,7 @@ exports.auth = function(req, res, next) {
 }
 
 exports.index = function(req, res) {
+
 	res.render('index')	
 }
 
@@ -19,27 +20,6 @@ exports.render = function(req, res) {
 	res.render('templates/' + sub+ '/'+name)
 }
 
-exports.searchAll = function(req, res) {
-	var type = req.params.type
-	var v = validType(type)
-	if(v) {
-		tipo[type].find(function(err, data){
-			if(err) console.log(err);
-			if(data!= null && data.length !== 0)
-				res.json({
-					type: {
-						name: type
-					},
-					arts: data
-				})
-			else
-				handleErrors(res)
-		})
-	}
-	else
-		handleErrors(res)
-	
-}
 exports.searchParticular = function(req, res) {	
 
 	var type = req.params.type
@@ -47,16 +27,32 @@ exports.searchParticular = function(req, res) {
 	var v = validType(type)	
 	
 	if(v){
-		tipo[type].findOne({number:number}, function(err, data) {
-			if(err) console.log(err);
-			if(data!= null && data.length !== 0)
-				res.json({
-					type: type,
-					data: [data]
-				})
-			else
-				handleErrors(res)
-		})
+		if(number !== 'todos') {
+			tipo[type].findOne({number:number}, function(err, data) {
+				if(err) console.log(err);
+				if(data!= null && data.length !== 0)
+					res.json({
+						type: type,
+						data: [data]
+					})
+				else
+					handleErrors(res)
+			})
+		}
+		else {
+			tipo[type].find().exec(function(err, data) {
+				if(err) console.log(err);	
+				if(data!= null && data.length !== 0) {
+					res.json({
+						type: type,
+						data: data
+					})
+				}
+				else	
+					handleErrors(res)	
+			})
+		}
+		
 	}		
 	else
 		handleErrors(res)
@@ -74,16 +70,16 @@ exports.searchTypeArts = function(req, res) {
 				var r = 'id_' + type
 				tipo.articulo.find().where(r).equals(d.id).exec(function(err, data) {
 					if(err) console.log(err);		
-					console.log(data)				
-					if(data!= null && data.length !== 0)
+					if(data!= null && data.length !== 0) {
 						res.json({
 							type: {
 								id: d.id,
 								name: d.name,
 								number: d.number
 							},
-							arts: data
+							data: data
 						})
+					}
 					else	
 						handleErrors(res)						
 				})			
@@ -94,26 +90,107 @@ exports.searchTypeArts = function(req, res) {
 		handleErrors(res)					
 }
 
+exports.searchType2 = function(req, res) {
+	var type 	= req.params.type,
+		number 	= req.params.number,
+		v 	= validType(type),
+		v2	= validType(type),	
+		type2 	= req.params.type2,
+		number2 	= req.params.number2,
+		r = 'id_' + type
+
+	if(v){			
+		if(number2 !== 'todos') {
+			var queryIdLibro = tipo[type].where({number:number})
+			queryIdLibro.findOne(function(err, d) {			
+				if(d) {										
+					tipo.titulo
+						.find({})
+						.where(r).equals(d.id).where('number').equals(number2)
+						.exec(function(err, t) {																
+						if(t!= null && t.length !== 0) {
+							var t = t[0]
+							console.log(t.firstArt+' - '+ t.lastArt)
+							tipo.articulo.find({}).where('number').gt(t.firstArt).lt(t.lastArt)		
+							.exec(function(err, data) {
+								console.log(data)								
+								if(data!= null && data.length !== 0) {					
+									res.json({
+										type: {	
+											type: type,							
+											name: d.name,
+											number: d.number
+										},
+										type2: {
+											type: type2,
+											name: t.name,
+											number: t.number,
+											description: t.description
+										},
+										data: data
+									})
+								}
+								else
+									handleErrors(res)			
+							})	
+						}
+						else
+							handleErrors(res)					
+						})			
+				}	
+				else	
+					handleErrors(res)				
+			})
+		}	
+		else {
+			var queryIdLibro = tipo[type].where({number:number})
+			queryIdLibro.findOne(function(err, d) {	
+				tipo[type2].find({})
+					.where(r).equals(d.id)
+					.exec(function(err, data) {	
+						console.log(data)
+						if(data!= null && data.length !== 0) {
+							res.json({
+								type: {	
+									type: type,				
+									name: d.name,
+									number: d.number
+								},
+								type2: {
+									type: type2,
+									name: data[0].name,
+									number: data[0].number,
+									description: data[0].description
+								},
+								data: data
+							})
+						}
+						else
+							handleErrors(res)							
+					})
+
+			})
+		}
+		
+	}	
+	else
+		handleErrors(res)	
+}
+
 exports.addart = function(req, res) {	
-	tipo.titulo.create({
-		name		: "GRAVAMEN A LOS MOVIMIENTOS FINANCIEROS",		
-	    id_book		: "5523f5ebe887da200e55313f",
-	    firstArt	: "870",
-	    lastArt		: "933",
+	tipo.articulo.create({
+		number				: 640,
+		name 				: "La reincidencia aumenta el valor de las sanciones",
+		description 		: "<p>Habrá reincidencia siempre que el sancionado, por acto administrativo en firme, cometiere una nueva infracción del mismo tipo dentro de los dos (2) años siguientes a la comisión del hecho sancionado.</p><p>La reincidencia permitirá elevar las sanciones pecuniarias a que se refieren los artículos siguientes, con excepción de las señaladas en los artículos <a href='#/buscar/articulo/649'>649</a>, <a href='#/buscar/articulo/652'>652</a>, <a href='#/buscar/articulo/668'>668</a>, <a href='#/buscar/articulo/669'>669</a>, <a href='#/buscar/articulo/672'>672</a> y <a href='#/buscar/articulo/673'>673</a> y aquellas que deban ser liquidadas por el contribuyente, responsable, agente retenedor o declarante, hasta en un ciento por ciento (100%) de su valor.</p>",		
+		id_capitulo			: "",
+		id_titulo			: "5526ee8beff90848098cf6f4",
+		id_libro			: "5523f5ad6abcda4c04479cc7",		
 	})
 
 
 
 	
 
-	res.send('done!')
-}
-
-exports.addBook = function(req, res) {
-	tipo.libro.create({
-		name		: 'Gravamen a los Movimientos Financieros',
-		description : 'Según el portal <a href="http://www.gerencie.com">www.gerencie.com</a> el libro sexto comprende el gravamen a los movimientos financieros o 4 * 1.000 y contempla la causación, el hecho generador, sujetos pasivos, tarifas, base gravable, agentes de retención, declaración y pago, exenciones, etc'
-	})
 	res.send('done!')
 }
 

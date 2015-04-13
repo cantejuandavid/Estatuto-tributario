@@ -3,11 +3,10 @@ extends layout
 block content
 	md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.md-locked-open.ng-isolate-scope.md-closed
 		md-toolbar(layout="row").md-theme-indigo
-			h1.md-toolbar-tools
-				a(layout="row",flex="", href="#").docs-logo
-					div(style="width:30px").content_logo
-						img(src="icon-estatuto-tributario_2.png", style="width: 25px")
-					div.nameApp Estatuto Tributario
+			h1(layout="row",flex="", href="#").docs-logo.md-toolbar-tools
+				div(style="width:30px").content_logo
+					img(src="icon-estatuto-tributario_2.png", style="width: 25px")
+				div.nameApp Estatuto Tributario
 		md-content(role="navigation").md-default-theme
 			ul.docs-menu
 				li(ng-repeat="menu in menus").parent-list-item
@@ -21,8 +20,8 @@ block content
 				button(ng-click="toggleSidenav('left')",hide-gt-sm).menuBtn
 				h2 {{ barTop }}				
 				span(flex)
-				md-button(ng-click="showAdvanced($event)")
-					a(hide-sm)
+				md-button(ng-click="showAdvanced($event)",hide-sm)
+					a
 						md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
 						span busqueda
 				md-button(ng-click="showGridBottomSheet($event)",hide-sm)
@@ -30,8 +29,8 @@ block content
 						span Ayuda	
 				md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
 					md-icon(md-svg-icon="images/svg/search.svg")
-				md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
-					md-icon(md-svg-icon="images/svg/more.svg")
+				//- md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
+				//- 	md-icon(md-svg-icon="images/svg/more.svg")
 		md-content(flex).md-padding.ng-scope.md-default-theme.vista
 			div(layout="column").doc-content
-				md-content(ng-view).extraPad.md-padding									
+				md-content(ng-view).extraPad.md-padding

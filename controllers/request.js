@@ -5,6 +5,8 @@ module.exports = function(cliente){
 
 	cliente.get('/', app.index)	
 	cliente.get('/templates/:sub/:name', app.render)	
-	cliente.get('/search/:type/:number', app.searchParticular)	
-	cliente.get('/search/:type/:number/:todos', app.searchTypeArts)
+	cliente.get('/buscar/:type/:number', app.searchParticular)	
+	cliente.get('/buscar/:type/:number/:todos', app.searchTypeArts)
+	cliente.get('/buscar/:type/:number/:type2/:number2', app.searchType2)
+	cliente.get('/addart', app.addart)
 }

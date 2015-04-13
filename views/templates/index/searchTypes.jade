@@ -1,0 +1,20 @@
+div(id="cargando",ng-if="cargando", layout="column",layout-sm="column",layout-align="center center", style="padding: 60px")
+	img(src="images/loader.gif",width="30")
+div(ng-if='res.error == true')
+	h2 {{res.message}}
+	p Por favor dirijase a la página principal		
+md-list(ng-if='res.error != true')
+	h2(layout="column",layout-sm="column",layout-align="center center",style="text-align:center")
+		span {{res.type.type | uppercase}}  {{romanize(res.type.number)}}
+		
+		span {{res.type.name | uppercase}}
+
+	md-list-item(ng-repeat="i in res.data  | orderBy:'number'")
+		md-card
+			md-card-content(layout="column")
+				div(flex)
+					p(layout="column",layout-sm="column",layout-align="center left")
+						h4 {{i.name}}. {{i.description}}							
+				div(flex)
+					a(ng-href="#/buscar/{{res.type.type}}/{{res.type.number}}/{{res.type2.type}}/{{i.number}}")
+						md-button.md-raised.md-primary Ver Artículos					
