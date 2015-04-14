@@ -109,11 +109,9 @@ exports.searchType2 = function(req, res) {
 						.where(r).equals(d.id).where('number').equals(number2)
 						.exec(function(err, t) {																
 						if(t!= null && t.length !== 0) {
-							var t = t[0]
-							console.log(t.firstArt+' - '+ t.lastArt)
+							var t = t[0]							
 							tipo.articulo.find({}).where('number').gt(t.firstArt).lt(t.lastArt)		
-							.exec(function(err, data) {
-								console.log(data)								
+							.exec(function(err, data) {								
 								if(data!= null && data.length !== 0) {					
 									res.json({
 										type: {	
@@ -147,8 +145,7 @@ exports.searchType2 = function(req, res) {
 			queryIdLibro.findOne(function(err, d) {	
 				tipo[type2].find({})
 					.where(r).equals(d.id)
-					.exec(function(err, data) {	
-						console.log(data)
+					.exec(function(err, data) {							
 						if(data!= null && data.length !== 0) {
 							res.json({
 								type: {	
@@ -177,20 +174,130 @@ exports.searchType2 = function(req, res) {
 		handleErrors(res)	
 }
 
+exports.searchType3 = function(req, res) {
+	var type 	= req.params.type,
+		number 	= req.params.number,
+		v 	= validType(type),
+		v2	= validType(type),	
+		type2 	= req.params.type2,
+		number2 	= req.params.number2,
+		type3 	= req.params.type3,
+		number3 	= req.params.number3
+
+	if(v){			
+		if(number3 !== 'todos') {
+			var queryIdLibro = tipo[type].where({number:number})
+			queryIdLibro.findOne(function(err, l) {			
+				if(l) {							
+					tipo.titulo
+						.find({})
+						.where('id_' + type).equals(l.id).where('number').equals(number2)
+						.exec(function(err, t) {
+						console.log(t)																
+						if(t!= null && t.length !== 0) {														
+							tipo.capitulo
+								.find({})
+								.where('id_' + type2).equals(t[0].id).where('number').equals(number3)
+								.exec(function(err, c) {									
+									var c = c[0]									
+									tipo.articulo.find({}).where('number').gt(c.firstArt).lt(c.lastArt)		
+										.exec(function(err, data) {	
+											if(err) console.log(err)											
+											if(data!= null && data.length !== 0) {					
+												res.json({
+													type: {	
+														type: type,							
+														name: l.name,
+														number: l.number
+													},
+													type2: {
+														type: type2,
+														name: t.name,
+														number: t.number,
+														description: t.description
+													},
+													type3: {
+														type: type3,
+														name: c.name,
+														number: c.number,
+														description: c.description
+													},
+													data: data
+												})
+											}
+											else
+												handleErrors(res)
+										})
+								})							
+						}
+						else
+							handleErrors(res)					
+						})			
+				}	
+				else	
+					handleErrors(res)				
+			})
+		}	
+		else {
+			var queryIdLibro = tipo[type].where({number:number})
+			queryIdLibro.findOne(function(err, l) {	
+				tipo[type2].find({})
+					.where('id_' + type).equals(l.id).where('number').equals(number2)
+					.exec(function(err, t) {
+					if(err) console.log(err)
+						console.log(t)		
+						tipo[type3].find({})
+							.where('id_' + type2).equals(t[0].id)
+							.exec(function(err, c) {								
+								console.log(c.length)		
+								if(c!= null && c.length !== 0) {									
+									res.json({
+										type: {	
+											type: type,				
+											name: l.name,
+											number: l.number
+										},
+										type2: {
+											type: type2,
+											name: t.name,
+											number: t.number,
+											description: t.description
+										},
+										data: c
+									})
+								}
+								else
+									handleErrors(res)	
+							})																
+					})
+
+			})
+		}
+		
+	}	
+	else
+		handleErrors(res)	
+}
+
 exports.addart = function(req, res) {	
-	tipo.articulo.create({
-		number				: 640,
-		name 				: "La reincidencia aumenta el valor de las sanciones",
-		description 		: "<p>Habrá reincidencia siempre que el sancionado, por acto administrativo en firme, cometiere una nueva infracción del mismo tipo dentro de los dos (2) años siguientes a la comisión del hecho sancionado.</p><p>La reincidencia permitirá elevar las sanciones pecuniarias a que se refieren los artículos siguientes, con excepción de las señaladas en los artículos <a href='#/buscar/articulo/649'>649</a>, <a href='#/buscar/articulo/652'>652</a>, <a href='#/buscar/articulo/668'>668</a>, <a href='#/buscar/articulo/669'>669</a>, <a href='#/buscar/articulo/672'>672</a> y <a href='#/buscar/articulo/673'>673</a> y aquellas que deban ser liquidadas por el contribuyente, responsable, agente retenedor o declarante, hasta en un ciento por ciento (100%) de su valor.</p>",		
-		id_capitulo			: "",
-		id_titulo			: "5526ee8beff90848098cf6f4",
-		id_libro			: "5523f5ad6abcda4c04479cc7",		
+	tipo.capitulo.create({
+		number 				: 1,
+		name 				: 'Responsabilidad por el pago del impuesto',
+		description 		: '',		
+		id_titulo			: '5526ee8beff90848098cf6f8',
+		id_libro			: '5523f5ad6abcda4c04479cc7',
+		firstArt			: 792,
+		lasttArt			: 799.1,		
 	})
-
-
-
-	
-
+	tipo.capitulo.create({
+		number 				: 2,
+		name 				: 'Formas de extinguir la obligación tributaria',
+		description 		: '',		
+		id_titulo			: '5526ee8beff90848098cf6f8',
+		id_libro			: '5523f5ad6abcda4c04479cc7',
+		firstArt			: 800,
+		lasttArt			: 822.1,		
+	})
 	res.send('done!')
 }
 

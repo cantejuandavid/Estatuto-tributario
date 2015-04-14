@@ -30,7 +30,15 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       when('/buscar/:type/:number/:type2/:number2', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'searchParticular'      
-      }).   
+      }). 
+      when('/buscar/:type/:number/:type2/:number2/:type3/todos', {
+        templateUrl: 'templates/index/searchTypes.jade',
+        controller: 'searchParticular'      
+      }). 
+      when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
+        templateUrl: 'templates/index/searchTypeArts.jade',
+        controller: 'searchParticular'      
+      }).
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'searchTypeArts',

@@ -1,6 +1,6 @@
 var Schema = require('mongoose').Schema
 
-var book_schema = new Schema({
+var libro_schema = new Schema({
 	name 				: String,
 	description 		: String,		
 	number				: Number,
@@ -10,4 +10,4 @@ var book_schema = new Schema({
 	lastUpdated			:{type: Date, default: Date.now}
 })
 
-var Book = module.exports = book_schema
+var libro = module.exports = libro_schema
