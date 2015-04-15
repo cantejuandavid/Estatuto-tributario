@@ -1,8 +1,10 @@
 'use strict'
 
-var m = require('../models/modeling')
-var typesEnabled = ['articulo', 'titulo','libro']
-var t = false
+var m = require('../models/modeling'),
+	typesEnabled = ['articulo', 'titulo','libro'],
+	t = false,
+	typing = {}
+
 
 exports.auth = function(req, res, next) {	
 	if(!req.session.username)
@@ -95,57 +97,52 @@ exports.searchType2 = function(req, res) {
 	var type 	= req.params.type,
 		number 	= req.params.number,	
 		number2 	= req.params.number2,
-		r = 'id_' + type,
-		typing = {}
+		r = 'id_' + type	
 
 	var queryLibro = m.libro.where({number:number})
 	if(number2 !== 'todos') {		
 		queryLibro.findOne(buscarTitulo)
 	}	
 	else {		
-		queryLibro.findOne(function(err, d) {	
-			typing.libro = d				
+		queryLibro.findOne(function(err, l) {	
+			typing.libro = l				
 			m.titulo.find({})
-				.where(r).equals(d.id)
+				.where(r).equals(l.id)
 				.exec(enviarData)
 		})
 	}
 
-	function buscarTitulo (err, d) {
+	function buscarTitulo (err, l) {
 		if(err) console.log(err)	
-		typing.libro = d
-		if(d!= null && d.length !== 0) {										
+		typing.libro = l
+		if(l!= null && l.length !== 0) {										
 			m.titulo
-				.find({})
-				.where(r).equals(d.id).where('number').equals(number2)
+				.findOne({})
+				.where('id_' + type).equals(l.id).where('number').equals(number2)
 				.exec(buscarArticulos)			
 		}	
-		else	
-			handleErrors(res)		
+		else handleErrors(res)		
 	}
 	function buscarArticulos (err, t) {			
 		if(err) console.log(err)	
 		typing.titulo = t
-		if(t!= null && t.length !== 0) {
-			var t = t[0]		
-			m.articulo.find({}).where('number').gt(t.firstArt).lt(t.lastArt)		
+		if(t!= null && t.length !== 0) {				
+			m.articulo.find({}).where('number').gt(t.firstArt-1).lt(t.lastArt+1)		
 			.exec(enviarData)	
 		}
-		else
-			handleErrors(res)
+		else handleErrors(res)
 	}
-	function enviarData (err, data) {			
+	function enviarData (err, a) {			
 		if(err) console.log(err)
-		typing.articulos = data
-		if(data!= null && data.length !== 0) {					
+		typing.articulos = a
+		if(a!= null && a.length !== 0) {					
 			res.json({
-				type: typing.libro,
-				type2: typing.titulo,
-				data: data
+				libro: typing.libro,
+				titulo: typing.titulo,
+				data: a
 			})
 		}
-		else
-			handleErrors(res)	
+		else handleErrors(res)	
 	}
 }
 
@@ -158,118 +155,76 @@ exports.searchType3 = function(req, res) {
 		number2 	= req.params.number2,
 		type3 	= req.params.type3,
 		number3 	= req.params.number3
+	
+	var queryIdLibro = m.libro.where({number:number})
+	if(number3 !== 'todos') {
+		queryIdLibro.findOne(buscarTitulo)
+	}	
+	else {		
+		queryIdLibro.findOne(function(err, l) {				
+			m.titulo.findOne({})
+				.where('id_' + type).equals(l.id).where('number').equals(number2)
+				.exec(function(err, t) {
+				if(err) console.log(err)						
+					m.capitulo.find({})
+						.where('id_' + type2).equals(t.id)
+						.exec(enviarData)																
+				})
+		})
+	}
 
-	if(v){			
-		if(number3 !== 'todos') {
-			var queryIdLibro = m[type].where({number:number})
-			queryIdLibro.findOne(function(err, l) {			
-				if(l) {							
-					m.titulo
-						.find({})
-						.where('id_' + type).equals(l.id).where('number').equals(number2)
-						.exec(function(err, t) {																	
-						if(t!= null && t.length !== 0) {														
-							m.capitulo
-								.find({})
-								.where('id_' + type2).equals(t[0].id).where('number').equals(number3)
-								.exec(function(err, c) {									
-									var c = c[0]									
-									m.articulo.find({}).where('number').gt(c.firstArt).lt(c.lastArt)		
-										.exec(function(err, data) {	
-											if(err) console.log(err)											
-											if(data!= null && data.length !== 0) {					
-												res.json({
-													type: {	
-														type: type,							
-														name: l.name,
-														number: l.number
-													},
-													type2: {
-														type: type2,
-														name: t.name,
-														number: t.number,
-														description: t.description
-													},
-													type3: {
-														type: type3,
-														name: c.name,
-														number: c.number,
-														description: c.description
-													},
-													data: data
-												})
-											}
-											else
-												handleErrors(res)
-										})
-								})							
-						}
-						else
-							handleErrors(res)					
-						})			
-				}	
-				else	
-					handleErrors(res)				
-			})
+	function buscarTitulo(err, l) {				
+		if(err) console.log(err)	
+		typing.libro = l																	
+		if(l!= null && l.length !== 0) {						
+			m.titulo
+				.findOne({})
+				.where('id_' + type).equals(l.id).where('number').equals(number2)
+				.exec(buscarCapitulo)			
 		}	
-		else {
-			var queryIdLibro = m[type].where({number:number})
-			queryIdLibro.findOne(function(err, l) {	
-				m[type2].find({})
-					.where('id_' + type).equals(l.id).where('number').equals(number2)
-					.exec(function(err, t) {
-					if(err) console.log(err)						
-						m[type3].find({})
-							.where('id_' + type2).equals(t[0].id)
-							.exec(function(err, c) {								
-								if(c!= null && c.length !== 0) {									
-									res.json({
-										type: {	
-											type: type,				
-											name: l.name,
-											number: l.number
-										},
-										type2: {
-											type: type2,
-											name: t.name,
-											number: t.number,
-											description: t.description
-										},
-										data: c
-									})
-								}
-								else
-									handleErrors(res)	
-							})																
-					})
-
+		else handleErrors(res)				
+	}
+	function buscarCapitulo(err, t) {			
+		if(err) console.log(err)	
+		typing.titulo = t																	
+		if(t!= null && t.length !== 0) {														
+			m.capitulo
+				.findOne({})
+				.where('id_' + type2).equals(t.id).where('number').equals(number3)
+				.exec(buscarArticulos)							
+		}
+		else handleErrors(res)					
+	}
+	function buscarArticulos(err, c) {		
+		if(err) console.log(err)		
+		typing.capitulo = c											
+		if(c!= null && c.length !== 0) {													
+			m.articulo.find({}).where('number').gt(c.firstArt-1).lt(c.lastArt+1)		
+				.exec(enviarData)
+		}
+		else handleErrors(res)	
+	}
+	function enviarData(err, data) {
+		if(err) console.log(err)							
+		if(data!= null && data.length !== 0) {					
+			res.json({
+				libro:  typing.libro,
+				titulo: typing.titulo,
+				capitulo: typing.capitulo,
+				data: data
 			})
 		}
-		
-	}	
-	else
-		handleErrors(res)	
+		else handleErrors(res)
+	}
 }
 
 exports.addart = function(req, res) {	
-	m.capitulo.create({
-		number 				: 1,
-		name 				: 'Responsabilidad por el pago del impuesto',
-		description 		: '',		
-		id_titulo			: '5526ee8beff90848098cf6f8',
-		id_libro			: '5523f5ad6abcda4c04479cc7',
-		firstArt			: 792,
-		lasttArt			: 799.1,		
-	})
-	m.capitulo.create({
-		number 				: 2,
-		name 				: 'Formas de extinguir la obligación tributaria',
-		description 		: '',		
-		id_titulo			: '5526ee8beff90848098cf6f8',
-		id_libro			: '5523f5ad6abcda4c04479cc7',
-		firstArt			: 800,
-		lasttArt			: 822.1,		
-	})
+	for(var i = 0; i < 53; i++) {
+		m.capitulo.update({number: i}, { $set: { type: 'capitulo' }},function(err, d) {
+			if(err) console.log(err)
+		})
+	}
+	
 	res.send('done!')
 }
 

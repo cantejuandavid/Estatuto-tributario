@@ -5,9 +5,9 @@ div(ng-if='res.error == true')
 	p Por favor dirijase a la página principal		
 md-list(ng-if='res.error != true')
 	h2(layout="column",layout-sm="column",layout-align="center center",style="text-align:center")
-		span {{res.type.type | uppercase}}  {{romanize(res.type.number)}}
+		span {{res.libro.type | uppercase}}  {{romanize(res.libro.number)}}
 		
-		span {{res.type.name | uppercase}}
+		span {{res.libro.name | uppercase}}
 
 	md-list-item(ng-repeat="i in res.data  | orderBy:'number'")
 		md-card

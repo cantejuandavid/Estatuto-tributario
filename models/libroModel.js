@@ -1,6 +1,7 @@
 var Schema = require('mongoose').Schema
 
 var libro_schema = new Schema({
+	type				: String,
 	name 				: String,
 	description 		: String,		
 	number				: Number,

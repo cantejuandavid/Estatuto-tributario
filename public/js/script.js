@@ -168,14 +168,9 @@ estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$
       $scope.hideCargando()
       $scope.res = data  
 
-      if($scope.res.type)   
-        // $scope.$parent.barTop = $scope.res.type +' ' + $scope.res.type.number
-
-      if(!data.error) {
-        
-        //parseando html
-        for(var i in $scope.res.data) {          
-          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
+      if(!data.error) {      
+        for(var i in data.data) {                
+          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)          
         }                 
       }
     }).

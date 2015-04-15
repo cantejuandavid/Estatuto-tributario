@@ -1,6 +1,7 @@
 var Schema = require('mongoose').Schema
 
 var titulo_schema = new Schema({
+	type				: String,
 	number 				: Number,
 	name 				: String,
 	description 		: String,		
