@@ -3,22 +3,16 @@ div.
     <md-content>    
       <h2 class="md-toolbar-tools">Busqueda Rápida en el ET </h2>      
       <div class="dialog-content">
-      
-        <div style="padding:24px" layout="column" layout-align="center center">
-          <div>Buscar por: </div>            
-            <md-select placeholder="Seleccione" ng-model="m" required>
-              <md-option value="1">Arículo</md-option>
-              <md-option value="2">Titulo</md-option>        
-              <md-option value="3">Libro</md-option>   
-            </md-select>      
-          <md-input-container md-no-float>
-            <input type="text" placeholder="Introduce aqui el termino a buscar">
-          </md-input-container>     
-
-        </div>    
+          <md-list>
+            <md-subheader class="md-no-sticky">Checkbox with Secondary Action</md-subheader>
+            <md-list-item ng-repeat="message in messages">
+              <md-checkbox ng-model="message.selected"></md-checkbox>
+              <p>{{message.title}}</p>              
+            </md-list-item>
+          </md-list>
+        
       </div>
     </md-content>
-
     <div class="md-actions" layout="row">
       <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
         More on Wikipedia
