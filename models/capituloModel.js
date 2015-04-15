@@ -12,4 +12,4 @@ var capitulo_schema = new Schema({
 	lastUpdated			:{type: Date, default: Date.now}
 })
 
-var capitulo = module.exports = capitulo_schema
+module.exports = capitulo_schema

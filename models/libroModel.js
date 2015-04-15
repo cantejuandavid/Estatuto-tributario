@@ -10,4 +10,4 @@ var libro_schema = new Schema({
 	lastUpdated			:{type: Date, default: Date.now}
 })
 
-var libro = module.exports = libro_schema
+module.exports = libro_schema

@@ -11,4 +11,4 @@ var titulo_schema = new Schema({
 	lastUpdated			:{type: Date, default: Date.now}
 })
 
-var titulo = module.exports = titulo_schema
+module.exports = titulo_schema

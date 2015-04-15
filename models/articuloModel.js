@@ -14,4 +14,4 @@ var art_schema = new Schema({
 	lastUpdated			: {type: Date, default: Date.now}
 })
 
-var Article = module.exports = art_schema
+module.exports = art_schema
