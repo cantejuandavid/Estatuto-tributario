@@ -10,7 +10,7 @@ div(ng-if='res.error != true')
 			a(ng-href="#/buscar/articulo/{{i.number}}") 
 				span ARTICULO {{i.number}}
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
-		div(ng-bind-html="i.description")
+		div(ng-bind-html="i.description").description
 		md-content(ng-if="i.history")
 			h2.md-toolbar-tools 
 				span {{ 'historia' | uppercase}}
