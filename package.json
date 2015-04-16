@@ -20,6 +20,7 @@
     "serve-favicon": "^2.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "nib": "^1.1.0"
   }
 }

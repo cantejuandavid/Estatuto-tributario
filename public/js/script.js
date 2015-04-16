@@ -62,8 +62,6 @@ estatutoApp.controller('indexController', function(){
 estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   //toggleSidenav
   $scope.cargando = true;
-
-
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle();
@@ -123,9 +121,9 @@ estatutoApp.controller('AppCtrl', function($scope, $mdSidenav,$timeout,$mdBottom
 
   $scope.menus = [
     {name: 'inicio', url:'./#/'},
-    {name: 'Explorador del estatuto', url:'explorador-del-estatuto'},
+    {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos'},
     {name: 'Reformas tributarias', url:'reformas-tributarias'},
-    {name: 'Vencimientos', url:'./#/buscar/articulo/todos'},
+    {name: 'Vencimientos', url:'./#/buscar/libro/todos'},
   ]
 
   $scope.openHistory = {
