@@ -4,7 +4,7 @@ div(ng-if='res.error == true')
 	h2 {{res.message}}
 	p Por favor dirijase a la página principal		
 div(ng-if='res.error != true')
-	div(ng-repeat="i in res.data")
+	div(ng-repeat="i in res.data  | orderBy:'number'").type
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center').centerTitle {{i.title}}
 		h3(layout="column",layout-sm="column",layout-align="center center")
 			span ARTÍCULO {{i.number}}
@@ -23,3 +23,6 @@ div(ng-if='res.error != true')
 						h3 {{h.type | uppercase}}
 						p {{h. content}}
 						h4 {{h.year}}
+		div.buttonsSocial
+			md-icon(md-svg-src="images/svg/share5.svg").md-icon
+			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon			

@@ -1,7 +1,7 @@
 'use strict'
 
 var m = require('../models/modeling'),
-	typesEnabled = ['articulo', 'titulo','libro'],
+	typesEnabled = ['articulo', 'titulo','libro','capitulo'],
 	t = false,
 	typing = {}
 
@@ -28,23 +28,22 @@ exports.searchParticular = function(req, res) {
 	var type = req.params.type
 	var number = req.params.number
 	var v = validType(type)	
-	
 	if(v){
 		if(number !== 'todos') {
-			m[type].findOne({number:number}, function(err, data) {
+			m[type].findOne({number:number}, function(err, data) {			
 				if(err) console.log(err)
 				if(data!= null && data.length !== 0)
 					res.json({
-						type: type,
+						libro: type,
 						data: [data]
 					})
 				else
 					handleErrors(res)
 			})
 		}
-		else {
+		else {		
 			m[type].find().exec(function(err, data) {
-				if(err) console.log(err)	
+				if(err) console.log(err)									
 				if(data!= null && data.length !== 0) {
 					res.json({
 						type: type,
@@ -219,8 +218,8 @@ exports.searchType3 = function(req, res) {
 }
 
 exports.addart = function(req, res) {	
-	for(var i = 0; i < 53; i++) {
-		m.capitulo.update({number: i}, { $set: { type: 'capitulo' }},function(err, d) {
+	for(var i = 0; i < 50; i+= 1) {		
+		m.capitulo.update({number: i}, { $set: { type: 'capitulo' }}, {multi: true},function(err, d) {
 			if(err) console.log(err)
 		})
 	}

@@ -19,5 +19,7 @@
     "mongoose": "^4.0.1",
     "serve-favicon": "^2.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
 }
