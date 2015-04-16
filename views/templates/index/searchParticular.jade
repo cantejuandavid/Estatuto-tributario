@@ -8,10 +8,10 @@ div(ng-if='res.error != true')
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center') {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
 			a(ng-href="#/buscar/articulo/{{i.number}}") 
-				span {{res.type | uppercase}}
+				span {{res.type.type | uppercase}}
 				span &nbsp;				
-				span(ng-if="res.type != 'articulo' && i.number") {{romanize(i.number)}}				
-				span(ng-if="res.type == 'articulo'") {{numberEstatuto(i.number)}}
+				span(ng-if="res.type.type != 'articulo' && i.number") {{romanize(i.number)}}				
+				span(ng-if="res.type.type == 'articulo'") {{numberEstatuto(i.number)}}
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
 		div(ng-bind-html="i.description")
 		md-content(ng-if="i.history")

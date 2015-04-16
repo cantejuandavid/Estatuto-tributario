@@ -34,7 +34,7 @@ exports.searchParticular = function(req, res) {
 				if(err) console.log(err)
 				if(data!= null && data.length !== 0)
 					res.json({
-						libro: type,
+						libro: data,
 						data: [data]
 					})
 				else
