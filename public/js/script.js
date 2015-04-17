@@ -42,7 +42,11 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'searchTypeArts',
-      }).       
+      }).  
+      when('/addart', {
+        templateUrl: 'templates/index/addart.jade',
+        controller: 'addart'      
+      }).      
       otherwise({
         redirectTo: '/'
       });
@@ -155,7 +159,6 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
 })
 
 estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$sce,$location) {
-
   var type  = $routeParams.type || 'titulo'
   var number = $routeParams.number || 'todos'
   var url   = $location.url()
@@ -168,7 +171,12 @@ estatutoApp.controller('searchParticular', function($scope, $routeParams,$http,$
 
       if(!data.error) {      
         for(var i in data.data) {                
-          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)          
+          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description) 
+          if($scope.res.data[i].history) {
+            for(var a in $scope.res.data[i].history) {     
+              $scope.res.data[i].history[a].content = $sce.trustAsHtml($scope.res.data[i].history[a].content)
+            }
+          }          
         }                 
       }
     }).
@@ -195,6 +203,9 @@ estatutoApp.controller('searchTypeArts', function($scope, $routeParams,$http,$sc
         //parseando html        
         for(var i in $scope.res.data) {
           $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
+          if($scope.res.data[i].history) {
+            $scope.res.data[i].history.content = $sce.trustAsHtml($scope.res.data[i].history.content)
+          } 
         } 
       }
       
@@ -215,4 +226,26 @@ function DialogController($scope, $mdDialog) {
     $mdDialog.hide(answer);
   };
 }
+
+estatutoApp.controller('addart', function($scope, $routeParams,$http,$sce, $location) {
+  $scope.art;
+  $scope.ids = {}
+
+  $http.
+    get('get-ids').
+    success(function(data){$scope.ids = data})
+
+  $scope.agregarArt = function() {
+
+      
+    $scope.art.history = JSON.parse($scope.art.history)   
+    console.log($scope.art)
+    $http.
+      post('addart', {art:$scope.art}).
+      success(function(data){
+
+      })
+  }
+})
+
 

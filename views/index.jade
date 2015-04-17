@@ -17,20 +17,24 @@ block content
 	div(layout="column", tabindex="-1", role="main", flex)
 		md-toolbar(id="barraTop").md-default-theme.barraTop.nav-down
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
-				button(ng-click="toggleSidenav('left')",hide-gt-sm).menuBtn
-				h2 {{ barTop }}				
-				span(flex)
-				md-button(ng-click="showAdvanced($event)",hide-sm)
-					a
-						md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
-						span busqueda
-				md-button(ng-click="showGridBottomSheet($event)",hide-sm)
-					a
-						span Ayuda	
-				md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
-					md-icon(md-svg-icon="images/svg/search.svg")
-				//- md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
-				//- 	md-icon(md-svg-icon="images/svg/more.svg")
+				button(hide-gt-sm,aria-label="Toggle Menu",ng-click="toggleSidenav('left')").md-icon-button.md-button.md-default-theme
+					md-icon(md-svg-src="images/svg/ic_menu_24px.svg", aria-hidden="true").ng-scope.ng-isolate-scope.md-default-theme
+						div.md-ripple-container
+				div(layout="row", flex).fill-height
+					h2.md-toolbar-item.md-breadcrumb
+						span.md-breadcrumb-page {{ barTop }}
+					span(flex)				
+					md-button(ng-click="showAdvanced($event)",hide-sm)
+						a
+							md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
+							span busqueda
+					md-button(ng-click="showGridBottomSheet($event)",hide-sm)
+						a
+							span Ayuda	
+					md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
+						md-icon(md-svg-icon="images/svg/search.svg")
+					//- md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
+					//- 	md-icon(md-svg-icon="images/svg/more.svg")
 		md-content(flex).md-padding.ng-scope.md-default-theme.vista
 			div(layout="column").doc-content
 				md-content(ng-view,style="padding-top:0").extraPad.md-padding

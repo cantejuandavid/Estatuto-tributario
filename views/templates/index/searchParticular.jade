@@ -14,19 +14,19 @@ div(ng-if='res.error != true')
 				span(ng-if="i.type == 'articulo'") {{numberEstatuto(i.number)}}
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
 		div(ng-bind-html="i.description").description
-		md-content(ng-if="i.history")
+		md-content(ng-if="i.history.length > 0")
 			h2.md-toolbar-tools 
 				span {{ 'historia' | uppercase}}
 				span(flex)
 				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
 			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
 				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
-					div.cir
+					div(ng-if="h.year > 1").cir
 						h4 {{h.year}}
 					div.md-item-text
 						h3 {{h.type | uppercase}}
-						p {{h. content}}
-						h4 {{h.year}}		
+						p(ng-bind-html="h.content")
+						h4(ng-if="h.year > 1") {{h.year}}		
 		div(ng-if="i.type !== 'articulo'")
 			p.
 				
