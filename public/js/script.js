@@ -62,7 +62,7 @@ estatutoApp.controller('indexController', function(){
 
 estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   //toggleSidenav
-  $scope.previusRoute = ''
+  $scope.previusRoute = []
   $scope.buscador = {
     key : '',
     open: function() {
@@ -74,19 +74,20 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
       document.onkeypress = function (e) {
         if (e.keyCode == 13) $scope.buscador.enviar()        
       }
-      $scope.previusRoute = $location.path()
-      $location.path('buscar')      
+      $scope.previusRoute.push($location.path())
+      $location.path('buscar') 
     },
     close: function() {      
+
       var el = document.getElementById('buscador')
-      el.style.display = 'none'        
-      $location.path($scope.previusRoute)
+      el.style.display = 'none'      
+      $location.path($scope.previusRoute[0])
+      $scope.previusRoute = []
     },
-    enviar: function() {      
+    enviar: function() {  
       $http.post('/buscar', {key: $scope.buscador.key}).
         success(function(data, status, headers, config) {
-          $scope.r = data
-          $scope.readyforFind = false
+          $scope.r = data          
         }).
         error(function(data, status, headers, config) {
         })
@@ -98,7 +99,7 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
       document.getElementById('buscador').style.display = 'none'      
     } 
   });
-  $scope.cargando = true;
+  $scope.cargando = true
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle()
@@ -160,7 +161,8 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
 
   $scope.hideCargando = function() {
     var c = document.getElementById('cargando')
-    c.style.display = 'none'    
+    if(c)
+      c.style.display = 'none'    
   }
 });
 
@@ -204,7 +206,7 @@ estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$locat
 })
 
 estatutoApp.controller('searchInput', function($scope) {
-  $scope.buscador.open()
+  $scope.buscador.open()  
 })
 
 function DialogController($scope, $mdDialog) {
