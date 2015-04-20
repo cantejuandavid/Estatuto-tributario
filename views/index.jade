@@ -9,11 +9,14 @@ block content
 				div.nameApp Estatuto Tributario
 		md-content(role="navigation").md-default-theme
 			ul.docs-menu
-				li(ng-repeat="menu in menus").parent-list-item
-					menu-link(section="section").ng-isolate-scope
-						a(tabindex="0",ng-href="{{menu.url}}").md-button.md-default-theme
-							span {{menu.name}}
-							div.md-ripple-container
+				li(ng-repeat="section in menus").parent-list-item
+					h2.menu-heading.md-subhead {{section.type}}
+					ul(ng-if="section.children").menu-nested-list
+						li(ng-repeat="children in section.children")
+							menu-link(section="section").ng-isolate-scope
+								a(tabindex="0",ng-href="{{children.url}}").md-button.md-default-theme
+									span {{children.name}}
+									div.md-ripple-container
 	div(layout="column", tabindex="-1", role="main", flex)
 		md-toolbar(id="barraTop").md-default-theme.barraTop.nav-down
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
@@ -23,18 +26,22 @@ block content
 				div(layout="row", flex).fill-height
 					h2.md-toolbar-item.md-breadcrumb
 						span.md-breadcrumb-page {{ barTop }}
-					span(flex)				
-					md-button(ng-click="showAdvanced($event)",hide-sm)
+					span(flex)
+					md-button(ng-click="buscador.open()",hide-sm)
 						a
-							md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
+							md-icon(md-svg-src="images/svg/search-w.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
 							span busqueda
 					md-button(ng-click="showGridBottomSheet($event)",hide-sm)
 						a
 							span Ayuda	
-					md-button(aria-label="Search",ng-click="showAdvanced($event)",hide-gt-sm).md-icon-button
-						md-icon(md-svg-icon="images/svg/search.svg")
+					md-button(aria-label="Search",ng-click="buscador.open()",hide-gt-sm).md-icon-button
+						md-icon(md-svg-icon="images/svg/search-w.svg")
 					//- md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
 					//- 	md-icon(md-svg-icon="images/svg/more.svg")
+			div(id="buscador").buscador
+				md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida", ng-click="buscador.enviar()")
+				input(type="text",id="inputBuscador",placeholder="Buscar artículos por número o palabra clave", ng-model="buscador.key")
+				md-icon(md-svg-src="images/svg/close.svg",alt="Cerrar", ng-click="buscador.close()").ng-isolate-scope.md-default-theme
 		md-content(flex).md-padding.ng-scope.md-default-theme.vista
 			div(layout="column").doc-content
 				md-content(ng-view,style="padding-top:0").extraPad.md-padding

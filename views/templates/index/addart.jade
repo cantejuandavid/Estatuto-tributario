@@ -17,9 +17,10 @@ form
 				label title
 				input(type="text",name="name", ng-model="art.title")
 		div(flex="60")
-			md-input-container(flex="50")
+			div
 				label description
-				textarea(name="description", columns="1", ng-model="art.description")
+			div
+				textarea(name="description", cols="50", rows="10", ng-model="art.description")
 			div
 				md-select(name="id_libro", ng-model="art.id_libro", placeholder="id_libro")
 					md-option(ng-value="") Ninguno
@@ -36,8 +37,10 @@ form
 					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo")
 						{{o.name}}
 		div(flex="100",layout="row", layout-align="center center")			
-			md-input-container(flex="50")
-				label history
-				textarea(name="history", columns="1", ng-model="art.history")
+			div(flex="50")
+				div
+					label history
+				div
+					textarea(name="history", cols="50", rows="10", columns="1", ng-model="art.history")
 	div(layout, layout-align="center center", flex="100")
 		md-button(type="submit", ng-click="agregarArt()").md-raised.md-primary Agregar

@@ -3,6 +3,6 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 496.5 531.1" enable-background="new 0 0 496.5 531.1" xml:space="preserve">
-<ellipse fill="none" stroke="#F44336" stroke-width="60" stroke-miterlimit="10" cx="195.8" cy="194.2" rx="161.9" ry="161.4"/>
-<rect x="265.6" y="393.9" transform="matrix(0.6899 0.7239 -0.7239 0.6899 424.174 -152.9672)" fill="#F44336" stroke="#F44336" stroke-width="5" stroke-miterlimit="10" width="250.1" height="49.3"/>
+<ellipse fill="none" stroke="#FFFFFF" stroke-width="60" stroke-miterlimit="10" cx="195.8" cy="194.2" rx="161.9" ry="161.4"/>
+<rect x="265.6" y="393.9" transform="matrix(0.6899 0.7239 -0.7239 0.6899 424.174 -152.9672)" fill="#FCFCFC" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" width="250.1" height="49.3"/>
 </svg>

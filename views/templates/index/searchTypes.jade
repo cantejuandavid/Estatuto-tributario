@@ -6,16 +6,23 @@ div(ng-if='res.error == true')
 md-list(ng-if='res.error != true')
 	h2(layout="column",layout-sm="column",layout-align="center center",style="text-align:center")
 		span {{res.libro.type | uppercase}}  {{romanize(res.libro.number)}}
-		span {{res.libro.name | uppercase}}
+		span {{res.libro.name | uppercase}}		
 	h3(layout="column",layout-sm="column",layout-align="center center",style="text-align:center",ng-if="res.capitulo")
 		span {{res.titulo.type | uppercase}}  {{romanize(res.titulo.number)}}. {{res.titulo.name | uppercase}}
 	
 	md-list-item(layout, layout-align="center center",layout-wrap)
 		md-card(ng-repeat="i in res.data | orderBy:'number'",flex="80",flex-md="100",flex-sm="100", ng-if="i.type == 'no-titulo'")
 			md-card-content
-				{{i.name}}
-				a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}")
-						md-button Ver Articulos	
+				div
+					span
+						strong {{i.name}}.
+					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}")
+							md-button Ver Articulos	
+				span(style="font-size:14px").
+					Articulos del
+					<a href="#/buscar/articulo/{{i.firstArt}}">{{numberEstatuto(i.firstArt)}}</a>
+					hasta el 
+					<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>
 		div(flex="20")
 
 	md-list-item(layout, layout-align="center center",layout-wrap)
@@ -25,6 +32,11 @@ md-list(ng-if='res.error != true')
 					div(layout="column",layout-sm="column",layout-align="center left")							
 						strong {{i.type | uppercase}} {{romanize(i.number)}}. 
 						{{i.name | uppercase}}
+						span(style="font-size:14px").
+							Articulos del 
+							<a href="#/buscar/articulo/{{i.firstArt}}">{{numberEstatuto(i.firstArt)}}</a>
+							hasta el 
+							<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>							
 				div(layout,layout-align="center center")
 					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}/capitulo/todos",ng-if="i.type != 'capitulo' && i.haveCapitulo")
 						md-button Capitulos			

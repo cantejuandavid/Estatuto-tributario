@@ -31,19 +31,19 @@ exports.searchParticular = function(req, res) {
 	if(v){
 		if(number !== 'todos') {
 			m[type].findOne({number:number}, function(err, data) {			
-				if(err) console.log(err)
+				if(err) return fail(err, res)
 				if(data!= null && data.length !== 0)
 					res.json({
 						libro: data,
 						data: [data]
 					})
 				else
-					handleErrors(res)
+					return fail(err, res)
 			})
 		}
 		else {		
 			m[type].find().exec(function(err, data) {
-				if(err) console.log(err)									
+				if(err) return fail(err, res)							
 				if(data!= null && data.length !== 0) {
 					res.json({
 						type: type,
@@ -51,13 +51,12 @@ exports.searchParticular = function(req, res) {
 					})
 				}
 				else	
-					handleErrors(res)	
+					return fail(err, res)
 			})
 		}
-		
 	}		
 	else
-		handleErrors(res)
+		return fail(err, res)
 }
 
 exports.searchTypeArts = function(req, res) {
@@ -68,10 +67,10 @@ exports.searchTypeArts = function(req, res) {
 	if(v){
 		var queryID = m[type].where({number:number})
 		queryID.findOne(function(err, d) {
-			if(d) {										
+			if(d!= null && d.length !== 0) {										
 				var r = 'id_' + type
 				m.articulo.find().where(r).equals(d.id).exec(function(err, data) {
-					if(err) console.log(err)		
+					if(err) return fail(err, res)	
 					if(data!= null && data.length !== 0) {
 						res.json({
 							type: {
@@ -83,13 +82,14 @@ exports.searchTypeArts = function(req, res) {
 						})
 					}
 					else	
-						handleErrors(res)						
+						return fail(err, res)			
 				})			
-			}					
+			}	
+			else return fail(err, res)				
 		})
 	}	
 	else
-		handleErrors(res)					
+		return fail(err, res)			
 }
 
 exports.searchType2 = function(req, res) {
@@ -113,7 +113,7 @@ exports.searchType2 = function(req, res) {
 	}
 
 	function buscarTitulo (err, l) {
-		if(err) console.log(err)	
+		if(err) return fail(err, res)
 		typing.libro = l
 		if(l!= null && l.length !== 0) {										
 			m.titulo
@@ -121,19 +121,20 @@ exports.searchType2 = function(req, res) {
 				.where('id_' + type).equals(l.id).where('number').equals(number2)
 				.exec(buscarArticulos)			
 		}	
-		else handleErrors(res)		
+		else return fail(err, res)
 	}
-	function buscarArticulos (err, t) {			
-		if(err) console.log(err)	
+	function buscarArticulos (err, t) {	
+		console.log(t)		
+		if(err) return fail(err, res)
 		typing.titulo = t
 		if(t!= null && t.length !== 0) {				
 			m.articulo.find({}).where('number').gt(t.firstArt-1).lt(t.lastArt+1)		
 			.exec(enviarData)	
 		}
-		else handleErrors(res)
+		else return fail(err, res)
 	}
 	function enviarData (err, a) {			
-		if(err) console.log(err)
+		if(err) return fail(err, res)
 		typing.articulos = a
 		if(a!= null && a.length !== 0) {					
 			res.json({
@@ -142,7 +143,7 @@ exports.searchType2 = function(req, res) {
 				data: a
 			})
 		}
-		else handleErrors(res)	
+		else return fail(err, res)
 	}
 }
 
@@ -168,7 +169,7 @@ exports.searchType3 = function(req, res) {
 				.where('id_' + type).equals(l.id).where('number').equals(number2)
 				.exec(function(err, t) {
 				typing.titulo = t
-				if(err) console.log(err)						
+				if(err) return fail(err, res)			
 					m.capitulo.find({})
 						.where('id_' + type2).equals(t.id)
 						.exec(function(err,c){
@@ -180,7 +181,7 @@ exports.searchType3 = function(req, res) {
 	}
 
 	function buscarTitulo(err, l) {				
-		if(err) console.log(err)	
+		if(err) return fail(err, res)
 		typing.libro = l																	
 		if(l!= null && l.length !== 0) {						
 			m.titulo
@@ -188,10 +189,10 @@ exports.searchType3 = function(req, res) {
 				.where('id_' + type).equals(l.id).where('number').equals(number2)
 				.exec(buscarCapitulo)			
 		}	
-		else handleErrors(res)				
+		else return fail(err, res)		
 	}
 	function buscarCapitulo(err, t) {			
-		if(err) console.log(err)	
+		if(err) return fail(err, res)
 		typing.titulo = t																	
 		if(t!= null && t.length !== 0) {														
 			m.capitulo
@@ -199,19 +200,19 @@ exports.searchType3 = function(req, res) {
 				.where('id_' + type2).equals(t.id).where('number').equals(number3)
 				.exec(buscarArticulos)							
 		}
-		else handleErrors(res)					
+		else return fail(err, res)			
 	}
 	function buscarArticulos(err, c) {		
-		if(err) console.log(err)		
+		if(err) return fail(err, res)
 		typing.capitulo = c											
 		if(c!= null && c.length !== 0) {													
 			m.articulo.find({}).where('number').gt(c.firstArt-1).lt(c.lastArt+1)		
 				.exec(enviarData)
 		}
-		else handleErrors(res)	
+		else return fail(err, res)
 	}
 	function enviarData(err, data) {
-		if(err) console.log(err)							
+		if(err) return fail(err, res)			
 		if(data!= null && data.length !== 0) {					
 			res.json({
 				libro:  typing.libro,
@@ -220,14 +221,14 @@ exports.searchType3 = function(req, res) {
 				data: data
 			})
 		}
-		else handleErrors(res)
+		else return fail(err, res)
 	}
 }
 
 exports.addart = function(req, res) {	
 	console.log(req.body.art.history)
 	m.articulo.create(req.body.art, function(err){
-		if(err) console.log(err)
+		if(err) return fail(err, res)
 	})
 		
 	res.send('done!')
@@ -242,12 +243,14 @@ function validType(type) {
 	return false
 }
 
-function handleErrors(res) {
+function fail(err, res) {
 	res.json({
 		error: true,
+		err: err,
 		message: 'No se ha encontrado lo que intenta buscar.'		
 	})	
 }
+
 exports.get_ids = function(req, res) {	
 	var ids = {}
 	m.libro.find().select('name id').exec(titulo)
@@ -264,4 +267,21 @@ exports.get_ids = function(req, res) {
 		ids.id_capitulo = c
 		res.json(ids)
 	}
+}
+
+exports.search = function(req, res) {
+	var key = req.body.key
+	var k = new RegExp(key, "i")
+	var forNumber = parseFloat(key.replace(/\D/g,''))
+	var parameters = [{name: k},{description: k}]
+
+	if(!isNaN(forNumber))
+		parameters.push({number:forNumber})
+
+	console.log(parameters)
+
+	m.articulo.find().or(parameters).exec(function(err, data) {
+		if(err) return fail(err, res)
+		res.json({parameter: key, data:data})
+	})
 }

@@ -7,7 +7,7 @@ div(ng-if='res.error != true')
 	div(ng-repeat="i in res.data  | orderBy:'number'").type
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center') {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
-			a(ng-href="#/buscar/articulo/{{i.number}}",ng-if="i.type != 'no-libro'") 
+			a(ng-href="#/buscar/{{i.type}}/{{i.number}}",ng-if="i.type != 'no-libro'") 
 				span {{i.type | uppercase}}
 				span &nbsp;				
 				span(ng-if="i.type != 'articulo' && i.number") {{romanize(i.number)}}				
@@ -22,11 +22,10 @@ div(ng-if='res.error != true')
 			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
 				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
 					div(ng-if="h.year > 1").cir
-						h4 {{h.year}}
+						h5 {{h.year}}
 					div.md-item-text
 						h3 {{h.type | uppercase}}
 						p(ng-bind-html="h.content")
-						h4(ng-if="h.year > 1") {{h.year}}		
 		div(ng-if="i.type !== 'articulo'")
 			p.
 				

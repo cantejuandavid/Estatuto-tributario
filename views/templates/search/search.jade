@@ -1,28 +1,18 @@
-div.
-  <md-dialog aria-label="Mango (Fruit)">
-    <md-content>    
-      <h2 class="md-toolbar-tools">Busqueda Rápida en el ET </h2>      
-      <div class="dialog-content">
-          <md-list>
-            <md-subheader class="md-no-sticky">Checkbox with Secondary Action</md-subheader>
-            <md-list-item ng-repeat="message in messages">
-              <md-checkbox ng-model="message.selected"></md-checkbox>
-              <p>{{message.title}}</p>              
-            </md-list-item>
-          </md-list>
-        
-      </div>
-    </md-content>
-    <div class="md-actions" layout="row">
-      <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
-        More on Wikipedia
-      </md-button>
-      <span flex></span>
-      <md-button ng-click="answer('not useful')">
-       CANCELAR
-      </md-button>
-      <md-button ng-click="answer('useful')" class="md-primary">
-        BUSCAR
-      </md-button>
-    </div>
-  </md-dialog>
+div(ng-if='!r.error')
+	div(ng-if="r.data.length > 0")
+		h1 Resultados de la busqueda.
+		ul
+			li(ng-repeat="a in r.data")
+				a(href="#/buscar/{{a.type}}/{{a.number}}")
+					{{a.type}} | {{a.number}} | {{a.name}}
+		span(ng-if="r.data.length == 0", id="") La palabra clave '{{r.parameter}}' no ha tenido relación con ninguno de lso artículos.
+	div()
+		h2 ¡Buscar articulos!
+		p.
+			Realice la busqueda con palabras claves, como por ejemplo: impuest, 
+			renta, iva, sujetos pasivos, entre otros. <br>Tambien puede solamente escribir el 
+			numero del articulo y su busqueda se efectuará, además de sus sub-artículos.
+			Esta busqueda es realizada mediante el nombre del artículo y su contenido.
+	
+div(ng-if='r.error')
+	{{r.err.message}}

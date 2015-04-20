@@ -11,7 +11,7 @@ div(ng-if='res.error != true')
 				span ARTICULO {{numberEstatuto(i.number)}}
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
 		div(ng-bind-html="i.description").description
-		md-content(ng-if="i.history > 0")
+		md-content(ng-if="i.history.length > 0")
 			h2.md-toolbar-tools 
 				span {{ 'historia' | uppercase}}
 				span(flex)
@@ -19,11 +19,10 @@ div(ng-if='res.error != true')
 			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
 				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
 					div(ng-if="h.year > 1").cir
-						h4 {{h.year}}
+						h5 {{h.year}}
 					div.md-item-text
 						h3 {{h.type | uppercase}}
 						p(ng-bind-html="h.content")
-						h4(ng-if="h.year > 1") {{h.year}}
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon
-			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon			
+			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon
