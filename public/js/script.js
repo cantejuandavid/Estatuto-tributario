@@ -16,8 +16,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 
     $routeProvider
       .when('/', {
-        templateUrl: 'templates/index/index.jade',
-        controller: 'indexController'
+        templateUrl: 'templates/index/index.jade'
       }).
       when('/buscar', {
         templateUrl: 'templates/search/search.jade',
@@ -57,12 +56,10 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
     }
 ])
 
-estatutoApp.controller('indexController', function(){
-})
-
 estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
-  //toggleSidenav
+  $scope.barTop = 'ET Nacional'
   $scope.previusRoute = []
+  $scope.cargando = true
   $scope.buscador = {
     key : '',
     open: function() {
@@ -80,35 +77,52 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
     close: function() {      
 
       var el = document.getElementById('buscador')
-      el.style.display = 'none'      
+      el.style.display = 'none'     
+      if($scope.previusRoute[0] == '/buscar') { window.history.back()}
       $location.path($scope.previusRoute[0])
       $scope.previusRoute = []
     },
-    enviar: function() {  
+    enviar: function() {
+      document.getElementById('inputBuscador').blur()
+      document.getElementById('busqueda').focus()
+      $scope.$apply(function(){
+        $scope.cargando = true
+      })
       $http.post('/buscar', {key: $scope.buscador.key}).
         success(function(data, status, headers, config) {
-          $scope.r = data          
+          $scope.r = data               
+          $scope.cargando = false          
         }).
         error(function(data, status, headers, config) {
         })
     }
   }
+  $scope.openHistory = {
+    val : false,
+    label: 'ocultar'
+  }
+  $scope.menus = [{
+    type: 'Nacional',
+    children:[
+      {name: 'inicio', url:'./#/'},
+      {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos'},
+      {name: 'Reformas tributarias', url:'reformas-tributarias'},
+      {name: 'Vencimientos', url:'./#/buscar/libro/todos'},
+    ]
+  }]
   $scope.$on( "$routeChangeStart", function(event, next, current) {
-    $mdSidenav('left').close()     
+    $mdSidenav('left').close() 
+    $scope.cargando = true    
     if(next.$$route.controller !== 'searchInput') {
       document.getElementById('buscador').style.display = 'none'      
     } 
   });
-  $scope.cargando = true
+  
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle()
   }
   
-
-  $scope.barTop = 'ET Nacional'
-  
-
   $scope.romanize = function(num) {    
     if (!+num)
       return;
@@ -127,42 +141,19 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
     var n = num.toString()
     return n.replace('.','-')
   }
-  $scope.showAdvanced = function(ev) {
-      $mdDialog.show({
-          controller: DialogController,
-          templateUrl: 'templates/search/search.jade',
-          targetEvent: ev,
-          })
-          .then(function(answer) {
-          $scope.alert = 'You said the information was "' + answer + '".';
-          }, function() {
-          $scope.alert = 'You cancelled the dialog.';
-      });
-  };
 
-  $scope.menus = [{
-    type: 'Nacional',
-    children:[
-      {name: 'inicio', url:'./#/'},
-      {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos'},
-      {name: 'Reformas tributarias', url:'reformas-tributarias'},
-      {name: 'Vencimientos', url:'./#/buscar/libro/todos'},
-    ]
-  }]
-
-  $scope.openHistory = {
-    val : false,
-    label: 'ocultar'
-  }
   $scope.toggleopenHistory = function() {    
     $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
     $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
-  };
+  }
 
-  $scope.hideCargando = function() {
+  $scope.hideCargando = function() {    
+    $scope.cargando = false      
+  }
+  $scope.showCargando = function() {
     var c = document.getElementById('cargando')
     if(c)
-      c.style.display = 'none'    
+      c.style.display = 'block'    
   }
 });
 
@@ -207,19 +198,8 @@ estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$locat
 
 estatutoApp.controller('searchInput', function($scope) {
   $scope.buscador.open()  
+  $scope.hideCargando()
 })
-
-function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-}
 
 estatutoApp.controller('addart', function($scope, $routeParams,$http,$sce, $location) {
   $scope.art;

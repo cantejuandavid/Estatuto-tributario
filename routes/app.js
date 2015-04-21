@@ -225,12 +225,10 @@ exports.searchType3 = function(req, res) {
 	}
 }
 
-exports.addart = function(req, res) {	
-	console.log(req.body.art.history)
+exports.addart = function(req, res) {		
 	m.articulo.create(req.body.art, function(err){
 		if(err) return fail(err, res)
 	})
-		
 	res.send('done!')
 }
 
