@@ -71,7 +71,7 @@ exports.searchTypeArts = function(req, res) {
 				var r = 'id_' + type
 				m.articulo.find().where(r).equals(d.id).exec(function(err, data) {
 					if(err) return fail(err, res)	
-					if(data!= null && data.length !== 0) {
+					if(data!= null && data.length !== 0) {						
 						res.json({
 							type: {
 								id: d.id,
@@ -126,7 +126,7 @@ exports.searchType2 = function(req, res) {
 	function buscarArticulos (err, t) {			
 		if(err) return fail(err, res)
 		typing.titulo = t
-		if(t!= null && t.length !== 0) {						
+		if(t!= null && t.length !== 0) {				
 			m.articulo.find({}).where('number')
 				.gt((t.firstArt-1) + 0.9)
 				.lt(Math.round(t.lastArt+1))		
@@ -206,7 +206,7 @@ exports.searchType3 = function(req, res) {
 	function buscarArticulos (err, c) {			
 		if(err) return fail(err, res)
 		typing.capitulo = c
-		if(c!= null && c.length !== 0) {						
+		if(c!= null && c.length !== 0) {							
 			m.articulo.find({}).where('number')
 				.gt((c.firstArt-1) + 0.9)
 				.lt(Math.round(c.lastArt+1))		

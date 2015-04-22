@@ -41,7 +41,7 @@ div(ng-if='res.error != true')
 					md-button.md-raised Ver Titulos
 				a(ng-href="#/buscar/libro/{{res.libro.number}}/titulo/{{i.number}}/capitulo/todos",ng-if="i.type=='titulo'")
 					md-button.md-raised Ver Capitulos	
-				a(ng-href="#/buscar/titulo/{{i.number}}/todos")
+				a(ng-href="#/buscar/{{res.type}}/{{i.number}}/todos")
 					md-button.md-raised.md-primary Ver Artículos
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon
