@@ -9,7 +9,6 @@ md-list(ng-if='res.error != true')
 		span {{res.libro.name | uppercase}}		
 	h3(layout="column",layout-sm="column",layout-align="center center",style="text-align:center",ng-if="res.capitulo")
 		span {{res.titulo.type | uppercase}}  {{romanize(res.titulo.number)}}. {{res.titulo.name | uppercase}}
-	
 	md-list-item(layout, layout-align="center center",layout-wrap)
 		md-card(ng-repeat="i in res.data | orderBy:'number'",flex="80",flex-md="100",flex-sm="100", ng-if="i.type == 'no-titulo'")
 			md-card-content
@@ -24,22 +23,20 @@ md-list(ng-if='res.error != true')
 					hasta el 
 					<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>
 		div(flex="20")
-
 	md-list-item(layout, layout-align="center center",layout-wrap)
 		md-card(ng-repeat="i in res.data  | orderBy:'number'",flex="40",flex-md="100",flex-sm="100",ng-if="i.type !== 'no-titulo'")
 			md-card-content
-				div
-					div(layout="column",layout-sm="column",layout-align="center left")							
-						strong {{i.type | uppercase}} {{romanize(i.number)}}. 
-						{{i.name | uppercase}}
-						span(style="font-size:14px").
-							Articulos del 
-							<a href="#/buscar/articulo/{{i.firstArt}}">{{numberEstatuto(i.firstArt)}}</a>
-							hasta el 
-							<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>							
+				div(layout="column",layout-sm="column",layout-align="center left")
+					strong {{i.type | uppercase}} {{romanize(i.number)}}.
+					{{i.name | uppercase}}
+					span(style="font-size:14px").
+						Articulos del 
+						<a href="#/buscar/articulo/{{i.firstArt}}">{{numberEstatuto(i.firstArt)}}</a>
+						hasta el 
+						<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>							
 				div(layout,layout-align="center center")
 					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}/capitulo/todos",ng-if="i.type != 'capitulo' && i.haveCapitulo")
-						md-button Capitulos			
+						md-button Capitulos		
 					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}",ng-if="i.type == 'titulo'")
 						md-button Articulos		
 					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{res.titulo.type}}/{{res.titulo.number}}/{{i.type}}/{{i.number}}",ng-if="i.type != 'titulo'")

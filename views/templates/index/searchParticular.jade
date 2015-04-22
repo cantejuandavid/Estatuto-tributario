@@ -7,7 +7,7 @@ div(ng-if='res.error != true')
 	div(ng-repeat="i in res.data  | orderBy:'number'").type
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center') {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
-			a(ng-href="#/buscar/{{i.type}}/{{i.number}}",ng-if="i.type != 'no-libro'") 
+			a(ng-href="#/buscar/{{i.type}}/{{i.number}}",ng-if="i.type !== 'no-libro' && i.type != 'no-titulo'") 
 				span {{i.type | uppercase}}
 				span &nbsp;				
 				span(ng-if="i.type != 'articulo' && i.number") {{romanize(i.number)}}				
@@ -37,9 +37,11 @@ div(ng-if='res.error != true')
 				hasta el 
 				<a ng-href="#/buscar/articulo/{{i.lastArt}}">{{i.lastArt}}</a>
 			section(layout="row",layout-sm="column",layout-align="center center")
-				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/titulo/todos",ng-if="i.type!='no-libro'")
+				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/titulo/todos",ng-if="i.type=='libro'")
 					md-button.md-raised Ver Titulos
-				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/todos")
+				a(ng-href="#/buscar/libro/{{res.libro.number}}/titulo/{{i.number}}/capitulo/todos",ng-if="i.type=='titulo'")
+					md-button.md-raised Ver Capitulos	
+				a(ng-href="#/buscar/titulo/{{i.number}}/todos")
 					md-button.md-raised.md-primary Ver Artículos
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon

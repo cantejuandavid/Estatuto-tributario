@@ -4,7 +4,13 @@ div(ng-if='res.error == true')
 	h2 {{res.message}}
 	p Por favor dirijase a la página principal		
 div(ng-if='res.error != true')
-	div(ng-repeat="i in res.data  | orderBy:'number'").type
+	p(ng-if="!res.type && res.data")
+		a(href="#/buscar/libro/{{res.libro.number}}") {{res.libro.name}} 
+		&gt; 
+		a(href="#/buscar/titulo/{{res.titulo.number}}") {{res.titulo.name}}
+		&gt; 
+		a(href="#/buscar/capitulo/{{res.capitulo.number}}") {{res.capitulo.name}}
+	div(ng-repeat="i in res.data  | orderBy:'number'").type		
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center').centerTitle {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
 			a(ng-href="#/buscar/articulo/{{i.number}}") 

@@ -123,13 +123,14 @@ exports.searchType2 = function(req, res) {
 		}	
 		else return fail(err, res)
 	}
-	function buscarArticulos (err, t) {	
-		console.log(t)		
+	function buscarArticulos (err, t) {			
 		if(err) return fail(err, res)
 		typing.titulo = t
-		if(t!= null && t.length !== 0) {				
-			m.articulo.find({}).where('number').gt(t.firstArt-1).lt(t.lastArt+1)		
-			.exec(enviarData)	
+		if(t!= null && t.length !== 0) {						
+			m.articulo.find({}).where('number')
+				.gt((t.firstArt-1) + 0.9)
+				.lt(Math.round(t.lastArt+1))		
+				.exec(enviarData)	
 		}
 		else return fail(err, res)
 	}
@@ -202,12 +203,14 @@ exports.searchType3 = function(req, res) {
 		}
 		else return fail(err, res)			
 	}
-	function buscarArticulos(err, c) {		
+	function buscarArticulos (err, c) {			
 		if(err) return fail(err, res)
-		typing.capitulo = c											
-		if(c!= null && c.length !== 0) {													
-			m.articulo.find({}).where('number').gt(c.firstArt-1).lt(c.lastArt+1)		
-				.exec(enviarData)
+		typing.capitulo = c
+		if(c!= null && c.length !== 0) {						
+			m.articulo.find({}).where('number')
+				.gt((c.firstArt-1) + 0.9)
+				.lt(Math.round(c.lastArt+1))		
+				.exec(enviarData)	
 		}
 		else return fail(err, res)
 	}
@@ -274,9 +277,7 @@ exports.search = function(req, res) {
 	var parameters = [{name: k},{description: k}]
 
 	if(!isNaN(forNumber))
-		parameters.push({number:forNumber})
-
-	console.log(parameters)
+		parameters.push({number:forNumber})	
 
 	m.articulo.find().or(parameters).exec(function(err, data) {
 		if(err) return fail(err, res)

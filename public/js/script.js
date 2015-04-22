@@ -176,7 +176,8 @@ estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$locat
   var url   = $location.url()
   $http.
     get(url).
-    success(function(data){        
+    success(function(data){
+      console.log(data)        
       $scope.hideCargando()
       $scope.res = data  
 
