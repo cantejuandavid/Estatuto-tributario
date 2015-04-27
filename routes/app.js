@@ -5,7 +5,6 @@ var m = require('../models/modeling'),
 	t = false,
 	typing = {}
 
-
 exports.auth = function(req, res, next) {	
 	if(!req.session.username)
 		res.render('login')
@@ -274,11 +273,15 @@ exports.search = function(req, res) {
 	var key = req.body.key
 	var k = new RegExp(key, "i")
 	var forNumber = parseFloat(key.replace(/\D/g,''))
-	var parameters = [{name: k},{description: k}]
+	var parameters = [{name: k},{description: k},{number:forNumber}]
 
-	if(!isNaN(forNumber))
-		parameters.push({number:forNumber})	
-
+	if(!isNaN(forNumber)) {
+		
+		for(var i = 0; i < 13; i++) {			
+			var a = Number(forNumber)+'.'+ i			
+			parameters.push({number:a})	
+		}
+	}
 	m.articulo.find().or(parameters).exec(function(err, data) {
 		if(err) return fail(err, res)
 		res.json({parameter: key, data:data})
