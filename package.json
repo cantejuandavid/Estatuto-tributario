@@ -4,7 +4,7 @@
   "engines": {
     "node": "0.12.2",
     "iojs": "1.8.1",
-    "npm": "2.7.4",
+    "npm": "2.7.4"
   },
   "description":"Aplicación web del Estatuto Tributario Colombiano.",
   "author":"Juan David Varga Cante <cantejuandavid@gmail.com>",
