@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var db = 'mongodb://rooter:juandavid123@ds059471.mongolab.com:59471/estatuto'
+var db = 'mongodb://user_2015_estatuto:juandavid123@ds059471.mongolab.com:59471/estatuto'
 var db = module.exports = mongoose.connect(db)
 
 
