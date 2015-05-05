@@ -46,3 +46,12 @@ div(ng-if='res.error != true')
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon
 			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon
+div(ng-if="res.links")
+	div.next
+		span
+			a(href="#/buscar/articulo/{{res.links.next}}") 
+				md-icon(md-svg-src="images/svg/right.svg",alt="Artículo {{res.links.next}}", title="Artículo {{res.links.next}}")
+	div.prev
+		span(ng-if="res.links.prev")
+			a(href="#/buscar/articulo/{{res.links.prev}}")
+				md-icon(md-svg-src="images/svg/left.svg",alt="Artículo {{res.links.prev}}", title="Artículo {{res.links.prev}}")

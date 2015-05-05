@@ -4,7 +4,7 @@ var m = require('../models/modeling'),
 	typesEnabled = ['articulo', 'titulo','libro','capitulo'],
 	t = false,
 	typing = {}
-
+var indexEstatuto = require('../public/index_estatuto.json')
 exports.auth = function(req, res, next) {	
 	if(!req.session.username)
 		res.render('login')
@@ -22,8 +22,7 @@ exports.render = function(req, res) {
 	res.render('templates/' + sub+ '/'+name)
 }
 
-exports.searchParticular = function(req, res) {	
-
+exports.searchParticular = function(req, res) {			
 	var type = req.params.type
 	var number = req.params.number
 	var v = validType(type)	
@@ -31,11 +30,29 @@ exports.searchParticular = function(req, res) {
 		if(number !== 'todos') {
 			m[type].findOne({number:number}, function(err, data) {			
 				if(err) return fail(err, res)
-				if(data!= null && data.length !== 0)
-					res.json({
-						libro: data,
-						data: [data]
-					})
+				if(data!= null && data.length !== 0) {
+					var index = indexEstatuto.indexOf(data.number.toString())
+					var next = indexEstatuto[index+1]
+					var previus = indexEstatuto[index-1]
+					if(data.type == 'articulo') {
+						res.json({
+							libro: data,
+							data: [data],
+							links: {
+								next: next,
+								prev: previus
+							}
+						})
+					}
+					else
+					{
+						res.json({
+							libro: data,
+							data: [data]
+						})
+					}
+					
+				}
 				else
 					return fail(err, res)
 			})
@@ -56,6 +73,7 @@ exports.searchParticular = function(req, res) {
 	}		
 	else
 		return fail(err, res)
+
 }
 
 exports.searchTypeArts = function(req, res) {

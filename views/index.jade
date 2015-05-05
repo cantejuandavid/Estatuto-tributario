@@ -17,7 +17,7 @@ block content
 								a(tabindex="0",ng-href="{{children.url}}").md-button.md-default-theme
 									span {{children.name}}
 									div.md-ripple-container
-	div(layout="column", tabindex="-1", role="main", flex)
+	div(layout="column", tabindex="-1", role="main", flex).parteLeft
 		md-toolbar(id="barraTop").md-default-theme.barraTop.nav-down
 			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
 				button(hide-gt-sm,aria-label="Toggle Menu",ng-click="toggleSidenav('left')").md-icon-button.md-button.md-default-theme
@@ -44,4 +44,4 @@ block content
 				md-icon(md-svg-src="images/svg/close.svg",alt="Cerrar", ng-click="buscador.close()").ng-isolate-scope.md-default-theme
 		md-content(flex).md-padding.ng-scope.md-default-theme.vista
 			div(layout="column").doc-content
-				md-content(ng-view,style="padding-top:0").extraPad.md-padding
+				md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
