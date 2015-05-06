@@ -221,5 +221,3 @@ estatutoApp.controller('addart', function($scope, $routeParams,$http,$sce, $loca
       })
   }
 })
-
-
