@@ -8,14 +8,14 @@ div(ng-if='res.error != true')
 		span
 			a(href="#/buscar/libro/{{res.libro.number}}/titulo/todos") {{res.libro.name}} 
 		span.divider &gt; 
-		span(ng-if="res.titulo.type != 'no-titulo'")			
+		span(ng-if="res.titulo.type != 'no-titulo'")
 			a(href="#/buscar/libro/{{res.libro.number}}/titulo/{{res.titulo.number}}/capitulo/todos") {{res.titulo.name}}
 		span(ng-if="res.titulo.type == 'no-titulo'")
 			{{res.titulo.name}}
-		span(ng-if="res.titulo.type != 'no-titulo'").divider &gt; 
+		span(ng-if="res.titulo.type != 'no-titulo'").divider &gt;
 		span(ng-if="res.titulo.type != 'no-titulo'")
 			{{res.capitulo.name}}
-	div(ng-repeat="i in res.data  | orderBy:'number'").type		
+	div(ng-repeat="i in res.data  | orderBy:'number'").type
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center').centerTitle {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
 			a(ng-href="#/buscar/articulo/{{i.number}}") 
@@ -23,7 +23,7 @@ div(ng-if='res.error != true')
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
 		div(ng-bind-html="i.description").description
 		md-content(ng-if="i.history.length > 0")
-			h2.md-toolbar-tools 
+			h2.md-toolbar-tools
 				span {{ 'historia' | uppercase}}
 				span(flex)
 				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
