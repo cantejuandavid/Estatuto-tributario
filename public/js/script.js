@@ -56,7 +56,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
     }
 ])
 
-estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
+estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   $scope.barTop = 'ET Nacional'
   $scope.previusRoute = []
   $scope.cargando = true
@@ -90,7 +90,14 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$md
       })
       $http.post('/buscar', {key: $scope.buscador.key}).
         success(function(data, status, headers, config) {
-          $scope.r = data               
+          $scope.r = data 
+          for(var i in data.data) {             
+            if($scope.r.data[i].description) {
+              var t = $scope.r.data[i].description.substring(0,200)
+              t = t.substr(0, Math.min(t.length, t.lastIndexOf(" "))) + ' ...'
+              $scope.r.data[i].description = $sce.trustAsHtml(t) 
+            }
+          }                       
           $scope.cargando = false          
         }).
         error(function(data, status, headers, config) {
@@ -176,8 +183,7 @@ estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$locat
   var url   = $location.url()
   $http.
     get(url).
-    success(function(data){
-      console.log(data)        
+    success(function(data){      
       $scope.hideCargando()
       $scope.res = data  
 
@@ -211,8 +217,6 @@ estatutoApp.controller('addart', function($scope, $routeParams,$http,$sce, $loca
     success(function(data){$scope.ids = data})
 
   $scope.agregarArt = function() {
-
-      
     $scope.art.history = JSON.parse($scope.art.history)       
     $http.
       post('addart', {art:$scope.art}).
