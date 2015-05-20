@@ -1,6 +1,6 @@
-var estatutoApp = angular.module('StarterApp', ['ngMaterial', 'ngRoute']);
+angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
 
-estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
+.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 	function($mdThemingProvider,$mdIconProvider,$routeProvider) {
 
 		$mdThemingProvider.
@@ -40,7 +40,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
       }). 
       when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
         templateUrl: 'templates/index/searchTypeArts.jade',
-        controller: 'search'      
+        controller: 'search'
       }).
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
@@ -56,7 +56,7 @@ estatutoApp.config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
     }
 ])
 
-estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
+.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   $scope.barTop = 'ET Nacional'
   $scope.previusRoute = []
   $scope.cargando = true
@@ -162,9 +162,9 @@ estatutoApp.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sc
     if(c)
       c.style.display = 'block'    
   }
-});
+})
 
-estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
+.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     $scope.items = [     
         { name: 'Ayuda', icon: 'help' },        
         { name: 'Twitter', icon: 'twitter', url: 'https://www.google.com' },      
@@ -177,7 +177,7 @@ estatutoApp.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
     };
 })
 
-estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$location) {
+.controller('search', function($scope, $routeParams,$http,$sce,$location) {
   var type  = $routeParams.type || 'titulo'
   var number = $routeParams.number || 'todos'
   var url   = $location.url()
@@ -203,12 +203,12 @@ estatutoApp.controller('search', function($scope, $routeParams,$http,$sce,$locat
     })    
 })
 
-estatutoApp.controller('searchInput', function($scope) {
+.controller('searchInput', function($scope) {
   $scope.buscador.open()  
   $scope.hideCargando()
 })
 
-estatutoApp.controller('addart', function($scope, $routeParams,$http,$sce, $location) {
+.controller('addart', function($scope, $routeParams,$http,$sce, $location) {
   $scope.art;
   $scope.ids = {}
 
