@@ -120,6 +120,7 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
   $scope.$on( "$routeChangeStart", function(event, next, current) {
     $mdSidenav('left').close() 
     $scope.cargando = true    
+    $scope.res = null
     if(next.$$route.controller !== 'searchInput') {
       document.getElementById('buscador').style.display = 'none'      
     } 
@@ -129,7 +130,6 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
 
       $mdSidenav(menuId).toggle()
   }
-  
   $scope.romanize = function(num) {    
     if (!+num)
       return;
@@ -143,18 +143,16 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       roman = (key[+digits.pop() + (i * 10)] || "") + roman;
     return Array(+digits.join("") + 1).join("M") + roman;
   }
-
   $scope.numberEstatuto = function(num) {
     var n = num.toString()
     return n.replace('.','-')
   }
-
   $scope.toggleopenHistory = function() {    
     $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
     $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
   }
-
   $scope.hideCargando = function() {    
+
     $scope.cargando = false      
   }
   $scope.showCargando = function() {
