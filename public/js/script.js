@@ -118,9 +118,9 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
     ]
   }]
   $scope.$on( "$routeChangeStart", function(event, next, current) {
-    $mdSidenav('left').close() 
-    $scope.cargando = true    
     $scope.res = null
+    $mdSidenav('left').close() 
+    $scope.cargando = true        
     if(next.$$route.controller !== 'searchInput') {
       document.getElementById('buscador').style.display = 'none'      
     } 
