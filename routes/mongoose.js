@@ -8,5 +8,5 @@ mongoose.connection.on('error', function(err) {
 })
 
 mongoose.connection.on('connected', function(e) {
-	console.log('->DB Lista!')	
+	console.log('->DB Lista!!')	
 })
