@@ -113,7 +113,7 @@ exports.searchType2 = function(req, res) {
 	var type 	= req.params.type,
 		number 	= req.params.number,	
 		number2 	= req.params.number2,
-		r = 'id_' + type
+		r = 'id_' + type;
 	typing = []
 
 	var queryLibro = m.libro.where({number:number})
