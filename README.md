@@ -1,2 +1,2 @@
 # Estatuto tributario - Aplicación Web
-Aplicación web del Estatuto Tributario Colombiano.
+Aplicación web del Estatuto Tributario Colombiano y departamentales.
