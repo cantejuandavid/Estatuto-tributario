@@ -51,6 +51,15 @@ html(lang="es",ng-app="StarterApp")
 				div(layout="column", style="margin: 0 auto;").doc-content
 					md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
 				
+				div.next
+					span
+						a(id="nNext",href="#/buscar/articulo/")
+							md-icon(md-svg-src="images/svg/right.svg", alt="Siguiente", title="Siguiente", aria-hidden="true").ng-isolate-scope.md-default-theme
+				div.prev
+					span
+						a(id="nPrev",href="#/buscar/articulo/")
+							md-icon(md-svg-src="images/svg/left.svg", alt="Anterior", title="Anterior", aria-hidden="true").ng-isolate-scope.md-default-theme
+				
 				
 					
 		script(src="libraries/angular.min.js")

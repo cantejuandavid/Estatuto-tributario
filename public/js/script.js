@@ -1,3 +1,4 @@
+
 angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
 
 .config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
@@ -178,12 +179,16 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
   var type  = $routeParams.type || 'titulo'
   var number = $routeParams.number || 'todos'
   var url   = $location.url()
+	hideButtons("Prev")
+	hideButtons("Next")
   $http.
     get(url).
     success(function(data){
       $scope.hideCargando()
       $scope.res = data
       if(!data.error) {
+				if(data.links)
+					setPrevandNext(data.links)
         for(var i in data.data) {
           $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
           if($scope.res.data[i].history) {
@@ -221,3 +226,26 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       })
   }
 })
+
+function hideButtons(i){
+	document.getElementById("n"+i).style.display = 'none'
+}
+
+function setPrevandNext (links) {
+	if(links.next)
+		document.getElementById("nNext").setAttribute("href", "#/buscar/articulo/"+links.next)
+		document.getElementById("nNext").style.display = 'block'
+	if(links.prev)
+		document.getElementById("nPrev").setAttribute("href", "#/buscar/articulo/"+links.prev)
+		document.getElementById("nPrev").style.display = 'block'
+
+
+
+
+		// if(!links.prev)
+		// 		document.getElementById("nPrev").style.display = 'none'
+		// if(!links.next)
+// 		document.getElementById("nNext").style.display = 'none'
+
+
+}
