@@ -12,5 +12,5 @@ module.exports = function(cliente){
 	cliente.get('/buscar/:type/:number/:type2/:number2/:type3/:number3', app.searchType3)
 	cliente.post('/addart', app.addart)
 	cliente.post('/buscar', app.search)
-	cliente.get('/addcapitulo', app.addCapitulo)	
+	cliente.get('/addcapitulo', app.addCapitulo)
 }

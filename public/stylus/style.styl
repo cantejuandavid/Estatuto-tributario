@@ -1,17 +1,17 @@
 body
-	background #fff	
+	background #fff
 a
 	color rgb(244,67,54)
 .menuBtn
 	background-color transparent
 	border none
-	height 38px	
+	height 38px
 	width 36px
 h2
 	text-align center
 .menuBtn
 	background transparent url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGcgaWQ9IkhlYWRlciI+CiAgICA8Zz4KICAgICAgICA8cmVjdCB4PSItNjE4IiB5PSItMjIzMiIgZmlsbD0ibm9uZSIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMzYwMCIvPgogICAgPC9nPgo8L2c+CjxnIGlkPSJMYWJlbCI+CjwvZz4KPGcgaWQ9Ikljb24iPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0ibm9uZSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CiAgICAgICAgPHBhdGggZD0iTTMsMThoMTh2LTJIM1YxOHogTTMsMTNoMTh2LTJIM1YxM3ogTTMsNnYyaDE4VjZIM3oiIHN0eWxlPSJmaWxsOiNmM2YzZjM7Ii8+CiAgICA8L2c+CjwvZz4KPGcgaWQ9IkdyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgPGcgZGlzcGxheT0iaW5saW5lIj4KICAgIDwvZz4KPC9nPgo8L3N2Zz4=") no-repeat  center center
-	
+
 
 .md-inline-list-icon-label
 	display inline-block
@@ -19,7 +19,7 @@ h2
 	padding-right 10px
 	margin-top -10px
 	height 24px
-	vertical-align middle		
+	vertical-align middle
 
 .box-history
 	background red
@@ -49,22 +49,20 @@ h2
 		background #fff
 		.cir
 			background transparent
-	
+
 .vista
 	overflow-y scroll
-	
+
 .content_logo,.nameApp
-	display inline-block	
+	display inline-block
 .content_logo
 	img
-		padding-top 7px	
+		padding-top 7px
 
 .centerTitle
 	margin-bottom 40px
 
-.md-toolbar-tools
-	h2
-		font-size 18px 
+
 .buscador
 	display none
 	background #fff
@@ -73,7 +71,7 @@ h2
 	position absolute
 	top 0
 	width 100%
-	height 100%	
+	height 100%
 	input
 		background transparent
 		border 0
@@ -81,10 +79,12 @@ h2
 		font normal normal 16px 'Roboto', 'Helvetica Neue', sans-serif
 		padding 15px
 		height 100%
-		width calc(100% - 50px)
+		width calc(100% - 80px)
 	input::-webkit-input-placeholder
 		color #D1D1D1
 		font-weight 0
+	input:focus
+		outline none
 	md-icon
 		cursor pointer
 .type
@@ -104,7 +104,7 @@ h2
 			padding 0
 			list-style none
 			li
-				margin-top 20px					
+				margin-top 20px
 .mod
 	color rgb(244,67,54)
 .derogado
@@ -113,23 +113,24 @@ h2
 .divider
 	padding 0 5px
 	color #FFBEA1
-	
-.view	
+
+.containerFlechas
 	.next,.prev
-		background #fff
 		position absolute
-		top 10px		
 		border-radius 50%
+		position fixed
 		a
 			padding 5px
 			color #F44336
 	.next
-		right 0
+		right 20px
+		bottom 30px
 	.prev
-		left 0
-		
+		left 20px
+		bottom 30px
 
-.busqueda	
+
+.busqueda
 	.boxResult
 		ul
 			li
@@ -142,7 +143,7 @@ h2
 						margin 0
 					li
 						list-style none
-						
+
 .table_center
 	td, th
 		text-align center

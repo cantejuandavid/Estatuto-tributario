@@ -3,10 +3,8 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
 .config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 	function($mdThemingProvider,$mdIconProvider,$routeProvider) {
 
-		$mdThemingProvider.
-      theme('default')
-    		.primaryPalette('red')
-    		.accentPalette('indigo')
+		$mdThemingProvider
+			.theme('default')
 
     $mdIconProvider
       .icon('facebook', 'images/svg/facebook.svg', 24)
@@ -24,20 +22,20 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       }).
       when('/buscar/:type/:number/', {
         templateUrl: 'templates/index/searchParticular.jade',
-        controller: 'search'      
-      }). 
+        controller: 'search'
+      }).
       when('/buscar/:type/:number/:type2/todos', {
         templateUrl: 'templates/index/searchTypes.jade',
-        controller: 'search'      
-      }).   
+        controller: 'search'
+      }).
       when('/buscar/:type/:number/:type2/:number2', {
         templateUrl: 'templates/index/searchTypeArts.jade',
-        controller: 'search'      
-      }). 
+        controller: 'search'
+      }).
       when('/buscar/:type/:number/:type2/:number2/:type3/todos', {
         templateUrl: 'templates/index/searchTypes.jade',
-        controller: 'search'      
-      }). 
+        controller: 'search'
+      }).
       when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'search'
@@ -45,11 +43,11 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.jade',
         controller: 'search',
-      }).  
+      }).
       when('/addart', {
         templateUrl: 'templates/index/addart.jade',
-        controller: 'addart'      
-      }).      
+        controller: 'addart'
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -57,7 +55,7 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
 ])
 
 .controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
-  $scope.barTop = 'ET Nacional'
+  $scope.barTop = 'Explorador'
   $scope.previusRoute = []
   $scope.cargando = true
   $scope.buscador = {
@@ -69,15 +67,15 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       input.focus()
 
       document.onkeypress = function (e) {
-        if (e.keyCode == 13) $scope.buscador.enviar()        
+        if (e.keyCode == 13) $scope.buscador.enviar()
       }
       $scope.previusRoute.push($location.path())
-      $location.path('buscar') 
+      $location.path('buscar')
     },
-    close: function() {      
+    close: function() {
 
       var el = document.getElementById('buscador')
-      el.style.display = 'none'     
+      el.style.display = 'none'
       if($scope.previusRoute[0] == '/buscar') { window.history.back()}
       $location.path($scope.previusRoute[0])
       $scope.previusRoute = []
@@ -90,15 +88,15 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
       })
       $http.post('/buscar', {key: $scope.buscador.key}).
         success(function(data, status, headers, config) {
-          $scope.r = data 
-          for(var i in data.data) {             
+          $scope.r = data
+          for(var i in data.data) {
             if($scope.r.data[i].description) {
               var t = $scope.r.data[i].description.substring(0,200)
               t = t.substr(0, Math.min(t.length, t.lastIndexOf(" "))) + ' ...'
-              $scope.r.data[i].description = $sce.trustAsHtml(t) 
+              $scope.r.data[i].description = $sce.trustAsHtml(t)
             }
-          }                       
-          $scope.cargando = false          
+          }
+          $scope.cargando = false
         }).
         error(function(data, status, headers, config) {
         })
@@ -119,18 +117,18 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
   }]
   $scope.$on( "$routeChangeStart", function(event, next, current) {
     $scope.res = null
-    $mdSidenav('left').close() 
-    $scope.cargando = true        
+    $mdSidenav('left').close()
+    $scope.cargando = true
     if(next.$$route.controller !== 'searchInput') {
-      document.getElementById('buscador').style.display = 'none'      
-    } 
+      document.getElementById('buscador').style.display = 'none'
+    }
   });
-  
+
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle()
   }
-  $scope.romanize = function(num) {    
+  $scope.romanize = function(num) {
     if (!+num)
       return;
     var digits = String(+num).split(""),
@@ -144,28 +142,29 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
     return Array(+digits.join("") + 1).join("M") + roman;
   }
   $scope.numberEstatuto = function(num) {
-    var n = num.toString()
-    return n.replace('.','-')
+		if(num)
+    	var n = num.toString().replace('.','-')
+    	return n
   }
-  $scope.toggleopenHistory = function() {    
+  $scope.toggleopenHistory = function() {
     $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
     $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
   }
-  $scope.hideCargando = function() {    
+  $scope.hideCargando = function() {
 
-    $scope.cargando = false      
+    $scope.cargando = false
   }
   $scope.showCargando = function() {
     var c = document.getElementById('cargando')
     if(c)
-      c.style.display = 'block'    
+      c.style.display = 'block'
   }
 })
 
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
-    $scope.items = [     
-        { name: 'Ayuda', icon: 'help' },        
-        { name: 'Twitter', icon: 'twitter', url: 'https://www.google.com' },      
+    $scope.items = [
+        { name: 'Ayuda', icon: 'help' },
+        { name: 'Twitter', icon: 'twitter', url: 'https://www.google.com' },
         { name: 'Facebook', icon: 'facebook', url: 'https://www.google.com' },
         { name: 'Acerca', icon: 'about' },
     ];
@@ -181,28 +180,27 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
   var url   = $location.url()
   $http.
     get(url).
-    success(function(data){      
+    success(function(data){
       $scope.hideCargando()
-      $scope.res = data  
-
-      if(!data.error) {      
-        for(var i in data.data) {                
-          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description) 
+      $scope.res = data
+      if(!data.error) {
+        for(var i in data.data) {
+          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
           if($scope.res.data[i].history) {
-            for(var a in $scope.res.data[i].history) {     
+            for(var a in $scope.res.data[i].history) {
               $scope.res.data[i].history[a].content = $sce.trustAsHtml($scope.res.data[i].history[a].content)
             }
-          }          
-        }                 
+          }
+        }
       }
     }).
-    error(function() {      
+    error(function() {
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
-    })    
+    })
 })
 
 .controller('searchInput', function($scope) {
-  $scope.buscador.open()  
+  $scope.buscador.open()
   $scope.hideCargando()
 })
 
@@ -215,7 +213,7 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
     success(function(data){$scope.ids = data})
 
   $scope.agregarArt = function() {
-    $scope.art.history = JSON.parse($scope.art.history)       
+    $scope.art.history = JSON.parse($scope.art.history)
     $http.
       post('addart', {art:$scope.art}).
       success(function(data){

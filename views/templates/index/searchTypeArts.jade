@@ -27,13 +27,13 @@ div(ng-if='res.error != true')
 				span {{ 'historia' | uppercase}}
 				span(flex)
 				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
-			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
-				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
+			md-list(ng-hide="openHistory.val",id="listHistory", flex)
+				md-list-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
 					div(ng-if="h.year > 1").cir
 						h5 {{h.year}}
-					div.md-item-text
+					div
 						h3 {{h.type | uppercase}}
-						p(ng-bind-html="h.content")
+						p(ng-bind-html="h.content").md-list-item-text
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon
 			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon

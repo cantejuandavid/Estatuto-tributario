@@ -1,47 +1,16 @@
 extends layout
 
-block content
-	md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.md-locked-open.ng-isolate-scope.md-closed
-		md-toolbar(layout="row").md-theme-indigo
-			h1(layout="row",flex="", href="#").docs-logo.md-toolbar-tools
-				div(style="width:30px").content_logo
-					img(src="icon-estatuto-tributario_2.png", style="width: 25px")
-				div.nameApp Estatuto Tributario
-		md-content(role="navigation").md-default-theme
-			ul.docs-menu
-				li(ng-repeat="section in menus").parent-list-item
-					h2.menu-heading.md-subhead {{section.type}}
-					ul(ng-if="section.children").menu-nested-list
-						li(ng-repeat="children in section.children")
-							menu-link(section="section").ng-isolate-scope
-								a(tabindex="0",ng-href="{{children.url}}").md-button.md-default-theme
-									span {{children.name}}
-									div.md-ripple-container
-	div(layout="column", tabindex="-1", role="main", flex).parteLeft
-		md-toolbar(id="barraTop").md-default-theme.barraTop.nav-down
-			div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools
-				button(hide-gt-sm,aria-label="Toggle Menu",ng-click="toggleSidenav('left')").md-icon-button.md-button.md-default-theme
-					md-icon(md-svg-src="images/svg/ic_menu_24px.svg", aria-hidden="true").ng-scope.ng-isolate-scope.md-default-theme
-						div.md-ripple-container
-				div(layout="row", flex).fill-height
-					h2.md-toolbar-item.md-breadcrumb
-						span.md-breadcrumb-page {{ barTop }}
-					span(flex)
-					md-button(ng-click="buscador.open()",hide-sm)
-						a
-							md-icon(md-svg-src="images/svg/search-w.svg",alt="Busqueda rápida",style="margin: 0 4px 0 0;width:20px")
-							span busqueda
-					//- md-button(ng-click="showGridBottomSheet($event)",hide-sm)
-					//- 	a
-					//- 		span Ayuda	
-					md-button(aria-label="Search",ng-click="buscador.open()",hide-gt-sm).md-icon-button
-						md-icon(md-svg-icon="images/svg/search-w.svg")
-					//- md-button(aria-label="More",ng-click="showGridBottomSheet($event)",hide-gt-sm).md-icon-button
-					//- 	md-icon(md-svg-icon="images/svg/more.svg")
-			div(id="buscador").buscador
-				md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida", ng-click="buscador.enviar()")
-				input(type="text",id="inputBuscador",placeholder="Buscar artículos por número o palabra clave", ng-model="buscador.key")
-				md-icon(md-svg-src="images/svg/close.svg",alt="Cerrar", ng-click="buscador.close()").ng-isolate-scope.md-default-theme
-		md-content(flex).md-padding.ng-scope.md-default-theme.vista
-			div(layout="column").doc-content
-				md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
+block 
+div.
+	<em> Nuevo en esta aplicación? Antes de que la uses, debería leer la </em>
+	<a href="#" target="_blank" title="Link opens in a new window"> Ayuda</a>
+	<b layout="row" layout-align="center center" layout-margin="layout-margin"> {{alert}}</b>
+	<h2 layout="row" layout-align="center center">TITULO PRELIMINAR.</h2>
+	<h3 layout="row" layout-align="center center">OBLIGACIÓN TRIBUTARIA.</h3>
+	<h4>Art. 1. Origen de la obligación sustancial.</h4>
+	<p>La obligación tributaria sustancial se origina al realizarse el presupuesto o los presupuestos previstos en la ley como generadores del impuesto y ella tiene por objeto el pago del tributo.</p>
+	<h3 layout="row" layout-align="center center">SUJETOS PASIVOS</h3>
+	<h4>Art. 2. Contribuyentes.</h4>
+	<p>Son  contribuyentes o responsables directos del pago del tributo los sujetos respecto de quienes se realiza el hecho generador de la obligación sustancial.</p>
+	<h4>Art. 3. Responsables.</h4>
+	<p>Son responsables para efectos del impuesto de timbre, las personas que, sin tener el carácter de contribuyentes, deben cumplir obligaciones de éstos por disposición expresa de la ley.</p>

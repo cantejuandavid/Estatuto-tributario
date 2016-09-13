@@ -13,19 +13,19 @@ div(ng-if='res.error != true')
 				span(ng-if="i.type != 'articulo' && i.number") {{romanize(i.number)}}				
 				span(ng-if="i.type == 'articulo'") {{numberEstatuto(i.number)}}
 		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
-		div(ng-bind-html="i.description").description
+		div(ng-bind-html="i.description", style="text-align: justify;").description
 		md-content(ng-if="i.history.length > 0")
 			h2.md-toolbar-tools 
 				span {{ 'historia' | uppercase}}
 				span(flex)
 				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
-			md-list(layout="column",ng-hide="openHistory.val",id="listHistory")
-				md-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
+			md-list(ng-hide="openHistory.val",id="listHistory", flex)
+				md-list-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
 					div(ng-if="h.year > 1").cir
 						h5 {{h.year}}
-					div.md-item-text
+					div
 						h3 {{h.type | uppercase}}
-						p(ng-bind-html="h.content")
+						p(ng-bind-html="h.content").md-list-item-text
 		div(ng-if="i.type !== 'articulo'")
 			p.
 				
@@ -38,20 +38,21 @@ div(ng-if='res.error != true')
 				<a ng-href="#/buscar/articulo/{{i.lastArt}}">{{i.lastArt}}</a>
 			section(layout="row",layout-sm="column",layout-align="center center")
 				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/titulo/todos",ng-if="i.type=='libro'")
-					md-button.md-raised Ver Titulos
+					md-button.md-raised.md-warn Ver Titulos
 				a(ng-href="#/buscar/libro/{{res.libro.number}}/titulo/{{i.number}}/capitulo/todos",ng-if="i.type=='titulo'")
-					md-button.md-raised Ver Capitulos	
+					md-button.md-raised.md-warn Ver Capitulos	
 				a(ng-href="#/buscar/{{res.type}}/{{i.number}}/todos")
-					md-button.md-raised.md-primary Ver Artículos
+					md-button.md-raised.md-warn Ver Artículos
 		div.buttonsSocial
 			md-icon(md-svg-src="images/svg/share5.svg").md-icon
 			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon
-div(ng-if="res.links")
+
+div(ng-if="res.links").containerFlechas
 	div.next
 		span
-			a(href="#/buscar/articulo/{{res.links.next}}") 
-				md-icon(md-svg-src="images/svg/right.svg",alt="Artículo {{res.links.next}}", title="Artículo {{res.links.next}}")
+			a(href="#/buscar/articulo/{{res.links.next}}")
+				md-icon(md-svg-src="images/svg/right.svg", alt="Artículo {{res.links.next}}", title="Artículo {{res.links.next}}", aria-hidden="true").ng-isolate-scope.md-default-theme
 	div.prev
-		span(ng-if="res.links.prev")
+		span
 			a(href="#/buscar/articulo/{{res.links.prev}}")
-				md-icon(md-svg-src="images/svg/left.svg",alt="Artículo {{res.links.prev}}", title="Artículo {{res.links.prev}}")
+				md-icon(md-svg-src="images/svg/left.svg", alt="Artículo {{res.links.prev}}", title="Artículo {{res.links.prev}}", aria-hidden="true").ng-isolate-scope.md-default-theme

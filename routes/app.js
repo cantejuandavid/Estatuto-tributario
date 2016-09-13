@@ -1,11 +1,12 @@
 'use strict'
 
-var m = require('../models/modeling'),
-	typesEnabled = ['articulo', 'titulo','libro','capitulo'],
-	t = false,
-	typing = {}
+var m = require('../models/modeling')
+var	typesEnabled = ['articulo', 'titulo','libro','capitulo']
+var t = false
+var typing = {}
 
-var indexEstatuto = require('../public/index_estatuto.json')
+var iEstatuto = require('../public/index_estatuto.json')
+
 exports.auth = function(req, res, next) {
 	if(!req.session.username)
 		res.render('login')
@@ -13,8 +14,7 @@ exports.auth = function(req, res, next) {
 }
 
 exports.index = function(req, res) {
-
-	res.render('index')
+	res.render('layout')
 }
 
 exports.render = function(req, res) {
@@ -26,16 +26,16 @@ exports.render = function(req, res) {
 exports.searchParticular = function(req, res) {
 	var type = req.params.type
 	var number = req.params.number
-	var v = validType(type)
-	if(v){
+
+	if(validType(type)){
 		if(number !== 'todos') {
 			m[type].findOne({number:number}, function(err, data) {
 				if(err) return fail(err, res)
-				if(data!= null && data.length !== 0) {
-					var index = indexEstatuto.indexOf(data.number.toString())
-					var next = indexEstatuto[index+1]
-					var previus = indexEstatuto[index-1]
-					if(data.type == 'articulo') {
+				if(data) {
+					var index = iEstatuto.indexOf(data.number)
+					var next = iEstatuto[index+1]
+					var previus = iEstatuto[index-1]
+					if(type == 'articulo') {
 						res.json({
 							libro: data,
 							data: [data],
@@ -236,11 +236,12 @@ exports.addart = function(req, res) {
 	})
 	res.send('done!')
 }
+
 exports.addCapitulo = function(req, res) {
 	m.capitulo.create({
 		"number": 5,
 		"name": "Impuesto a la Riqueza",
-		"description": "Este impuesto fué adicionado por Ley 1739 de 2014, el cual reemplaza al Impuesto al Patrimonio.",
+		"description": "Este impuesto fuï¿½ adicionado por Ley 1739 de 2014, el cual reemplaza al Impuesto al Patrimonio.",
 		"id_titulo":"5526e4ba21190930078f41f3",
 		"id_libro":"5523f4443a0ddf4412361714",
 		"firstArt": 292,
@@ -250,22 +251,6 @@ exports.addCapitulo = function(req, res) {
 		if(err) return fail(err, res)
 	})
 	res.send('done!')
-}
-function validType(type) {
-	for(var i = 0; i < typesEnabled.length; i++) {
-		if(type == typesEnabled[i]) {
-			return true
-		}
-	}
-	return false
-}
-
-function fail(err, res) {
-	res.json({
-		error: true,
-		err: err,
-		message: 'No se ha encontrado lo que intenta buscar.'
-	})
 }
 
 exports.get_ids = function(req, res) {
@@ -301,5 +286,22 @@ exports.search = function(req, res) {
 	m.articulo.find().or(parameters).exec(function(err, data) {
 		if(err) return fail(err, res)
 		res.json({parameter: key, data:data})
+	})
+}
+
+function validType(type) {
+	for(var i = 0; i < typesEnabled.length; i++) {
+		if(type == typesEnabled[i]) {
+			return true
+		}
+	}
+	return false
+}
+
+function fail(err, res) {
+	res.json({
+		error: true,
+		err: err,
+		message: 'No se ha encontrado lo que intenta buscar.'
 	})
 }
