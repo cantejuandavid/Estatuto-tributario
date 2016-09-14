@@ -1,21 +1,21 @@
 div(id="cargando",ng-show="cargando", layout="column",layout-sm="column",layout-align="center center", style="padding: 60px")
 	img(src="images/loader.gif",width="30")
-div(ng-if='res.error == true')
-	h2 {{res.message}}
+div(ng-if='data.error == true')
+	h2 {{data.message}}
 	p Por favor dirijase a la página principal		
-md-list(ng-if='res.error != true')
+md-list(ng-if='data.error != true')
 	h2(layout="column",layout-sm="column",layout-align="center center",style="text-align:center")
-		span {{res.libro.type | uppercase}}  {{romanize(res.libro.number)}}
-		span {{res.libro.name | uppercase}}		
-	h3(layout="column",layout-sm="column",layout-align="center center",style="text-align:center",ng-if="res.capitulo")
-		span {{res.titulo.type | uppercase}}  {{romanize(res.titulo.number)}}. {{res.titulo.name | uppercase}}
+		span {{data.libro.type | uppercase}}  {{romanize(data.libro.number)}}
+		span {{data.libro.name | uppercase}}		
+	h3(layout="column",layout-sm="column",layout-align="center center",style="text-align:center",ng-if="data.capitulo")
+		span {{data.titulo.type | uppercase}}  {{romanize(data.titulo.number)}}. {{data.titulo.name | uppercase}}
 	md-list-item(layout, layout-align="center center",layout-wrap)
-		md-card(ng-repeat="i in res.data | orderBy:'number'",flex="80",flex-md="100",flex-sm="100", ng-if="i.type == 'no-titulo'")
+		md-card(ng-repeat="i in data.data | orderBy:'number'",flex="80",flex-md="100",flex-sm="100", ng-if="i.type == 'no-titulo'")
 			md-card-content
 				div
 					span
 						strong {{i.name}}.
-					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}")
+					a(ng-href="#/buscar/{{data.libro.type}}/{{data.libro.number}}/{{i.type}}/{{i.number}}")
 							md-button Ver Articulos	
 				span(style="font-size:14px").
 					Articulos del
@@ -24,7 +24,7 @@ md-list(ng-if='res.error != true')
 					<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>
 		div(flex="20")
 	md-list-item(layout, layout-align="center center",layout-wrap)
-		md-card(ng-repeat="i in res.data  | orderBy:'number'",flex="40",flex-md="100",flex-sm="100",ng-if="i.type !== 'no-titulo'")
+		md-card(ng-repeat="i in data.data  | orderBy:'number'",flex="40",flex-md="100",flex-sm="100",ng-if="i.type !== 'no-titulo'")
 			md-card-content
 				div(layout="column",layout-sm="column",layout-align="center left")
 					strong {{i.type | uppercase}} {{romanize(i.number)}}.
@@ -35,9 +35,9 @@ md-list(ng-if='res.error != true')
 						hasta el 
 						<a href="#/buscar/articulo/{{i.lastArt}}">{{numberEstatuto(i.lastArt)}}</a>							
 				div(layout,layout-align="center center")
-					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}/capitulo/todos",ng-if="i.type != 'capitulo' && i.haveCapitulo")
+					a(ng-href="#/buscar/{{data.libro.type}}/{{data.libro.number}}/{{i.type}}/{{i.number}}/capitulo/todos",ng-if="i.type != 'capitulo' && i.haveCapitulo")
 						md-button Capitulos		
-					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{i.type}}/{{i.number}}",ng-if="i.type == 'titulo'")
+					a(ng-href="#/buscar/{{data.libro.type}}/{{data.libro.number}}/{{i.type}}/{{i.number}}",ng-if="i.type == 'titulo'")
 						md-button Articulos		
-					a(ng-href="#/buscar/{{res.libro.type}}/{{res.libro.number}}/{{res.titulo.type}}/{{res.titulo.number}}/{{i.type}}/{{i.number}}",ng-if="i.type != 'titulo'")
+					a(ng-href="#/buscar/{{data.libro.type}}/{{data.libro.number}}/{{data.titulo.type}}/{{data.titulo.number}}/{{i.type}}/{{i.number}}",ng-if="i.type != 'titulo'")
 						md-button Articulos

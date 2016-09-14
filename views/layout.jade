@@ -11,7 +11,7 @@ html(lang="es",ng-app="StarterApp")
 		meta(name="description", content="Estatuto tributario nacional de Colombia.")
 		link(rel='stylesheet', href='/stylus/style.css')
 		
-	body(ng-controller="AppCtrl", layout="row")
+	body(ng-controller="AppCtrl", id="AppCtrl", layout="row")
 		md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.hide-print.md-closed
 			//md-toolbar(layout="row").md-theme-indigo
 			header.nav-header
@@ -62,9 +62,10 @@ html(lang="es",ng-app="StarterApp")
 				
 				
 					
-		script(src="libraries/angular.min.js")
-		script(src="libraries/angular-animate.min.js")
-		script(src="libraries/angular-route.min.js")
-		script(src="libraries/angular-aria.min.js")
-		script(src="libraries/angular-material.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js")
+		script(src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")		
+		script(src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
+		script(src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js")
 		script(src="js/script.js")

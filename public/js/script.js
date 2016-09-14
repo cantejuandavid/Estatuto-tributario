@@ -1,5 +1,5 @@
 
-angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
+angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
 
 .config(['$mdThemingProvider', '$mdIconProvider','$routeProvider',
 	function($mdThemingProvider,$mdIconProvider,$routeProvider) {
@@ -162,44 +162,42 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute'])
   }
 })
 
-.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
-    $scope.items = [
-        { name: 'Ayuda', icon: 'help' },
-        { name: 'Twitter', icon: 'twitter', url: 'https://www.google.com' },
-        { name: 'Facebook', icon: 'facebook', url: 'https://www.google.com' },
-        { name: 'Acerca', icon: 'about' },
-    ];
-    $scope.listItemClick = function($index) {
-        var clickedItem = $scope.items[$index];
-        $mdBottomSheet.hide(clickedItem);
-    };
-})
-
-.controller('search', function($scope, $routeParams,$http,$sce,$location) {
+.controller('search', function($scope, $routeParams,$http,$sce,$location,$mdDialog) {
   var type  = $routeParams.type || 'titulo'
   var number = $routeParams.number || 'todos'
-  var url   = $location.url()
 	hideButtons("Prev")
 	hideButtons("Next")
   $http.
-    get(url).
-    success(function(data){
+    get($location.url())
+		.then(function(res){
       $scope.hideCargando()
-      $scope.res = data
-      if(!data.error) {
-				if(data.links)
-					setPrevandNext(data.links)
-        for(var i in data.data) {
-          $scope.res.data[i].description = $sce.trustAsHtml($scope.res.data[i].description)
-          if($scope.res.data[i].history) {
-            for(var a in $scope.res.data[i].history) {
-              $scope.res.data[i].history[a].content = $sce.trustAsHtml($scope.res.data[i].history[a].content)
+      $scope.data = res.data
+      if(!res.error) {
+				if(res.data.links)
+					setPrevandNext(res.data.links)
+        for(var i in res.data.data) {
+          $scope.data.data[i].description = $sce.trustAsHtml($scope.data.data[i].description)
+          if($scope.data.data[i].history) {
+            for(var a in $scope.data.data[i].history) {
+              $scope.data.data[i].history[a].content = $sce.trustAsHtml($scope.data.data[i].history[a].content)
             }
           }
         }
       }
-    }).
-    error(function() {
+    }, function(res) {
+			console.log(res)
+
+			$mdDialog.show(
+				$mdDialog.alert()
+					.parent(angular.element(document.querySelector('#AppCtrl')))
+					.clickOutsideToClose(true)
+					.title('This is an alert title')
+					.textContent('You can specify some description text in here.')
+					.ariaLabel('Alert Dialog Demo')
+					.ok('Got it!')
+					.targetEvent(ev)
+			);
+
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
     })
 })
@@ -232,20 +230,12 @@ function hideButtons(i){
 }
 
 function setPrevandNext (links) {
-	if(links.next)
+	if(links.next) {
 		document.getElementById("nNext").setAttribute("href", "#/buscar/articulo/"+links.next)
 		document.getElementById("nNext").style.display = 'block'
-	if(links.prev)
+	}
+	if(links.prev) {
 		document.getElementById("nPrev").setAttribute("href", "#/buscar/articulo/"+links.prev)
 		document.getElementById("nPrev").style.display = 'block'
-
-
-
-
-		// if(!links.prev)
-		// 		document.getElementById("nPrev").style.display = 'none'
-		// if(!links.next)
-// 		document.getElementById("nNext").style.display = 'none'
-
-
+	}
 }
