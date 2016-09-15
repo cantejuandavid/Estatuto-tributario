@@ -49,6 +49,9 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
         templateUrl: 'templates/index/addart.jade',
         controller: 'addart'
       }).
+			when('/about', {
+        templateUrl: 'templates/index/about.jade'
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -110,10 +113,10 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
   $scope.menus = [{
     type: 'Nacional',
     children:[
-      {name: 'inicio', url:'./#/'},
-      {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos'},
-      {name: 'Reformas tributarias', url:'reformas-tributarias'},
-      {name: 'Vencimientos', url:'./#/buscar/libro/todos'},
+      {name: 'Inicio', url:'./#/', icon: 'home'},
+      {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos', icon: 'explore'},
+      {name: 'Configuración', url:'./#/set', icon: 'build'},
+			{name: 'Sobre nosotros', url:'./#/about', icon: 'help'},
     ]
   }]
   $scope.$on( "$routeChangeStart", function(event, next, current) {

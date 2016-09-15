@@ -460,7 +460,7 @@ code:not(.highlight) {
  * DOCS MENU
  ************/
 .site-sidenav {
-  background: #d95740;
+  background: #222222;
 }
 .site-sidenav md-content {
   background: transparent;
@@ -504,6 +504,8 @@ code:not(.highlight) {
   cursor: pointer;
   display: block;
   align-items: inherit;
+  font-weight: 700;
+  text-transform: none;
   line-height: 40px;
   margin: 0;
   max-height: 40px;
@@ -524,7 +526,7 @@ body[dir=rtl] .docs-menu .md-button {
 
 .docs-menu .md-button:hover,
 .docs-menu .md-button:focus {
-  background: #e85433 !important;
+  background: #2d2d2d !important;
 }
 .docs-menu .md-button md-icon {
   color: white;
@@ -642,13 +644,13 @@ body[dir=rtl] .menu-heading {
   transform: scale(1.2);
 }
 .nav-header {
-  background-color: #f44336;
-  background: linear-gradient(#c82c10, #c82c10);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #c82c10), color-stop(1, #106cc8));
-  background: -webkit-linear-gradient(top, #f44336 0%, #d95740 100%);
-  background: -moz-linear-gradient(top, #c82c10 0%, #106cc8 100%);
-  background: linear-gradient(top, #c82c10 0%, #106cc8 100%);
-  border-bottom: 1px solid #d95740;
+  background-color: #222222
+	background: linear-gradient(#000, #222222)
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000), color-stop(1, #222222));
+	background: -webkit-linear-gradient(top, #000 0%, #222222 100%);
+	background: -moz-linear-gradient(top, #000 0%, #222222 100%);
+	background: linear-gradient(top, #000 0%, #222222 100%);
+	border-bottom: 1px solid #222222;
   flex-shrink: 0;
   z-index: 2;
 }

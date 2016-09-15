@@ -10,6 +10,7 @@ html(lang="es",ng-app="StarterApp")
 		meta(name="viewport", content="initial-scale=1")
 		meta(name="description", content="Estatuto tributario nacional de Colombia.")
 		link(rel='stylesheet', href='/stylus/style.css')
+		link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
 		
 	body(ng-controller="AppCtrl", id="AppCtrl", layout="row")
 		md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.hide-print.md-closed
@@ -22,12 +23,12 @@ html(lang="es",ng-app="StarterApp")
 				ul.docs-menu
 					li(ng-repeat="section in menus").parent-list-item
 						h2.menu-heading.md-subhead {{section.type}}
-						ul(ng-if="section.children").menu-nested-list
-							li(ng-repeat="children in section.children")
-								menu-link(section="section").ng-isolate-scope
-									a(tabindex="0",ng-href="{{children.url}}").md-button.md-default-theme
-										span {{children.name}}
-										div.md-ripple-container
+						nav
+							md-list(ng-if="section.children").flex								
+								md-list-item(ng-repeat="n in section.children")
+									i.material-icons.gray {{n.icon}}	
+									a(href="{{n.url}}").md-button
+										{{n.name}}									
 		div(layout="column", tabindex="-1", flex, role="main").layout-column.flex
 			md-toolbar.md-whiteframe-glow-z1.site-content-toolbar
 				div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools.docs-toolbar-tools
