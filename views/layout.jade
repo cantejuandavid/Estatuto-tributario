@@ -24,11 +24,11 @@ html(lang="es",ng-app="StarterApp")
 					li(ng-repeat="section in menus").parent-list-item
 						h2.menu-heading.md-subhead {{section.type}}
 						nav
-							md-list(ng-if="section.children").flex								
+							md-list(ng-if="section.children").flex
 								md-list-item(ng-repeat="n in section.children")
 									i.material-icons.gray {{n.icon}}	
 									a(href="{{n.url}}").md-button
-										{{n.name}}									
+										{{n.name}}
 		div(layout="column", tabindex="-1", flex, role="main").layout-column.flex
 			md-toolbar.md-whiteframe-glow-z1.site-content-toolbar
 				div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools.docs-toolbar-tools
@@ -41,6 +41,7 @@ html(lang="es",ng-app="StarterApp")
 						span(flex)
 						div(layout="row").md-toolbar-item.docs-tools.layout-row
 							md-button(aria-label="Search",ng-click="buscador.open()").md-icon-button
+								md-tooltip(md-direction="left") Buscar			
 								md-icon(md-svg-icon="images/svg/search.svg")
 								
 				div(id="buscador").buscador
@@ -52,6 +53,17 @@ html(lang="es",ng-app="StarterApp")
 				div(layout="column", style="margin: 0 auto;").doc-content
 					md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
 				
+				//- div.containerBottomLayout
+				//- 	div.buttonsSocial			
+				//- 		md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
+				//- 		md-button(ng-click="showShare($event)")
+				//- 			md-tooltip(md-direction="top") Compartir
+				//- 			md-icon
+				//- 				i.material-icons.mod share	
+				//- 		md-button(ng-click="showShare($event)")
+				//- 			md-tooltip(md-direction="top") Guardar
+				//- 			md-icon
+				//- 				i.material-icons.mod star rate
 				div.next
 					span
 						a(id="nNext",href="#/buscar/articulo/")
@@ -60,13 +72,11 @@ html(lang="es",ng-app="StarterApp")
 					span
 						a(id="nPrev",href="#/buscar/articulo/")
 							md-icon(md-svg-src="images/svg/left.svg", alt="Anterior", title="Anterior", aria-hidden="true").ng-isolate-scope.md-default-theme
-				
-				
-					
+
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js")
-		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")		
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js")
 		script(src="js/script.js")

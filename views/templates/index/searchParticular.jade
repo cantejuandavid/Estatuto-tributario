@@ -35,7 +35,7 @@ div(ng-if='data.error != true')
 				<span ng-if="i.type != 'libro'"> titulo</span>
 				comprende los artículos
 				<a ng-href="#/buscar/articulo/{{i.firstArt}}">{{i.firstArt}}</a>
-				hasta el 
+				hasta el
 				<a ng-href="#/buscar/articulo/{{i.lastArt}}">{{i.lastArt}}</a>
 			section(layout="row",layout-sm="column",layout-align="center center")
 				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/titulo/todos",ng-if="i.type=='libro'")
@@ -44,6 +44,13 @@ div(ng-if='data.error != true')
 					md-button.md-raised.md-warn Ver Capitulos	
 				a(ng-href="#/buscar/{{data.type}}/{{i.number}}/todos")
 					md-button.md-raised.md-warn Ver Artículos
-		div.buttonsSocial
-			md-icon(md-svg-src="images/svg/share5.svg").md-icon
-			md-icon(md-svg-src="images/svg/star-shape3.svg").md-icon
+		div.buttonsSocial			
+			md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
+			md-button(ng-click="showShare($event)")
+				md-tooltip(md-direction="top") Compartir
+				md-icon
+					i.material-icons.mod share	
+			md-button(ng-click="showShare($event)")
+				md-tooltip(md-direction="top") Guardar
+				md-icon
+					i.material-icons.mod star rate		

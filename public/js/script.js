@@ -58,7 +58,7 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
     }
 ])
 
-.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
+.controller('AppCtrl', function($scope, $http,$mdSidenav,$timeout,$sce,$mdToast,$mdBottomSheet,$mdDialog,$log,$location,$anchorScroll){
   $scope.barTop = 'Explorador'
   $scope.previusRoute = []
   $scope.cargando = true
@@ -163,6 +163,55 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
     if(c)
       c.style.display = 'block'
   }
+	$scope.showIssue = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+		let art = document.getElementById("reportar").getAttribute("data-art")
+		console.log(art)
+    var confirm = $mdDialog.prompt()
+      .title('¿Quiere reportar este artículo?')
+      .textContent('Artículo '+ art)
+      .placeholder('Motivos')
+      .ariaLabel('')
+      .initialValue('')
+      .targetEvent(ev)
+      .ok('Reportar')
+      .cancel('No, gracias');
+
+    $mdDialog.show(confirm).then(function(result) {
+			$http.
+		    post('issue',
+				{articulo: art, content: result})
+				.then(function(res){
+					console.log(res)
+					$mdToast.show(
+						$mdToast.simple()
+						.textContent('Agradecemos su reporte ;) ')
+						.position('top right')
+						.hideDelay(1500)
+					);
+		    }, function(err) {
+					console.log(err)
+		    })
+
+    }, function() {
+      console.log('no gracias')
+    });
+  };
+	$scope.showShare = function(ev) {
+	 // Appending dialog to document.body to cover sidenav in docs app
+	 // Modal dialogs should fully cover application
+	 // to prevent interaction outside of dialog
+	 $mdDialog.show(
+		 $mdDialog.alert()
+			 .parent(angular.element(document.querySelector('#popupContainer')))
+			 .clickOutsideToClose(true)
+			 .title('No se ha implementado!')
+			 .textContent('Estamos trabajando para mejorar :)')
+			 .ariaLabel('Share Info')
+			 .ok('Entiendo!')
+			 .targetEvent(ev)
+	 );
+ 	};
 })
 
 .controller('search', function($scope, $routeParams,$http,$sce,$location,$mdDialog) {
@@ -189,18 +238,6 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
       }
     }, function(res) {
 			console.log(res)
-
-			$mdDialog.show(
-				$mdDialog.alert()
-					.parent(angular.element(document.querySelector('#AppCtrl')))
-					.clickOutsideToClose(true)
-					.title('This is an alert title')
-					.textContent('You can specify some description text in here.')
-					.ariaLabel('Alert Dialog Demo')
-					.ok('Got it!')
-					.targetEvent(ev)
-			);
-
       $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
     })
 })

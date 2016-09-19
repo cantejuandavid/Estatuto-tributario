@@ -60,6 +60,23 @@ exports.searchParticular = function(req, res) {
 	else return fail(err, res)
 }
 
+exports.addIssue = function(req, res) {
+	m.issue.create(req.body, function(err){
+		if(err) return fail(err, res)
+	})
+	res.send('done!')
+}
+
+exports.getIssues = function(req, res) {
+	console.log('getissues')
+	m.issue.find(function (err, i) {
+		if (err) return console.error(err);
+		console.log(i);
+		res.json(i)
+	})
+
+}
+
 exports.searchTypeArts = function(req, res) {
 	var type = req.params.type == 'no-libro'? 'libro':req.params.type
 	var number = req.params.number

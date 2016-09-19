@@ -332,7 +332,8 @@ p {
   margin: 0.8em 0 1.6em;
 }
 strong {
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .md-api-table td,
