@@ -1,0 +1,36 @@
+md-dialog(aria-label="Mango (Fruit)")
+  form(ng-cloak)
+    md-toolbar(style="background: #222222")
+      div.md-toolbar-tools
+        h2 Sobre el desarrollador
+        span(flex)
+        md-button(ng-click="cancel()").md-icon-button
+          md-icon(md-svg-src="images/svg/close.svg", aria-label="Close dialog")
+    md-dialog-content
+      md-card
+        md-card-title
+          md-card-title-text
+            span.md-headline
+            span.md-subhead Apasionado y soñador...
+        md-card-content
+          div(layout-gt-xs="row")
+            div(flex)
+              p
+                |Mi nombre es <strong> Juan David Vargas Cante </strong>
+                |estudiante de último semestre de
+                |Contaduría Pública de la Universidad Surcolombiana de la ciudad de Neiva (Colombia),
+                |amante de la tecnología y un soñador de la vida, aprovechando los conocimientos de programación
+                |adquiridos en internet a lo largo de 5 años, utilizando todos los códigos que comparten los usuarios
+                |tanto las librerias como los lenguajes de programación, acudiendo a herramientas que encontramos en la web
+                |foros como <a href="http://stackoverflow.com/">stackoverflow.com</a>, <a href="http://cristalab.com/">cristalab.com</a>, <a href="http://www.forosdelweb.com">forosdelweb.com</a>, y <a href="https://www.platzi.com">Platzi</a>.
+              p
+                | Espero que te ayude muchisimo esta herramienta y que te permita agilizar procesos y encontrar más facil la información.
+            div(flex)
+              div(style="margin:0 auto; width: 70%;")
+                img(style="box-shadow: 1px 1px 7px rgba(0,0,0,.5);border-radius: 50%",width="100%",src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xaf1/t31.0-8/s960x960/14311385_10206370315691330_2195676202289023430_o.jpg")
+    md-dialog-actions(layout="row")
+      md-button(href="http://www.twitter.com/juandavidcante", target="_blank", md-autofocus)
+        md-icon(md-svg-src="images/svg/twitter.svg")
+        | Twitter
+      span(flex)
+      md-button(ng-click="cancel()") Cerrar

@@ -1,0 +1,81 @@
+doctype html
+html(lang="es",ng-app="StarterApp")
+	head
+		title Estatuto Tributario - Colombia
+		link(rel="icon", href="favicon.png", type="image/x-icon")
+		link(rel="stylesheet", href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
+		link(rel='stylesheet', href='bower_components/docs-angular/docs.css')
+		link(rel="stylesheet", href="libraries/angular-material.min.css")
+		link(rel="stylesheet", href="libraries/font-awesome.min.css")
+		meta(name="viewport", content="initial-scale=1")
+		meta(name="description", content="Estatuto tributario nacional de Colombia.")
+		link(rel='stylesheet', href='/stylus/style.css')
+		link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+
+	body(ng-controller="AppCtrl", id="AppCtrl", layout="row")
+		md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.hide-print.md-closed
+			//md-toolbar(layout="row").md-theme-indigo
+			header.nav-header
+				a(ng-href="/", href="/").docs-logo
+						img(src="icono_white.png")
+						h1.docs-logotype.md-heading Estatuto Tributario
+			md-content(role="navigation").md-default-theme
+				ul.docs-menu
+					li(ng-repeat="section in menus").parent-list-item
+						h2.menu-heading.md-subhead {{section.type}}
+						nav
+							md-list(ng-if="section.children").flex
+								md-list-item(ng-repeat="n in section.children")
+									i.material-icons.gray {{n.icon}}
+									a(href="{{n.url}}").md-button {{n.name}}
+		div(layout="column", tabindex="-1", flex, role="main").layout-column.flex
+			md-toolbar.md-whiteframe-glow-z1.site-content-toolbar
+				div(ng-click="openMenu()",tabindex="-1").md-toolbar-tools.docs-toolbar-tools
+					button(hide-gt-sm,aria-label="Toggle Menu",ng-click="toggleSidenav('left')").md-icon-button.md-button.md-ink-ripple.hide-gt-sm
+						md-icon(md-svg-src="images/svg/ic_menu_24px.svg", aria-hidden="true").ng-scope
+							div.md-ripple-container
+					div(layout="row", flex).fill-height.layout-row.flex
+						h2.md-toolbar-item.md-breadcrumb
+							span.md-breadcrumb-page {{ barTop }}
+						span(flex)
+						div(layout="row").md-toolbar-item.docs-tools.layout-row
+							md-button(aria-label="Search",ng-click="buscador.open()").md-icon-button
+								md-tooltip(md-direction="left") Buscar
+								md-icon(md-svg-icon="images/svg/search.svg")
+
+				div(id="buscador").buscador
+					md-icon(md-svg-src="images/svg/search.svg",alt="Busqueda rápida", ng-click="buscador.enviar()")
+					input(type="text",id="inputBuscador",placeholder="Escribe aquí los artículos por número o palabra clave", ng-model="buscador.key")
+					md-button(aria-label="Close", ng-click="buscador.close()").md-icon-button
+						md-icon(md-svg-src="images/svg/close.svg", alt="Cerrar").ng-isolate-scope.md-default-theme
+			md-content(flex).md-padding.ng-scope.md-default-theme.vista
+				div(layout="column", style="margin: 0 auto;").doc-content
+					md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
+
+				//- div.containerBottomLayout
+				//- 	div.buttonsSocial
+				//- 		md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
+				//- 		md-button(ng-click="showShare($event)")
+				//- 			md-tooltip(md-direction="top") Compartir
+				//- 			md-icon
+				//- 				i.material-icons.mod share
+				//- 		md-button(ng-click="showShare($event)")
+				//- 			md-tooltip(md-direction="top") Guardar
+				//- 			md-icon
+				//- 				i.material-icons.mod star rate
+				div.next
+					span
+						a(id="nNext",href="#/buscar/articulo/")
+							md-icon(md-svg-src="images/svg/right.svg", alt="Siguiente", title="Siguiente", aria-hidden="true").ng-isolate-scope.md-default-theme
+				div.prev
+					span
+						a(id="nPrev",href="#/buscar/articulo/")
+							md-icon(md-svg-src="images/svg/left.svg", alt="Anterior", title="Anterior", aria-hidden="true").ng-isolate-scope.md-default-theme
+
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js")
+		script(src="js/script.js")

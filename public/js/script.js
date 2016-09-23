@@ -15,42 +15,42 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
 
     $routeProvider
       .when('/', {
-        templateUrl: 'templates/index/index.jade'
+        templateUrl: 'templates/index/index.pug'
       }).
       when('/buscar', {
-        templateUrl: 'templates/search/search.jade',
+        templateUrl: 'templates/search/search.pug',
         controller: 'searchInput'
       }).
       when('/buscar/:type/:number/', {
-        templateUrl: 'templates/index/searchParticular.jade',
+        templateUrl: 'templates/index/articleSearch.pug',
         controller: 'search'
       }).
       when('/buscar/:type/:number/:type2/todos', {
-        templateUrl: 'templates/index/searchTypes.jade',
+        templateUrl: 'templates/index/searchTypes.pug',
         controller: 'search'
       }).
       when('/buscar/:type/:number/:type2/:number2', {
-        templateUrl: 'templates/index/searchTypeArts.jade',
+        templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search'
       }).
       when('/buscar/:type/:number/:type2/:number2/:type3/todos', {
-        templateUrl: 'templates/index/searchTypes.jade',
+        templateUrl: 'templates/index/searchTypes.pug',
         controller: 'search'
       }).
       when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
-        templateUrl: 'templates/index/searchTypeArts.jade',
+        templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search'
       }).
       when('/buscar/:type/:number/:todos?', {
-        templateUrl: 'templates/index/searchTypeArts.jade',
+        templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search',
       }).
       when('/addart', {
-        templateUrl: 'templates/index/addart.jade',
+        templateUrl: 'templates/index/addArticle.pug',
         controller: 'addart'
       }).
 			when('/about', {
-        templateUrl: 'templates/index/about.jade'
+        templateUrl: 'templates/index/about.pug'
       }).
       otherwise({
         redirectTo: '/'
@@ -93,6 +93,7 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
       $http.post('/buscar', {key: $scope.buscador.key}).
         success(function(data, status, headers, config) {
           $scope.r = data
+					console.log(data)
           for(var i in data.data) {
             if($scope.r.data[i].description) {
               var t = $scope.r.data[i].description.substring(0,200)
@@ -127,7 +128,6 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
       document.getElementById('buscador').style.display = 'none'
     }
   });
-
   $scope.toggleSidenav = function(menuId) {
 
       $mdSidenav(menuId).toggle()
@@ -212,6 +212,32 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
 			 .targetEvent(ev)
 	 );
  	};
+
+	$scope.showAdvanced = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'templates/index/dev.pug',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  };
+
+	function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+  }
+
 })
 
 .controller('search', function($scope, $routeParams,$http,$sce,$location,$mdDialog) {
@@ -245,6 +271,8 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
 .controller('searchInput', function($scope) {
   $scope.buscador.open()
   $scope.hideCargando()
+	hideButtons("Prev")
+	hideButtons("Next")
 })
 
 .controller('addart', function($scope, $routeParams,$http,$sce, $location) {

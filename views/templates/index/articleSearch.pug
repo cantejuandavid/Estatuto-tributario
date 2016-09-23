@@ -1,0 +1,56 @@
+div(id="cargando",ng-show="cargando", layout="column",layout-sm="column",layout-align="center center", style="padding: 60px")
+	img(src="images/loader.gif",width="30")
+div(ng-if='data.error == true')
+	h2 {{data.message}}
+	p Por favor dirijase a la página principal
+div(ng-if='data.error != true')
+	div(ng-repeat="i in data.data | orderBy: 'number'").type
+		h2(ng-if='i.centerTitle', layout='row', layout-align='center center') {{i.title}}
+		h2(layout="column",layout-sm="column",layout-align="center center")
+			a(ng-href="#/buscar/{{i.type}}/{{i.number}}",ng-if="i.type !== 'no-libro' && i.type != 'no-titulo'")
+				span {{i.type | uppercase}}
+				span &nbsp;
+				span(ng-if="i.type != 'articulo' && i.number") {{romanize(i.number)}}
+				span(ng-if="i.type == 'articulo'") {{numberEstatuto(i.number)}}
+		h3(layout="column",layout-sm="column",layout-align="center center") {{i.name}}
+		div(ng-bind-html="i.description", style="text-align: justify;").description
+		md-content(ng-if="i.history.length > 0")
+			h2.md-toolbar-tools
+				span {{ 'historia' | uppercase}}
+				span(flex)
+				md-button(ng-click="toggleopenHistory();") {{openHistory.label}}
+			md-list(ng-hide="openHistory.val",id="listHistory", flex)
+				md-list-item(ng-repeat="h in i.history | orderBy:'-year'").md-3-line.hiss
+					div(ng-if="h.year > 1").cir
+						h5 {{h.year}}
+					div
+						h3 {{h.type | uppercase}}
+						p(ng-bind-html="h.content").md-list-item-text
+
+		div(ng-if="i.type !== 'articulo'")
+			p.
+
+				Este
+				<span ng-if="i.type == 'libro'"> {{i.type}}</span>
+				<span ng-if="i.type != 'libro'"> titulo</span>
+				comprende los artículos
+				<a ng-href="#/buscar/articulo/{{i.firstArt}}">{{i.firstArt}}</a>
+				hasta el
+				<a ng-href="#/buscar/articulo/{{i.lastArt}}">{{i.lastArt}}</a>
+			section(layout="row",layout-sm="column",layout-align="center center")
+				a(ng-href="#/buscar/{{i.type}}/{{i.number}}/titulo/todos",ng-if="i.type=='libro'")
+					md-button.md-raised.md-warn Ver Titulos
+				a(ng-href="#/buscar/libro/{{data.libro.number}}/titulo/{{i.number}}/capitulo/todos",ng-if="i.type=='titulo'")
+					md-button.md-raised.md-warn Ver Capitulos
+				a(ng-href="#/buscar/{{data.type}}/{{i.number}}/todos")
+					md-button.md-raised.md-warn Ver Artículos
+		div.buttonsSocial
+			md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
+			md-button(ng-click="showShare($event)")
+				md-tooltip(md-direction="top") Compartir
+				md-icon
+					i.material-icons.mod share
+			md-button(ng-click="showShare($event)")
+				md-tooltip(md-direction="top") Guardar
+				md-icon
+					i.material-icons.mod star rate

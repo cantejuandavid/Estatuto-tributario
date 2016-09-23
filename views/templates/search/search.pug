@@ -1,0 +1,46 @@
+div(id="busqueda").busqueda
+	div(id="cargando",ng-show="cargando", style="text-align: center;padding: 60px")
+		md-progress-circular(md-mode="indeterminate", style="margin: 0 auto;").md-warn
+	div(ng-if='!r.error')
+		div(ng-if="r.data.length > 0", ng-hide="cargando").boxResult
+			h1 Resultados de la busqueda.
+
+
+			div(ng-repeat="a in r.data", ng-if="a.number == r.parameter")
+				p ¡Encontramos el artículo! "{{r.parameter}}":
+				md-card
+					md-card-title
+						md-card-title-text
+							span.md-headline
+								a(href="#/buscar/{{a.type}}/{{a.number}}")
+									div {{a.type | uppercase }} {{a.number}}.
+									div {{a.name}}
+					md-card-content
+						div(ng-bind-html="a.description")
+					md-card-actions(layout="column",layout-align="end center")
+						a(href="#/buscar/{{a.type}}/{{a.number}}").md-button
+							| Ver más
+			p.
+				Más resultados relacionados:
+			ul
+				li(ng-repeat="a in r.data", style="margin-bottom: 10px")
+					div(ng-if="a.number != r.parameter")
+						div.title
+							a(href="#/buscar/{{a.type}}/{{a.number}}") {{a.type | uppercase }} {{a.number}}. {{a.name}}
+						div.description
+							div(ng-bind-html="a.description")
+
+		div(ng-if="r.data.length == 0")
+			h1 Intenta de nuevo.
+			p El criterio clave '{{r.parameter}}' no ha tenido relación con ninguno de los artículos.
+		div(ng-hide="cargando")
+			h2 ¡Buscar articulos!
+			p.
+				Realice la busqueda con palabras claves, como por ejemplo: impuest,
+				renta, iva, sujetos pasivos, entre otros. <br>Tambien puede solamente escribir el
+				numero del articulo y su busqueda se efectuará, además de sus sub-artículos.
+				Esta busqueda es realizada mediante el nombre del artículo y su contenido en palabras claves.
+			p.
+				Por ejemplo: Escribe "Articulo 80", y aparecerá el artículo y sus relacionados.
+
+	div(ng-if='r.error') {{r.err.message}}

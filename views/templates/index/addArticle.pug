@@ -1,0 +1,46 @@
+h1 Agregar articulos al Estatuto
+
+form
+	div(layout="row",layout-wrap)
+		div(flex="40")
+			md-input-container
+				label numero
+				input(type="number",name="number", ng-model="art.number", step="any")
+			md-input-container
+				label name
+				input(type="text",name="name", ng-model="art.name")			
+			div
+				md-select(name="centerTitle", ng-model="art.centerTitle", placeholder="centerTitle")
+					md-option(ng-value="true") true
+					md-option(ng-value="false") false
+			md-input-container
+				label title
+				input(type="text",name="name", ng-model="art.title")
+		div(flex="60")
+			div
+				label description
+			div
+				textarea(name="description", cols="50", rows="10", ng-model="art.description")
+			div
+				md-select(name="id_libro", ng-model="art.id_libro", placeholder="id_libro")
+					md-option(ng-value="") Ninguno
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_libro | orderBy:'name'")
+						{{o.name}}
+			div
+				md-select(name="id_titulo", ng-model="art.id_titulo", placeholder="id_titulo")
+					md-option(ng-value="") Ninguno
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_titulo | orderBy:'name'") 
+						{{o.name}}
+			div
+				md-select(name="id_capitulo", ng-model="art.id_capitulo", placeholder="id_capitulo")
+					md-option(ng-value="") Ninguno
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'")
+						{{o.name}}
+		div(flex="100",layout="row", layout-align="center center")			
+			div(flex="50")
+				div
+					label history
+				div
+					textarea(name="history", cols="50", rows="10", columns="1", ng-model="art.history")
+	div(layout, layout-align="center center", flex="100")
+		md-button(type="submit", ng-click="agregarArt()").md-raised.md-primary Agregar
