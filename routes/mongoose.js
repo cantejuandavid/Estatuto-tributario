@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 var db = 'mongodb://user_2015_estatuto:jqueryyy123@ds031952.mongolab.com:31952/estatuto_tributario_colombia'
+mongoose.Promise = global.Promise;
 var db = module.exports = mongoose.connect(db)
 
 

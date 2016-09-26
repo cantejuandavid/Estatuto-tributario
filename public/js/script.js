@@ -16,43 +16,46 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
     $routeProvider
       .when('/', {
         templateUrl: 'templates/index/index.pug'
-      }).
-      when('/buscar', {
+      })
+      .when('/buscar', {
         templateUrl: 'templates/search/search.pug',
         controller: 'searchInput'
-      }).
-      when('/buscar/:type/:number/', {
+      })
+      .when('/buscar/:type/:number/', {
         templateUrl: 'templates/index/articleSearch.pug',
         controller: 'search'
-      }).
-      when('/buscar/:type/:number/:type2/todos', {
+      })
+      .when('/buscar/:type/:number/:type2/todos', {
         templateUrl: 'templates/index/searchTypes.pug',
         controller: 'search'
-      }).
-      when('/buscar/:type/:number/:type2/:number2', {
+      })
+      .when('/buscar/:type/:number/:type2/:number2', {
         templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search'
-      }).
-      when('/buscar/:type/:number/:type2/:number2/:type3/todos', {
+      })
+      .when('/buscar/:type/:number/:type2/:number2/:type3/todos', {
         templateUrl: 'templates/index/searchTypes.pug',
         controller: 'search'
-      }).
-      when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
+      })
+      .when('/buscar/:type/:number/:type2/:number2/:type3/:number3', {
         templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search'
-      }).
-      when('/buscar/:type/:number/:todos?', {
+      })
+      .when('/buscar/:type/:number/:todos?', {
         templateUrl: 'templates/index/searchTypeArts.pug',
         controller: 'search',
-      }).
-      when('/addart', {
+      })
+      .when('/addart', {
         templateUrl: 'templates/index/addArticle.pug',
         controller: 'addart'
-      }).
-			when('/about', {
+      })
+			.when('/about', {
         templateUrl: 'templates/index/about.pug'
-      }).
-      otherwise({
+      })
+			.when('/api', {
+        templateUrl: 'templates/index/api.pug'
+      })
+      .otherwise({
         redirectTo: '/'
       });
     }
@@ -118,15 +121,19 @@ angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngSanitize'])
       {name: 'Explorador del estatuto', url:'./#/buscar/libro/todos', icon: 'explore'},
       {name: 'Configuración', url:'./#/set', icon: 'build'},
 			{name: 'Sobre nosotros', url:'./#/about', icon: 'help'},
+			{name: 'API', url:'./#/api', icon: 'adb'}
     ]
   }]
   $scope.$on( "$routeChangeStart", function(event, next, current) {
     $scope.res = null
     $mdSidenav('left').close()
     $scope.cargando = true
-    if(next.$$route.controller !== 'searchInput') {
-      document.getElementById('buscador').style.display = 'none'
-    }
+		if(next.$$route) {
+			if(next.$$route.controller !== 'searchInput') {
+				document.getElementById('buscador').style.display = 'none'
+			}
+		}
+
   });
   $scope.toggleSidenav = function(menuId) {
 
