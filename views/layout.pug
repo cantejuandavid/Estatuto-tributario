@@ -6,7 +6,7 @@ html(lang="es",ng-app="StarterApp")
 		link(rel="stylesheet", href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
 		link(rel='stylesheet', href='bower_components/docs-angular/docs.css')
 		link(rel="stylesheet", href="libraries/angular-material.min.css")
-		link(rel="stylesheet", href="libraries/font-awesome.min.css")
+		link(rel='stylesheet', href='libraries/font-awesome.min.css')
 		meta(name="viewport", content="initial-scale=1")
 		meta(name="description", content="Estatuto tributario nacional de Colombia.")
 		link(rel='stylesheet', href='/stylus/style.css')
@@ -53,17 +53,6 @@ html(lang="es",ng-app="StarterApp")
 					md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
 						block contenido
 
-				//- div.containerBottomLayout
-				//- 	div.buttonsSocial
-				//- 		md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
-				//- 		md-button(ng-click="showShare($event)")
-				//- 			md-tooltip(md-direction="top") Compartir
-				//- 			md-icon
-				//- 				i.material-icons.mod share
-				//- 		md-button(ng-click="showShare($event)")
-				//- 			md-tooltip(md-direction="top") Guardar
-				//- 			md-icon
-				//- 				i.material-icons.mod star rate
 				div.next
 					span
 						a(id="nNext",href="#/buscar/articulo/")

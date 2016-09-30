@@ -1,9 +1,9 @@
 {
-  "name": "et",
+  "name": "Estatuto tributario Colombiano",
   "version": "1.0.0",
   "engines": {
-    "node": "0.12.2",
-    "npm": "2.7.4"
+    "node": "4.6.0",
+    "npm": "3.10.8"
   },
   "description": "Aplicación web del Estatuto Tributario Colombiano.",
   "author": "Juan David Varga Cante <cantejuandavid@gmail.com>",
