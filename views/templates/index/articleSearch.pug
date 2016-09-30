@@ -45,12 +45,12 @@ div(ng-if='data.error != true')
 				a(ng-href="#/buscar/{{data.type}}/{{i.number}}/todos")
 					md-button.md-raised.md-warn Ver Artículos
 		div.buttonsSocial
-			md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="showIssue($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
-			md-button(ng-click="showShare($event)")
+			md-button(ng-if="i.type == 'articulo'", id="reportar", ng-click="reportar($event)", data-art="{{i.number}}").md-warn.md-raised Reportar
+			md-button(ng-click="compartir($event)")
 				md-tooltip(md-direction="top") Compartir
 				md-icon
 					i.material-icons.mod share
-			md-button(ng-click="showShare($event)")
+			md-button(ng-click="compartir($event)")
 				md-tooltip(md-direction="top") Guardar
 				md-icon
 					i.material-icons.mod star rate

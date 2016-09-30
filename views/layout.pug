@@ -1,5 +1,5 @@
 doctype html
-html(lang="es",ng-app="StarterApp")
+html(lang="es",ng-app="estatutoAPP")
 	head
 		title Estatuto Tributario - Colombia
 		link(rel="icon", href="favicon.png", type="image/x-icon")
@@ -12,7 +12,7 @@ html(lang="es",ng-app="StarterApp")
 		link(rel='stylesheet', href='/stylus/style.css')
 		link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
 
-	body(ng-controller="AppCtrl", id="AppCtrl", layout="row")
+	body(ng-controller="estatutoController", id="AppCtrl", layout="row")
 		md-sidenav(md-component-id="left",md-is-locked-open="$mdMedia('gt-sm')",tabindex="-1").site-sidenav.md-sidenav-left.md-whiteframe-z2.hide-print.md-closed
 			//md-toolbar(layout="row").md-theme-indigo
 			header.nav-header
@@ -69,3 +69,4 @@ html(lang="es",ng-app="StarterApp")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js")
 		script(src="js/script.js")
+		script(src="js/controllers.js")
