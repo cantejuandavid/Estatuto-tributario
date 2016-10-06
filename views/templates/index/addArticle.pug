@@ -24,18 +24,15 @@ form
 			div
 				md-select(name="id_libro", ng-model="art.id_libro", placeholder="id_libro")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_libro | orderBy:'name'")
-						{{o.name}}
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_libro | orderBy:'name'") {{o.name}}
 			div
 				md-select(name="id_titulo", ng-model="art.id_titulo", placeholder="id_titulo")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_titulo | orderBy:'name'") 
-						{{o.name}}
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_titulo | orderBy:'name'") {{o.name}}
 			div
 				md-select(name="id_capitulo", ng-model="art.id_capitulo", placeholder="id_capitulo")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'")
-						{{o.name}}
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'") {{o.name}}
 		div(flex="100",layout="row", layout-align="center center")			
 			div(flex="50")
 				div
