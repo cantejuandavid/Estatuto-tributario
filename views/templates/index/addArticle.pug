@@ -33,7 +33,7 @@ form
 				md-select(name="id_capitulo", ng-model="art.id_capitulo", placeholder="id_capitulo")
 					md-option(ng-value="") Ninguno
 					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'") {{o.name}}
-		div(flex="100",layout="row", layout-align="center center")			
+		div(flex="100",layout="row", layout-align="center center")
 			div(flex="50")
 				div
 					label history
