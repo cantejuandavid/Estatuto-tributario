@@ -199,8 +199,9 @@
       '$http',
       '$sce',
       '$location',
+      '$rootScope',
       '$mdDialog',
-      function($scope, $routeParams,$http,$sce,$location,$mdDialog) {
+      function($scope, $routeParams,$http,$sce,$location,$rootScope,$mdDialog) {
         var type  = $routeParams.type || 'titulo'
         var number = $routeParams.number || 'todos'
         hideButtons("Prev")
@@ -222,12 +223,55 @@
                 }
               }
             }
+
+            var el = document.getElementById("targetSwipe")
+            
+            
+            if(res.data.links) { 
+              if(sessionStorage) {
+                if(sessionStorage.getItem("arts")) {                                    
+                  var arts = JSON.parse(sessionStorage.getItem("arts"))                                    
+                  var index = arts.indexOf(res.data.data[0].number)
+                  var next = arts[index+1]
+                  var previus = arts[index-1]
+
+                  document.onkeydown = function (e) {                  
+                    if (e.keyCode == 39)
+                      cambiarPage(next)
+                    if (e.keyCode == 37)
+                      cambiarPage(previus)
+                  }
+
+                  var hammertime = new Hammer(el)
+                  hammertime.on("swipe", function(ev) {
+                    ev.preventDefault()
+                    if(ev.direction == 2) cambiarPage(next)
+                    else if(ev.direction == 4) cambiarPage(previus)
+                  })        
+                  
+                }
+                else {                  
+                  $http.get("index_estatuto.json").then(function(res) {                    
+                    sessionStorage.setItem("arts", JSON.stringify(res.data))                       
+                  })
+                }
+              }
+            }
           }
-        }, function(res) {
-          console.log(res)
+        }, function(res) {          
           $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
         })
-    }])
+
+      function cambiarPage(art) {
+        console.log("->"+art)
+        $rootScope.$apply(function() {
+          if(art)
+            $location.path("/buscar/articulo/"+art);                      
+        });
+      }        
+    }
+
+    ])
       
     .controller('searchIndexController', ['$scope', function($scope) {
       $scope.buscador.open()
@@ -249,7 +293,7 @@
       }
     }])
 
-
+  
   function hideButtons(i){
     document.getElementById("n"+i).style.display = 'none'
   }

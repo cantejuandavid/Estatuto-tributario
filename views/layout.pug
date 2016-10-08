@@ -7,7 +7,7 @@ html(lang="es",ng-app="estatutoAPP")
 		link(rel='stylesheet', href='bower_components/docs-angular/docs.css')
 		link(rel="stylesheet", href="libraries/angular-material.min.css")
 		link(rel='stylesheet', href='libraries/font-awesome.min.css')
-		meta(name="viewport", content="initial-scale=1")
+		meta(name="viewport", content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1")
 		meta(name="description", content="Estatuto tributario nacional de Colombia.")
 		link(rel='stylesheet', href='/stylus/style.css')
 		link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
@@ -50,7 +50,7 @@ html(lang="es",ng-app="estatutoAPP")
 						md-icon(md-svg-src="images/svg/close.svg", alt="Cerrar").ng-isolate-scope.md-default-theme
 			md-content(flex).md-padding.ng-scope.md-default-theme.vista
 				div(layout="column", style="margin: 0 auto;").doc-content
-					md-content(ng-view,style="padding-top:0").extraPad.md-padding.view
+					md-content(ng-view,style="padding-top:0", id="targetSwipe").extraPad.md-padding.view
 						block contenido
 
 				div.next
@@ -68,5 +68,6 @@ html(lang="es",ng-app="estatutoAPP")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js")
 		script(src="js/script.js")
 		script(src="js/controllers.js")
