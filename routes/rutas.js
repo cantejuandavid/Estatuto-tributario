@@ -12,7 +12,7 @@ module.exports = function(cliente){
 	cliente.post('/addart', ctrl.addart)
 	cliente.post('/issue', ctrl.addIssue)
 	cliente.get('/issue', ctrl.getIssues)
-	cliente.post('/buscar', ctrl.search)
+	cliente.get('/buscar', ctrl.search)
 	cliente.get('/addcapitulo', ctrl.addCapitulo)
 
 }

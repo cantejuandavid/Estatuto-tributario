@@ -14,8 +14,7 @@
       function($scope, $http,$mdSidenav,$sce,$mdToast,$mdBottomSheet,$mdDialog,$location){
 
         $scope.barTop = 'Explorador'
-        $scope.previusRoute = []
-        $scope.cargando = true
+        $scope.previusRoute = []        
 
         $scope.buscador = {
           key : '',
@@ -40,25 +39,27 @@
             $scope.previusRoute = []
           },
           enviar: function() {
+            $scope.cargando = true
             document.getElementById('inputBuscador').blur()
             document.getElementById('busqueda').focus()
-            $scope.$apply(function(){
-              $scope.cargando = true
-            })
-            $http.post('/buscar', {key: $scope.buscador.key}).
-              success(function(data, status, headers, config) {
-                $scope.r = data
-                for(var i in data.data) {
+            
+            var key = {key:$scope.buscador.key}
+            
+            $http.get($location.url(), {params: key}).then(function(data) {
+              
+              $scope.cargando = false
+              $scope.r = data.data
+              
+                for(var i in $scope.r.data) {
                   if($scope.r.data[i].description) {
                     var t = $scope.r.data[i].description.substring(0,200)
                     t = t.substr(0, Math.min(t.length, t.lastIndexOf(" "))) + ' ...'
                     $scope.r.data[i].description = $sce.trustAsHtml(t)
                   }
                 }
-                $scope.cargando = false
-              }).
-              error(function(data, status, headers, config) {
-              })
+            }, function(res) {
+              console.log(res)
+            })
           }
         }
         $scope.openHistory = {
@@ -75,17 +76,7 @@
             {name: 'API', url:'./#/api', icon: 'adb'}
           ]
         }]
-        $scope.$on( "$routeChangeStart", function(event, next, current) {
-          $scope.res = null
-          $mdSidenav('left').close()
-          $scope.cargando = true
-          if(next.$$route) {
-            if(next.$$route.controller !== 'searchInput') {
-              document.getElementById('buscador').style.display = 'none'
-            }
-          }
 
-        });
         $scope.toggleSidenav = function(menuId) {
 
             $mdSidenav(menuId).toggle()
@@ -111,10 +102,6 @@
         $scope.toggleopenHistory = function() {
           $scope.openHistory.val = $scope.openHistory.val === false ? true: false;
           $scope.openHistory.label = $scope.openHistory.val === false ? 'ocultar': 'ver';
-        }
-        $scope.hideCargando = function() {
-
-          $scope.cargando = false
         }
         $scope.showCargando = function() {
           var c = document.getElementById('cargando')
@@ -200,16 +187,34 @@
       '$sce',
       '$location',
       '$rootScope',
-      '$mdDialog',
-      function($scope, $routeParams,$http,$sce,$location,$rootScope,$mdDialog) {
+      '$mdDialog',      
+      function($scope, $routeParams,$http,$sce,$location,$rootScope,$mdDialog) {        
         var type  = $routeParams.type || 'titulo'
         var number = $routeParams.number || 'todos'
+        $scope.cargando = true        
         hideButtons("Prev")
         hideButtons("Next")
         
+        $scope.$on( "$routeChangeStart", function(event, next, current) {          
+          console.log("$routeChangeStart ")          
+          //$scope.res = null
+          //$mdSidenav('left').close()
+
+          //document.getElementById('contenido').style.display = 'none'
+          //event.preventDefault();
+          if(next.$$route) {
+            if(next.$$route.controller !== 'searchInput') {
+              document.getElementById('buscador').style.display = 'none'
+            }
+          }
+
+        });
+
+
         $http.get($location.url()).then(function(res){
-          $scope.hideCargando()
+          
           $scope.data = res.data
+          $scope.cargando = false
           if(!res.error) {
 
             if(res.data.links)
@@ -262,20 +267,27 @@
           $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
         })
 
-      function cambiarPage(art) {
-        console.log("->"+art)
+      function cambiarPage(art) {        
         $rootScope.$apply(function() {
           if(art)
             $location.path("/buscar/articulo/"+art);                      
         });
-      }        
+      }  
+
+      $scope.loadItems = function() {
+        var last = $scope.data.data[$scope.data.data.length -1]
+        for(var i = 1; i <= $scope.data.data.length; i++) {
+          $scope.data.data
+        }
+      }
+
     }
 
     ])
       
     .controller('searchIndexController', ['$scope', function($scope) {
       $scope.buscador.open()
-      $scope.hideCargando()
+      
       hideButtons("Prev")
       hideButtons("Next")
     }])

@@ -13,7 +13,7 @@ div(ng-if='data.error != true')
 		span(ng-if="data.titulo.type == 'no-titulo'") {{data.titulo.name}}
 		span(ng-if="data.titulo.type != 'no-titulo'").divider &gt;
 		span(ng-if="data.titulo.type != 'no-titulo'") {{data.capitulo.name}}
-	div(ng-repeat="i in data.data  | orderBy:'number'").type
+	div(ng-repeat="i in data.data  | orderBy:'number'",infinite-scroll="loadItems()",infinite-scroll-distance="3").type
 		h2(ng-if='i.centerTitle', layout='row', layout-align='center center').centerTitle {{i.title}}
 		h2(layout="column",layout-sm="column",layout-align="center center")
 			a(ng-href="#/buscar/articulo/{{i.number}}")

@@ -15,42 +15,42 @@ exports.searchParticular = function(req, res) {
   var type = req.params.type
   var number = req.params.number
 
-  if(validType(type)){
-    if(number !== 'todos') {
-      modelos[type].findOne({number:number}, function(err, data) {
-        if(err) return fail(err, res)
-        if(data) {
-          var index = indexET.indexOf(data.number)
-          var next = indexET[index+1]
-          var previus = indexET[index-1]
-          if(type == 'articulo') {
-            res.json({
+    if(validType(type)){
+      if(number !== 'todos') {
+        modelos[type].findOne({number:number}, function(err, data) {
+          if(err) return fail(err, res)
+          if(data) {
+            var index = indexET.indexOf(data.number)
+            var next = indexET[index+1]
+            var previus = indexET[index-1]
+            if(type == 'articulo') {
+              res.json({
+                libro: data,
+                data: [data],
+                links: { next: next, prev: previus}
+              })
+            }
+            else res.json({ 
               libro: data,
-              data: [data],
-              links: { next: next, prev: previus}
+              data: [data] 
             })
           }
-          else res.json({ 
-            libro: data,
-            data: [data] 
-          })
-        }
-        else return fail(err, res)
-      })
+          else return fail(err, res)
+        })
+      }
+      else {
+        modelos[type].find().exec(function(err, data) {          
+          if(err) return fail(err, res)
+          if(data) res.json({ type: type, data: data })        
+        })
+      }
     }
     else {
-      modelos[type].find().exec(function(err, data) {
-        console.log('here')
-        if(err) return fail(err, res)
-        if(data) res.json({ type: type, data: data })        
-      })
+      var err = new Error('Página no encontrada.');
+      err.status = 404;
+      return fail(err, res);
     }
-  }
-  else {
-    var err = new Error('Página no encontrada.');
-    err.status = 404;
-    return fail(err, res);
-  }
+
 }
 
 exports.addIssue = function(req, res) {
@@ -280,7 +280,8 @@ exports.get_ids = function(req, res) {
 }
 
 exports.search = function(req, res) {
-  var key = req.body.key
+  
+  var key = req.query.key
   var k = new RegExp(key, "i")
   var forNumber = parseFloat(key.replace(/\D/g,''))
   var parameters = [{name: k},{description: k}]

@@ -1,8 +1,8 @@
 div(id="busqueda").busqueda
 	div(id="cargando",ng-show="cargando", style="text-align: center;padding: 60px")
 		md-progress-circular(md-mode="indeterminate", style="margin: 0 auto;").md-warn
-	div(ng-if='!r.error')
-		div(ng-if="r.data.length > 0", ng-hide="cargando").boxResult
+	div(ng-if='!r.error', ng-hide="cargando")
+		div(ng-if="r.data.length > 0").boxResult
 			h1 Resultados de la busqueda.
 
 
