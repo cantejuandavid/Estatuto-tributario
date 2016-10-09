@@ -5,14 +5,14 @@ form
 		div(flex="40")
 			md-input-container
 				label numero
-				input(type="number",name="number", ng-model="art.number", step="any")
+				input(type="number",name="number", ng-model="art.number", step="any",required)
 			md-input-container
 				label name
-				input(type="text",name="name", ng-model="art.name")
+				input(type="text",name="name", ng-model="art.name",required)
 			div
 				md-select(name="centerTitle", ng-model="art.centerTitle", placeholder="centerTitle")
 					md-option(ng-value="true") true
-					md-option(ng-value="false") false
+					md-option(ng-value="false") false	
 			md-input-container
 				label title
 				input(type="text",name="name", ng-model="art.title")
@@ -20,24 +20,44 @@ form
 			div
 				label description
 			div
-				textarea(name="description", cols="50", rows="10", ng-model="art.description")
+				textarea(name="description", cols="50", rows="10", ng-model="art.description",required)
 			div
 				md-select(name="id_libro", ng-model="art.id_libro", placeholder="id_libro")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_libro | orderBy:'name'") {{o.name}}
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_libro | orderBy:'name'") {{romanize(o.number)}} - {{o.name}}
 			div
 				md-select(name="id_titulo", ng-model="art.id_titulo", placeholder="id_titulo")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_titulo | orderBy:'name'") {{o.name}}
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_titulo | orderBy:'name'") {{romanize(o.number)}} - {{o.name}}
 			div
 				md-select(name="id_capitulo", ng-model="art.id_capitulo", placeholder="id_capitulo")
 					md-option(ng-value="") Ninguno
-					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'") {{o.name}}
-		div(flex="100",layout="row", layout-align="center center")
-			div(flex="50")
-				div
-					label history
-				div
-					textarea(name="history", cols="50", rows="10", columns="1", ng-model="art.history")
-	div(layout, layout-align="center center", flex="100")
-		md-button(type="submit", ng-click="agregarArt()").md-raised.md-primary Agregar
+					md-option(value="{{o._id}}", ng-repeat="o in ids.id_capitulo | orderBy:'name'") {{romanize(o.number)}} - {{o.name}}
+	h2 Historial
+	div(layout="row", layout-wrap)
+		div(ng-repeat="h in art.history",flex="50")
+			md-card
+				md-card-actions
+					md-card-icon-actions
+						md-button(ng-click="removeHistory($index)").md-icon-button
+							md-icon
+								i.material-icons.mod close
+				md-card-content
+					md-input-container(flex-gt-sm).md-block
+						label Type
+						input(ng-model="h.type", required)
+					md-input-container(flex-gt-sm).md-block
+						label Year
+						input(ng-model="h.year", required)
+					md-input-container(flex-gt-sm).md-block
+						label Content
+						textarea(ng-model="h.content", rows="3", cols="7", required)
+			
+				
+	div(layout="row")
+		div(layout, layout-align="center center", flex="100")
+			md-button(type="submit", ng-click="agregarArt($event)").md-raised.md-primary Agregar
+		div(layout, layout-align="center center", flex="100")
+			md-button(ng-click="addHistory()").md-raised Añadir
+		div(layout, layout-align="center center", flex="100")
+			md-button(ng-click="showHistory()").md-raised Ver historial

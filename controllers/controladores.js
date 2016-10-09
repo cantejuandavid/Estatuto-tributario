@@ -63,7 +63,6 @@ exports.addIssue = function(req, res) {
 exports.getIssues = function(req, res) {
   modelos.issue.find(function (err, i) {
     if (err) return console.error(err);
-    console.log(i);
     res.json(i)
   })
 }
@@ -238,7 +237,7 @@ exports.searchType3 = function(req, res) {
   }
 }
 
-exports.addart = function(req, res) {
+exports.addart = function(req, res) {  
   modelos.articulo.create(req.body.art, function(err){
     if(err) return fail(err, res)
   })
@@ -263,15 +262,15 @@ exports.addCapitulo = function(req, res) {
 
 exports.get_ids = function(req, res) {
   var ids = {}
-  modelos.libro.find().select('name id').exec(titulo)
+  modelos.libro.find().select('number name id').exec(titulo)
 
   function titulo(err, l) {
     ids.id_libro = l
-    modelos.titulo.find().select('name id').exec(capitulo)
+    modelos.titulo.find().select('number name id').exec(capitulo)
   }
   function capitulo(err, t) {
     ids.id_titulo = t
-    modelos.capitulo.find().select('name id').exec(enviarData)
+    modelos.capitulo.find().select('number name id').exec(enviarData)
   }
   function enviarData(err, c) {
     ids.id_capitulo = c
