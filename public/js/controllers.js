@@ -235,7 +235,6 @@
                      .textContent('Estamos trabajando para mejorar :)')
                      .ariaLabel('Share Info')
                      .ok('Entiendo!')
-                     .targetEvent(ev)
                  );
                   $http.get("index_estatuto.json").then(function(arreglo) {                    
                     localStorage.setItem("arts", JSON.stringify(arreglo.data))       
@@ -250,7 +249,6 @@
                      .textContent('Estamos trabajando para mejorar :)')
                      .ariaLabel('Share Info')
                      .ok('Entiendo!')
-                     .targetEvent(ev)
                  );}
               }
               else
@@ -263,7 +261,6 @@
                      .textContent('Estamos trabajando para mejorar :)')
                      .ariaLabel('Share Info')
                      .ok('Entiendo!')
-                     .targetEvent(ev)
                  );          
                 $http.get("index_estatuto.json").then(function(arreglo) {                   
                   navTeclaAndSwipe(number, arreglo.data);                
