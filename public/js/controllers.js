@@ -197,7 +197,7 @@
       '$http',
       '$sce',
       '$location',
-      '$rootScope',
+      '$rootScope',                            
       '$mdDialog',      
       function($scope, $routeParams,$http,$sce,$location,$rootScope,$mdDialog) {        
         var type  = $routeParams.type || 'titulo'
@@ -205,9 +205,7 @@
         $scope.cargando = true        
         hideButtons("Prev")
         hideButtons("Next")
-        
-        
-
+              
         $http.get($location.url()).then(function(res){          
           $scope.data = res.data
           $scope.cargando = false
@@ -226,26 +224,34 @@
             }          
             
             if(res.data.links) {               
+
               if(localStorage) {
                 if(!localStorage.getItem("arts")) {                                    
                   $http.get("index_estatuto.json").then(function(arreglo) {                    
                     localStorage.setItem("arts", JSON.stringify(arreglo.data))       
-                    navTeclaAndSwipe(res);                
+                    navTeclaAndSwipe(number, localStorage.getItem("arts"));
                   })                 
                 }
-                else navTeclaAndSwipe(res)
+                else navTeclaAndSwipe(number, localStorage.getItem("arts"))
+              }
+              else
+              {                
+                $http.get("index_estatuto.json").then(function(arreglo) {                   
+                  navTeclaAndSwipe(number, arreglo.data);                
+                })                                 
               }
             }
           }
-        }, function(res) {          
+        }, function(res) {   
+          $scope.cargando = false       
           $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
         })
 
-      function navTeclaAndSwipe(res) {        
-        var arts = JSON.parse(localStorage.getItem("arts"))  
-        var index = arts.indexOf(res.data.data[0].number)        
+      function navTeclaAndSwipe(number, data) {                
+        var arts = JSON.parse(data)          
+        var index = arts.indexOf(parseInt(number))
         var next = arts[index+1]
-        var previus = arts[index-1]
+        var previus = arts[index-1]        
         
         document.onkeydown = function (e) {                  
           if (e.keyCode == 39)
