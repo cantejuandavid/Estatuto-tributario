@@ -77,6 +77,17 @@
           ]
         }]
 
+        $scope.$on( "$routeChangeStart", function(event, next, current) {                    
+          $mdSidenav('left').close()
+
+          if(next.$$route) {
+            if(next.$$route.controller !== 'searchInput') {
+              document.getElementById('buscador').style.display = 'none'
+            }
+          }
+
+        });
+
         $scope.toggleSidenav = function(menuId) {
 
             $mdSidenav(menuId).toggle()
@@ -195,18 +206,7 @@
         hideButtons("Prev")
         hideButtons("Next")
         
-        $scope.$on( "$routeChangeStart", function(event, next, current) {          
-          
-          //$mdSidenav('left').close()
-
-          if(next.$$route) {
-            if(next.$$route.controller !== 'searchInput') {
-              document.getElementById('buscador').style.display = 'none'
-            }
-          }
-
-        });
-
+        
 
         $http.get($location.url()).then(function(res){          
           $scope.data = res.data
