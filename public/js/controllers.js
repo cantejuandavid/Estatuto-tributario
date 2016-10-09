@@ -196,12 +196,9 @@
         hideButtons("Next")
         
         $scope.$on( "$routeChangeStart", function(event, next, current) {          
-          console.log("$routeChangeStart ")          
-          //$scope.res = null
+          
           //$mdSidenav('left').close()
 
-          //document.getElementById('contenido').style.display = 'none'
-          //event.preventDefault();
           if(next.$$route) {
             if(next.$$route.controller !== 'searchInput') {
               document.getElementById('buscador').style.display = 'none'
@@ -211,8 +208,7 @@
         });
 
 
-        $http.get($location.url()).then(function(res){
-          
+        $http.get($location.url()).then(function(res){          
           $scope.data = res.data
           $scope.cargando = false
           if(!res.error) {
@@ -227,45 +223,44 @@
                   $scope.data.data[i].history[a].content = $sce.trustAsHtml($scope.data.data[i].history[a].content)
                 }
               }
-            }
-
-            var el = document.getElementById("targetSwipe")
+            }          
             
-            
-            if(res.data.links) { 
-              if(sessionStorage) {
-                if(sessionStorage.getItem("arts")) {                                    
-                  var arts = JSON.parse(sessionStorage.getItem("arts"))                                    
-                  var index = arts.indexOf(res.data.data[0].number)
-                  var next = arts[index+1]
-                  var previus = arts[index-1]
-
-                  document.onkeydown = function (e) {                  
-                    if (e.keyCode == 39)
-                      cambiarPage(next)
-                    if (e.keyCode == 37)
-                      cambiarPage(previus)
-                  }
-
-                  var hammertime = new Hammer(el)
-                  hammertime.on("swipe", function(ev) {
-                    ev.preventDefault()
-                    if(ev.direction == 2) cambiarPage(next)
-                    else if(ev.direction == 4) cambiarPage(previus)
-                  })        
-                  
+            if(res.data.links) {               
+              if(localStorage) {
+                if(!localStorage.getItem("arts")) {                                    
+                  $http.get("index_estatuto.json").then(function(arreglo) {                    
+                    localStorage.setItem("arts", JSON.stringify(arreglo.data))       
+                    navTeclaAndSwipe(res);                
+                  })                 
                 }
-                else {                  
-                  $http.get("index_estatuto.json").then(function(res) {                    
-                    sessionStorage.setItem("arts", JSON.stringify(res.data))                       
-                  })
-                }
+                else navTeclaAndSwipe(res)
               }
             }
           }
         }, function(res) {          
           $scope.res = $sce.trustAsHtml('<h1>No se ha podido conectar con el servidor</h1>')
         })
+
+      function navTeclaAndSwipe(res) {        
+        var arts = JSON.parse(localStorage.getItem("arts"))  
+        var index = arts.indexOf(res.data.data[0].number)        
+        var next = arts[index+1]
+        var previus = arts[index-1]
+        
+        document.onkeydown = function (e) {                  
+          if (e.keyCode == 39)
+            cambiarPage(next)
+          if (e.keyCode == 37)
+            cambiarPage(previus)
+        }
+
+        var hammertime = new Hammer(document.getElementById("targetSwipe"))
+        hammertime.on("swipe", function(ev) {
+          ev.preventDefault()
+          if(ev.direction == 2) cambiarPage(next)
+          else if(ev.direction == 4) cambiarPage(previus)
+        })       
+      }
 
       function cambiarPage(art) {        
         $rootScope.$apply(function() {
