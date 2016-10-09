@@ -227,43 +227,17 @@
 
               if(localStorage) {
                 if(!localStorage.getItem("arts")) {                                    
-                  $mdDialog.show(
-                   $mdDialog.alert()
-                     .parent(angular.element(document.querySelector('#popupContainer')))
-                     .clickOutsideToClose(true)
-                     .title('1!')
-                     .textContent('Estamos trabajando para mejorar :)')
-                     .ariaLabel('Share Info')
-                     .ok('Entiendo!')
-                 );
                   $http.get("index_estatuto.json").then(function(arreglo) {                    
                     localStorage.setItem("arts", JSON.stringify(arreglo.data))       
                     navTeclaAndSwipe(number, localStorage.getItem("arts"));
                   })                 
                 }
-                else{ navTeclaAndSwipe(number, localStorage.getItem("arts"));$mdDialog.show(
-                   $mdDialog.alert()
-                     .parent(angular.element(document.querySelector('#popupContainer')))
-                     .clickOutsideToClose(true)
-                     .title('2!')
-                     .textContent('Estamos trabajando para mejorar :)')
-                     .ariaLabel('Share Info')
-                     .ok('Entiendo!')
-                 );}
+                else{ navTeclaAndSwipe(number, localStorage.getItem("arts"))}
               }
               else
-              {    
-                $mdDialog.show(
-                   $mdDialog.alert()
-                     .parent(angular.element(document.querySelector('#popupContainer')))
-                     .clickOutsideToClose(true)
-                     .title('3!')
-                     .textContent('Estamos trabajando para mejorar :)')
-                     .ariaLabel('Share Info')
-                     .ok('Entiendo!')
-                 );          
+              {             
                 $http.get("index_estatuto.json").then(function(arreglo) {                   
-                  navTeclaAndSwipe(number, arreglo.data);                
+                  navTeclaAndSwipe(number, JSON.stringify(arreglo.data));                
                 })                                 
               }
             }
@@ -300,14 +274,6 @@
             $location.path("/buscar/articulo/"+art);                      
         });
       }  
-
-      $scope.loadItems = function() {
-        var last = $scope.data.data[$scope.data.data.length -1]
-        for(var i = 1; i <= $scope.data.data.length; i++) {
-          $scope.data.data
-        }
-      }
-
     }
 
     ])
