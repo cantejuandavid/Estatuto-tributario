@@ -235,7 +235,8 @@
                 else navTeclaAndSwipe(number, localStorage.getItem("arts"))
               }
               else
-              {                
+              {    
+                alert("baadasd")            
                 $http.get("index_estatuto.json").then(function(arreglo) {                   
                   navTeclaAndSwipe(number, arreglo.data);                
                 })                                 
