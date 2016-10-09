@@ -227,16 +227,17 @@
 
               if(localStorage) {
                 if(!localStorage.getItem("arts")) {                                    
+                  alert("1")
                   $http.get("index_estatuto.json").then(function(arreglo) {                    
                     localStorage.setItem("arts", JSON.stringify(arreglo.data))       
                     navTeclaAndSwipe(number, localStorage.getItem("arts"));
                   })                 
                 }
-                else navTeclaAndSwipe(number, localStorage.getItem("arts"))
+                else{ navTeclaAndSwipe(number, localStorage.getItem("arts"));alert("2")}
               }
               else
               {    
-                alert("baadasd")            
+                alert("3")            
                 $http.get("index_estatuto.json").then(function(arreglo) {                   
                   navTeclaAndSwipe(number, arreglo.data);                
                 })                                 
