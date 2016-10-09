@@ -227,17 +227,44 @@
 
               if(localStorage) {
                 if(!localStorage.getItem("arts")) {                                    
-                  alert("1")
+                  $mdDialog.show(
+                   $mdDialog.alert()
+                     .parent(angular.element(document.querySelector('#popupContainer')))
+                     .clickOutsideToClose(true)
+                     .title('1!')
+                     .textContent('Estamos trabajando para mejorar :)')
+                     .ariaLabel('Share Info')
+                     .ok('Entiendo!')
+                     .targetEvent(ev)
+                 );
                   $http.get("index_estatuto.json").then(function(arreglo) {                    
                     localStorage.setItem("arts", JSON.stringify(arreglo.data))       
                     navTeclaAndSwipe(number, localStorage.getItem("arts"));
                   })                 
                 }
-                else{ navTeclaAndSwipe(number, localStorage.getItem("arts"));alert("2")}
+                else{ navTeclaAndSwipe(number, localStorage.getItem("arts"));$mdDialog.show(
+                   $mdDialog.alert()
+                     .parent(angular.element(document.querySelector('#popupContainer')))
+                     .clickOutsideToClose(true)
+                     .title('2!')
+                     .textContent('Estamos trabajando para mejorar :)')
+                     .ariaLabel('Share Info')
+                     .ok('Entiendo!')
+                     .targetEvent(ev)
+                 );}
               }
               else
               {    
-                alert("3")            
+                $mdDialog.show(
+                   $mdDialog.alert()
+                     .parent(angular.element(document.querySelector('#popupContainer')))
+                     .clickOutsideToClose(true)
+                     .title('3!')
+                     .textContent('Estamos trabajando para mejorar :)')
+                     .ariaLabel('Share Info')
+                     .ok('Entiendo!')
+                     .targetEvent(ev)
+                 );          
                 $http.get("index_estatuto.json").then(function(arreglo) {                   
                   navTeclaAndSwipe(number, arreglo.data);                
                 })                                 
