@@ -2,7 +2,7 @@ var Schema = require('mongoose').Schema
 
 var art_schema = new Schema({
 	type				: {type: String, default: 'articulo'},
-	number				: Number,
+	number				: String,
 	name 				: String,
 	description 		: String,		
 	id_capitulo			: String,

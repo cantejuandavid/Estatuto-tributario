@@ -212,8 +212,7 @@
           if(!res.error) {
 
             if(res.data.links)
-              setPrevandNext(res.data.links)
-    
+              setPrevandNext(res.data.links)            
             for(var i in res.data.data) {
               $scope.data.data[i].description = $sce.trustAsHtml($scope.data.data[i].description)
               if($scope.data.data[i].history) {
@@ -249,9 +248,10 @@
 
       function navTeclaAndSwipe(number, data) {
         var arts = JSON.parse(data)          
-        var index = arts.indexOf(parseFloat(number))
+        var index = arts.indexOf(number)
         var next = arts[index+1]
-        var previus = arts[index-1]                        
+        var previus = arts[index-1]    
+        console.log(previus+"-"+next) 
         document.onkeydown = function (e) {                  
           if (e.keyCode == 39)
             cambiarPage(next)
@@ -305,7 +305,7 @@
 
       $http.get('get-ids').success(function(data){$scope.ids = data})
 
-      $scope.agregarArt = function(ev) {
+      $scope.agregarArt = function(ev) {        
         $http.post('addart', {art:$scope.art}).success(function(data){
         })
       }
@@ -321,7 +321,7 @@
         $scope.art.history.splice(index, 1)
       }
       $scope.showHistory = function() {
-        console.log($scope.art.history)
+        console.log($scope.art)
       }
     }])
 

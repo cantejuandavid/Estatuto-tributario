@@ -6,23 +6,25 @@ var t = false
 var typing = {}
 var indexET = require('../public/index_estatuto.json')
 
-
 exports.index = function(req, res) {
   res.render('index')
 }
 
 exports.searchParticular = function(req, res) {
+
   var type = req.params.type
   var number = req.params.number
-
+  
     if(validType(type)){
       if(number !== 'todos') {
-        modelos[type].findOne({number:number}, function(err, data) {
+        modelos[type].findOne({number:number}, function(err, data) {          
           if(err) return fail(err, res)
-          if(data) {
-            var index = indexET.indexOf(data.number)
+          if(data) {            
+            var index = indexET.indexOf(number) 
+                           
             var next = indexET[index+1]
-            var previus = indexET[index-1]
+            var previus = indexET[index-1]   
+
             if(type == 'articulo') {
               res.json({
                 libro: data,
