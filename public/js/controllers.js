@@ -46,7 +46,7 @@
             var key = {key:$scope.buscador.key}
             
             $http.get($location.url(), {params: key}).then(function(data) {
-              
+              console.log(data)
               $scope.cargando = false
               $scope.r = data.data
               

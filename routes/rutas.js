@@ -14,5 +14,5 @@ module.exports = function(cliente){
 	cliente.get('/issue', ctrl.getIssues)
 	cliente.get('/buscar', ctrl.search)
 	cliente.get('/addcapitulo', ctrl.addCapitulo)
-
+	
 }

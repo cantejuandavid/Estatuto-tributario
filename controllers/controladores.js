@@ -129,7 +129,8 @@ exports.searchType2 = function(req, res) {
     if(l!= null && l.length !== 0) {
       modelos.titulo
         .findOne({})
-        .where('id_' + type).equals(l.id).where('number').equals(number2)
+        .where('id_' + type).equals(l.id)
+        .where('number').equals(number2)
         .exec(buscarArticulos)
     }
     else return fail(err, res)
@@ -138,9 +139,7 @@ exports.searchType2 = function(req, res) {
     if(err) return fail(err, res)
     typing.titulo = t
     if(t!= null && t.length !== 0) {
-      modelos.articulo.find({}).where('number')
-        .gt((t.firstArt-1) + 0.9)
-        .lt(Math.round(t.lastArt+1))
+      modelos.articulo.find({}).where({id_titulo: t._id })        
         .exec(enviarData)
     }
     else return fail(err, res)
@@ -282,21 +281,18 @@ exports.get_ids = function(req, res) {
 
 exports.search = function(req, res) {
   
-  var key = req.query.key
-  var k = new RegExp(key, "i")
-  var forNumber = parseFloat(key.replace(/\D/g,''))
-  var parameters = [{name: k},{description: k}]
+  var k = new RegExp(req.query.key, "ig")
+  
+  var parameters = [{name: k},{description: k},{number: k}]
 
-  if(!isNaN(forNumber)) {
-    for(var i = 0; i < 13; i++) {
-      var a = Number(forNumber)+'.'+ i
-      parameters.push({number:a})
-    }
-  }
   modelos.articulo.find().or(parameters).exec(function(err, data) {
     if(err) return fail(err, res)
-    res.json({parameter: key, data:data})
+    res.json({
+      parameter: req.query.key,
+      data: data
+    })
   })
+  
 }
 
 exports.renderPUG = function(req, res) {
