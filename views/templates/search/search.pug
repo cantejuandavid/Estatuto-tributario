@@ -13,8 +13,7 @@ div(id="busqueda").busqueda
 						md-card-title-text
 							span.md-headline
 								a(href="#/buscar/{{a.type}}/{{a.number}}")
-									div {{a.type | uppercase }} {{a.number}}.
-									div {{a.name}}
+									div {{a.type | uppercase }} {{a.number}}. {{a.name}}
 					md-card-content
 						div(ng-bind-html="a.description")
 					md-card-actions(layout="column",layout-align="end center")
